@@ -2568,7 +2568,6 @@ CMakeFiles/main.dir/main.c.obj: ../main.c \
   C:/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_float/include/pico/float.h \
   C:/VSARM/armgcc/11.2\ 2022.02/lib/gcc/arm-none-eabi/11.2.1/include/float.h \
   C:/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_bootrom/include/pico/bootrom/sf_table.h \
-  ../lib/screen/lcd/LCD_GUI.h \
   C:/VSARM/sdk/pico/pico-sdk/lib/tinyusb/hw/bsp/board.h \
   C:/VSARM/sdk/pico/pico-sdk/lib/tinyusb/hw/bsp/ansi_escape.h \
   C:/VSARM/sdk/pico/pico-sdk/lib/tinyusb/src/tusb.h \
@@ -2597,8 +2596,8 @@ CMakeFiles/main.dir/main.c.obj: ../main.c \
   ../lib/hoff/core1.c \
   ../lib/hoff/draw.c \
   ../lib/hoff/button.c \
-  ../lib/hoff/core0.c \
-  ../lib/hoff/screen.c
+  ../lib/hoff/screen.c \
+  ../lib/hoff/core0.c
 
 
 C:/VSARM/sdk/pico/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/tbman.h:

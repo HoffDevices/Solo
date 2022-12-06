@@ -59,15 +59,10 @@ typedef struct _tFont
   
 } sFONT;
 
+extern sFONT Font104x60;
 extern sFONT Font68x39;
 extern sFONT Font30x17;
 extern sFONT Font20x12;
-extern sFONT Font32;
-extern sFONT Font24;
-extern sFONT Font20;
-extern sFONT Font16;
-extern sFONT Font12;
-extern sFONT Font8;
 
 #ifdef __cplusplus
 }

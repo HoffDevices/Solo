@@ -1,6 +1,7 @@
 /*
 * core1.c
 * Contains core 1 utility functions
+* Functions are not guaranteed to be thread safe, but global variables are OK?
 */
 
 bool midiClock();  //declared but not defined here - used in parseFunction, but midiClock also uses parseFunction
@@ -13,7 +14,12 @@ void parseCSV(char *txt, uint8_t *arr, uint8_t *len) {
     char *t;
     uint8_t i = 0;
     while((t = strsep(&txt,",")) != NULL) {  //arguments seperate by comma
-        arr[i] = (uint8_t) strtol(t, NULL, 0);  //convert to value and save in array
+        if (t[0] == '@') {
+            t[0] = 0;
+            uint8_t v = (uint8_t) strtol(t, NULL, 0);  //convert to value;
+            arr[i] = USER_VAR[v];  //get variable value
+        }
+        else arr[i] = (uint8_t) strtol(t, NULL, 0);  //convert to value and save in array
         i++;
     }
     *len = i;
@@ -21,8 +27,8 @@ void parseCSV(char *txt, uint8_t *arr, uint8_t *len) {
 
 /*
 * Run the appropriate code for switch, clock or preset event, depending on interval, function, and argument
-* S can be NULL, for PST_INI and PST_CLK attributes
-* counter can be NULL for PST_INI attribute
+* S can be NULL, for PST_ENT, PST_EXT and PST_CLK attributes
+* counter can be NULL for PST_ENT, PST_EXT attribute
 * arrInterval[0] = the interval to activate
 * arrInterval[1] = the number of intervals in a cycle - max 256
 */
@@ -31,10 +37,10 @@ void parseFunction(SWITCH *S, uint64_t *counter, char *textInterval, char *textF
     uint8_t arrInterval[2];  //max is probably 2, we don't need a closing 0x00
     parseCSV(textInterval, arrInterval, &lenInterval);  //parse text into array and length
 
-    if (counter == NULL || *counter % arrInterval[1] == arrInterval[0] % arrInterval[1]) {  //check step number versus number of steps in a cycle - both get modulo'd. The first counter increment should happen before this check, so start at 1
-        if (strcmp(textFunction,"TAP_BPM") == 0) {  //24 midi clocks per BPM
+    if (arrInterval[0] != 0 && *counter % arrInterval[1] == arrInterval[0] % arrInterval[1]) {  //check step number versus number of steps in a cycle - both get modulo'd. The first counter increment should happen before this check, so start at 1
+        if (strcmp(textFunction,"TAP_BPM") == 0) {  //24 midi clocks per BPM, takes one argument
             uint8_t lenArgument;
-            uint8_t arrArgument[3];  //max is probably 3, we don't need a closing 0x00
+            uint8_t arrArgument[1];  //max is probably 1, we don't need a closing 0x00
             parseCSV(textArgument, arrArgument, &lenArgument);  //parse text into array and length
             if (S != NULL && arrArgument[0] != 0) {  //TAP_BPM(?) means tap to set BPM, only valid for switches, with BPM multiplier ?
                 int64_t tap_us = absolute_time_diff_us(S->prevPressedTime, S->currPressedTime);
@@ -47,32 +53,45 @@ void parseFunction(SWITCH *S, uint64_t *counter, char *textInterval, char *textF
                 }
             }
         }
-        if (strcmp(textFunction,"SET_BPM") == 0) {  //24 midi clocks per BPM
+        else if (strcmp(textFunction,"SET_BPM") == 0) {  //24 midi clocks per BPM, takes one argument - if 0, reset clock counter only
             uint8_t lenArgument;
-            uint8_t arrArgument[3];  //max is probably 3, we don't need a closing 0x00
+            uint8_t arrArgument[1];  //max is probably 1, we don't need a closing 0x00
             parseCSV(textArgument, arrArgument, &lenArgument);  //parse text into array and length
             if (arrArgument[0] != 0) {  //SET_BPM(?) with a nonzero BPM, set the BPM to the first array value
                 MIDI_CLOCK_TIMER_US = (int64_t) (-60000000 / arrArgument[0] / 24);  //Negative delay means we will call repeating_timer_callback, and call it again exactly ???ms later regardless of how long the callback took to execute
                 cancel_repeating_timer(&MIDI_CLOCK_TIMER);  //cancel is safe to do even if not previously activated
-                MIDI_CLOCK_COUNTER = 0;  //reset clock counter so we can start PRESET interval at 1
                 add_repeating_timer_us(MIDI_CLOCK_TIMER_US, midiClock, NULL, &MIDI_CLOCK_TIMER);  //new timer will only fire after the first interval
             }
+            MIDI_CLOCK_COUNTER = 0;  //reset clock counter so we can start PRESET interval at 1 (the interrupt function pre-increments)
         }
-        else if (strcmp(textFunction,"MSG_USB") == 0) {
+        else if (strcmp(textFunction,"SET_VAR") == 0) {  //set variable, takes two arguments (index, value)
+            uint8_t lenArgument;
+            uint8_t arrArgument[2];  //max is probably 2, we don't need a closing 0x00
+            parseCSV(textArgument, arrArgument, &lenArgument);  //parse text into array and length
+            USER_VAR[arrArgument[0]] = arrArgument[1];  //this should be thread/core safe, as we only change the global variable
+        }
+        else if (strcmp(textFunction,"MSG_USB") == 0) {  //send MIDI message, takes up to 3 arguments
             uint8_t lenArgument;
             uint8_t arrArgument[3];  //max is probably 3, we don't need a closing 0x00
             parseCSV(textArgument, arrArgument, &lenArgument);  //parse text into array and length
             MIDI_USB.send(arrArgument, lenArgument);
         }
-        else if (strcmp(textFunction,"MSG_LFT") == 0) {
+        else if (strcmp(textFunction,"MSG_LFT") == 0) {  //send MIDI message, takes up to 3 arguments
             uint8_t lenArgument;
             uint8_t arrArgument[3];  //max is probably 3, we don't need a closing 0x00
             parseCSV(textArgument, arrArgument, &lenArgument);  //parse text into array and length
             MIDI_LEFT.send(arrArgument, lenArgument);
         }
-        else if (strcmp(textFunction,"SET_PST") == 0) {
+        else if (strcmp(textFunction,"MSG_RGT") == 0) {  //send MIDI message, takes up to 3 arguments
+            uint8_t lenArgument;
+            uint8_t arrArgument[3];  //max is probably 3, we don't need a closing 0x00
+            parseCSV(textArgument, arrArgument, &lenArgument);  //parse text into array and length
+            MIDI_RIGHT.send(arrArgument, lenArgument);
+        }
+        else if (strcmp(textFunction,"SET_PST") == 0) {  //set next preset, takes one argument
             setCurrScreenIndex(textArgument);  //this should be thread/core safe, as we only change the global CURR_SCREEN_INDEX 
         }
+
     }
 }
 
@@ -88,9 +107,9 @@ void parseValue(SWITCH *S, uint64_t *counter, char *valueText) {
     bool readInterval = false;
     bool readFunction = false;
     bool readArgument = false;
-    char textInterval[8];  //max is probably 7 (???,??? + 0x00)
-    char textFunction[8];  //max is probably 7 (???_??? + 0x00)
-    char textArgument[256];  //max is probably 256-7-7
+    char textInterval[8];  //max is probably 8 (???,??? + 0x00)
+    char textFunction[8];  //max is probably 8 (???_??? + 0x00)
+    char textArgument[16];  //max is probably 16 (0x01,0x02,0x03 + 0x00 or ???,???,??? + 0x00 
     uint8_t i=0;  //valueText index
     uint8_t k=0;  //textInterval/textFunctiontextArgument index
     while (valueText[i] != 0x00) {
@@ -139,10 +158,8 @@ void parseValue(SWITCH *S, uint64_t *counter, char *valueText) {
     }
 }
 
-
-
 /*
-* Debounce and check all switches, take appropriate action by parsing the correct property from CONFIG_TEXT
+* Debounce and check all switches, take appropriate action by parsing the correct property from PRESETS_TEXT
 */
 void checkSwitches() {
 
@@ -150,6 +167,7 @@ void checkSwitches() {
     if (SWITCH_LS0.pressed == true) {  //only do something if a press has been queued
         parseValue(&SWITCH_LS0, &SWITCH_LS0.counter, SCREENS[CURR_SCREEN_INDEX].LS0.PRS);  //parse & run functions in a property value, for specified switch and interval
         SWITCH_LS0.pressed = false;  //reset after consumption
+        SNAKE_DIRECTION--;
     }
     if (SWITCH_LS0.releasedShort == true) {  //only do something if a short release has been queued
         parseValue(&SWITCH_LS0, &SWITCH_LS0.counter, SCREENS[CURR_SCREEN_INDEX].LS0.RLS);  //parse & run functions in a property value, for specified switch and interval
@@ -192,6 +210,7 @@ void checkSwitches() {
     if (SWITCH_RS0.pressed == true) {  //only do something if a press has been queued
         parseValue(&SWITCH_RS0, &SWITCH_RS0.counter, SCREENS[CURR_SCREEN_INDEX].RS0.PRS);  //parse & run functions in a property value, for specified switch and interval
         SWITCH_RS0.pressed = false;  //reset after consumption
+        SNAKE_DIRECTION++;
     }
     if (SWITCH_RS0.releasedShort == true) {  //only do something if a short release has been queued
         parseValue(&SWITCH_RS0, &SWITCH_RS0.counter, SCREENS[CURR_SCREEN_INDEX].RS0.RLS);  //parse & run functions in a property value, for specified switch and interval
@@ -232,10 +251,9 @@ void checkSwitches() {
 
 }
 
-
 /*
 * MIDI clock timer, runs 24x per beat.
-* With each clock trigger, the appropriate function wll be called at the specified interval as per the current PRESET in CONFIG_TEXT, for attribute PST_CLK
+* With each clock trigger, the appropriate function wll be called at the specified interval as per the current PRESET in PRESETS_TEXT, for attribute PST_CLK
 */
 bool midiClock() {
     MIDI_CLOCK_COUNTER++;  //pre-increment same as switches, so we start off with 1 in the PRESET interval
@@ -246,17 +264,27 @@ bool midiClock() {
 /*
 * Parse/run the functions in the PST_INI property when entering PRESET
 * CURR_SCREEN_INDEX should contain the current PRESET's name by the time this is called from S_PRESET (via intercore fifo)
+* Interval counter set to 1
 */
-void enablePreset() {
-    parseValue(NULL, NULL, SCREENS[CURR_SCREEN_INDEX].PST.ENT);  //parse & run functions in a property value, for specified switch and interval
+void enterPreset() {
+    //reset switch interval counters
+    SWITCH_LS0.counter = 0;
+    SWITCH_LS1.counter = 0;
+    SWITCH_LS2.counter = 0;
+    SWITCH_RS0.counter = 0;
+    SWITCH_RS1.counter = 0;
+    SWITCH_RS2.counter = 0;
+    uint64_t presetCounter = 1;
+    parseValue(NULL, &presetCounter, SCREENS[CURR_SCREEN_INDEX].PST.ENT);  //parse & run functions in a property value, for specified switch and interval
 }
 
 /*
 * Disable clock timer when exiting PRESET
+* Interval counter set to 1
 */
-void disablePreset() {
-    parseValue(NULL, NULL, SCREENS[CURR_SCREEN_INDEX].PST.EXT);  //parse & run functions in a property value, for specified switch and interval
-    cancel_repeating_timer(&MIDI_CLOCK_TIMER);  //cancel is safe to do even if not previously activated
+void exitPreset() {
+    uint64_t presetCounter = 1;
+    parseValue(NULL, &presetCounter, SCREENS[CURR_SCREEN_INDEX].PST.EXT);  //parse & run functions in a property value, for specified switch and interval
 }
 
 /*

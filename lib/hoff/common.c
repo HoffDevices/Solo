@@ -28,28 +28,3 @@ bool sendInterCoreFlag(uint32_t trxFlag, uint32_t ackFlag, uint32_t timeout) {
     }
     return false;  //if we got here then something broke or timed out
 }
-
-/*
-* Get touch status into global variable. Manage seperation of presses via .canRead.
-*/
-void getTouch() {
-    TP_DRAW touch = TP_Touch();  //get touch status
-    LAST_TOUCH.x = touch.Xpoint;
-    LAST_TOUCH.y = touch.Ypoint;
-    LAST_TOUCH.isPressed = (touch.Color == RED);  //hack to use LCD_Touch code
-    if (LAST_TOUCH.canRead == false && LAST_TOUCH.isPressed == false) LAST_TOUCH.canRead = true;  //wait until released before setting canRead again
-}
-
-/*
-* Check if button is touched, then execute action. Manage seperation of presses via .canRead.
-*/
-void touchButton(BUTTON B) {
-    if (LAST_TOUCH.canRead == true && LAST_TOUCH.isPressed == true  //wait until previous action completed
-        && LAST_TOUCH.x > (B.left) && LAST_TOUCH.x < (B.left + B.width) 
-        && LAST_TOUCH.y > (B.top)  && LAST_TOUCH.y < (B.top + B.height)) {
-            LAST_TOUCH.canRead = false;  //prevent further reads until getTouch sets this to true
-            if (strcmp(B.name, "--------") != 0 && B.action == NULL) setCurrScreenIndex(B.name);  //we cannot define a function with a variable parameter at the button level, so we use this mechanism for specifically selectButtons
-            else B.action();
-        }
-}
-

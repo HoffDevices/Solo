@@ -97,7 +97,6 @@ CMakeFiles/main.dir/main.c.obj: \
  C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\pico_float\include/pico/float.h \
  c:\vsarm\armgcc\112202~1.02\lib\gcc\arm-none-eabi\11.2.1\include\float.h \
  C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\pico_bootrom\include/pico/bootrom/sf_table.h \
- c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\screen\lcd\lcd_gui.h \
  C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\hw/bsp/board.h \
  C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\hw/bsp/ansi_escape.h \
  C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\src/tusb.h \
@@ -126,5 +125,5 @@ CMakeFiles/main.dir/main.c.obj: \
  c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\core1.c \
  c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\draw.c \
  c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\button.c \
- c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\core0.c \
- c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\screen.c
+ c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\screen.c \
+ c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\core0.c

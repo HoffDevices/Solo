@@ -129,7 +129,7 @@ void discardMidi() {
 
 
 /*
-* WHEN READING CONFIG_TEXT, ALWAYS APPEND 0X00  because client may not be able to do this always..?
+* WHEN READING PRESETS_TEXT, ALWAYS APPEND 0X00  because client may not be able to do this always..?
 * looks like max 3 bytes per packet
 * DISABLE INTERRUPTS?
 */
@@ -150,11 +150,11 @@ void recvMidiSysex() {
                         }
                         else if (packet[i] == 0xF7) {
                             MIDI_SYSEX_BUSY = false;
-                            CONFIG_TEXT[MIDI_SYSEX_INDEX] = 0x00;  //string terminator
+                            PRESETS_TEXT[MIDI_SYSEX_INDEX] = 0x00;  //string terminator
                             sysexFinished = true;
                         }
                         else if (MIDI_SYSEX_BUSY == true) {
-                            CONFIG_TEXT[MIDI_SYSEX_INDEX] = packet[i];
+                            PRESETS_TEXT[MIDI_SYSEX_INDEX] = packet[i];
                             MIDI_SYSEX_INDEX++;
                         }
                     }

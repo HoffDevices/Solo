@@ -1,6 +1,6 @@
 ﻿/*
 * Hoff Solo - (c) 2022 R. Haarhoff
-* Last updated 2022-05-23.2
+* Last updated 2022-12-06
 */
 
 //Raspberry Pi Pico
@@ -16,7 +16,6 @@
 //LCD & touch
 #include "LCD_Driver.h"
 #include "LCD_Touch.h"
-#include "LCD_GUI.h"
 #include "DEV_Config.h"
 
 //TUSB MIDI
@@ -31,9 +30,8 @@
 #include "core1.c"
 #include "draw.c"
 #include "button.c"
-#include "core0.c"
 #include "screen.c"
-
+#include "core0.c"
 
 
 /*
@@ -54,7 +52,6 @@ void main_core1() {
     SWITCH_RS1.init();
     SWITCH_RS2.init();
 
-    //if (SWITCH_LS0.pressed == true) reset_usb_boot(0, 0);  //hold down left button on startup to load firmware
     while (true) {
         checkSwitches();
         discardMidi();
@@ -63,13 +60,17 @@ void main_core1() {
             uint32_t rcvFlag;
             uint32_t timeout = 1000;  //sending flags back to core 0 should be really quick
             if (multicore_fifo_pop_timeout_us(timeout, &rcvFlag) == true) {
-                if (rcvFlag == CORE_REQ_ENABLE_PRESET) {
-                    enablePreset();
-                    multicore_fifo_push_timeout_us(CORE_ACK_ENABLE_PRESET, timeout);  //send acknowledgment, but don't check for validity
+                if (rcvFlag == CORE_REQ_PRESET_ENTER) {
+                    enterPreset();
+                    multicore_fifo_push_timeout_us(CORE_ACK_PRESET_ENTER, timeout);  //send acknowledgment, but don't check for validity
                 }
-                if (rcvFlag == CORE_REQ_DISABLE_PRESET) {
-                    disablePreset();
-                    multicore_fifo_push_timeout_us(CORE_ACK_DISABLE_PRESET, timeout);  //send acknowledgment, but don't check for validity
+                if (rcvFlag == CORE_REQ_PRESET_EXIT) {
+                    exitPreset();
+                    multicore_fifo_push_timeout_us(CORE_ACK_PRESET_EXIT, timeout);  //send acknowledgment, but don't check for validity
+                }
+                if (rcvFlag == CORE_REQ_TIMER_DISABLE) {
+                    cancel_repeating_timer(&MIDI_CLOCK_TIMER);  //cancel is safe to do even if not previously activated
+                    multicore_fifo_push_timeout_us(CORE_ACK_TIMER_DISABLE, timeout);  //send acknowledgment, but don't check for validity
                 }
                 if (rcvFlag == CORE_REQ_SYSEX_SEND) {
                     multicore_fifo_push_timeout_us(CORE_ACK_SYSEX_SEND_STARTED, timeout);  //send acknowledgment, but don't check for validity
@@ -98,7 +99,6 @@ void main_core1() {
     }
 }
 
-
 /*
 * Main - core 0
 * each called screenFunction will exit before loading the next - this way we exit each function without overloading the stack
@@ -107,31 +107,23 @@ void main_core1() {
 */
 int main(void) {
     if (watchdog_enable_caused_reboot()) reset_usb_boot(0, 0);  //put into firmware update mode if wathdog times out
-    watchdog_enable(10000, 0);  //10 second watchdog
+    watchdog_enable(10000, 0);   //10 second watchdog
 
-    System_Init();  //LCD GPIO setup
+    System_Init();               //LCD GPIO setup
 	LCD_Init(SCAN_DIR_DFT,400);  //init LCD
-	TP_Init(SCAN_DIR_DFT);  //init touchpad
+    SWITCH_TOUCH.init();         //init touch
 
-    showLogo(1000);
-    if (checkFactoryFlash() == false) showInfo("Firmware updated",2000);
-    if (checkUserFlash() == false) showInfo("Factory reset",2000);
-    loadSystemScreens();
-    loadPresetScreens();  //this reads the firmware presets
+    showLogo(1000);        //show the logo while we do housekeeping
+    updateFactoryFlash();  //update FACTORY_FLASH to latest PRESETS_TEXT in firmware
+    updateUserFlash();     //update USER_FLASH if needed and load PRESETS_TEXT from USER_FLASH
+    loadSystemScreens();   //set up the system screens
+    loadPresetScreens();   //set up the preset screens
+    findSnake();           //update the SNAKE preset's show method
 
-    multicore_launch_core1(main_core1);
+    multicore_launch_core1(main_core1);   //core1 handles all MIDI events
 
-    setCurrScreenIndex(SYSTEM_DEFAULT);  //SYSTEM_DEFAULT gets populated by loadPresetScreens
-    while (true) {  //call current screen
-        SCREENS[CURR_SCREEN_INDEX].show();
-        //showLogo(10);  //just to verify we're exiting properly
-    }
+    setCurrScreenIndex(PRESETS_DEFAULT);             //PRESETS_DEFAULT gets populated by loadPresetScreens
+    while (true) SCREENS[CURR_SCREEN_INDEX].show();  //main program loop - CURR_SCREEN_INDEX is modified by other events to show the appropriate screen
+    
 	return 0;
 }
-
-/* TODO
-
-when swiching presets with SET_PST(), do not disable clock.
-double-press reset broken?
-
-*/

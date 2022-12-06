@@ -4,8 +4,6 @@
 */
 
 
-
-
 /*
 * Draw filled rectangle - this is the base LCD drawing access method used by everything else to draw
 * We need to pivot the X and Y and reverse the X direction to get a proper landscape LTR setup
@@ -17,11 +15,10 @@ void drawFilledRectangle(int left, int top, int width, int height, COLOR_MAP col
     else if (color == COLOR_GREEN) lcd_color = 0x07E0;  //green
     else if (color == COLOR_CYAN) lcd_color = 0x07FF;  //cyan
     else if (color == COLOR_BLUE) lcd_color = 0x4A7F;  //blue (slightly pastel)
-    else if (color == COLOR_RED) lcd_color = 0xFBEF;  //red (slightly pastel)
+    else if (color == COLOR_RED) lcd_color = 0xF800;  //red
     LCD_SetWindow(top, LCD_WIDTH - (left + width), (top + height) - 1, LCD_WIDTH - left - 1);
     LCD_SetColor(lcd_color, width, height);
 }
-
 
 /*
 * Draw filled round corners, xw and yh apart
@@ -132,18 +129,122 @@ void drawString(int cenX, int cenY, const char* text, sFONT *font, COLOR_MAP for
     }
 }
 
+
+/*
+* Draw string to buffer and only update the screen with the deltas
+* Only draws a single line - does not support multiple lines
+* Buffer uses upper/lower nibbles with COLOR_MAP value of 7
+*/
+void drawStringBuffer(int cenX, int cenY, const char* text, sFONT *font, COLOR_MAP fore, COLOR_MAP back, int colMax) {
+    int colTotal = 0;  //characters total excluding '\0'
+    for (colTotal = 0; text[colTotal] != '\0'; colTotal++);  //find colTotal of text from current position t
+
+    int text_width = font->Width * colMax;
+    int text_height = font->Height;
+    int text_left = cenX - (text_width/2);
+    int text_top = cenY - (text_height/2);
+    int text_cursor = 0;
+
+    //blank sides
+    if (colMax > 0 && colMax > colTotal) {  //draw filled rectangles to blank out old characters where the previous text was longer than current text
+        int blank_width = (colMax-colTotal) * (font->Width) / 2;  //width of each blank (there are 2, one left and one right)
+        int blank_height = font->Height;  //height of each blank
+        int blank_left = cenX - (colMax) * (font->Width) / 2;  //left of screen drawing area
+        int blank_right = cenX + (colMax) * (font->Width) / 2 - 1;  //right of screen drawing area
+        int blank_top = cenY - (blank_height/2);  //top of screen drawing area
+        text_cursor = blank_width;
+
+        for (int y = 0; y < blank_height; y++) {
+            for (int x = 0; x < blank_width; x++) {  //left side
+                //calculate nibble
+                int buffer_nibble = 0;
+                int buffer_x = x;
+                if (buffer_x % 2 == 0) buffer_nibble = BPM_BUFFER[buffer_x/2][y] & 0x0F;  //lower nibble
+                else buffer_nibble = BPM_BUFFER[buffer_x/2][y] >> 4;  //upper nibble
+                if (buffer_nibble != back) {  //buffer_nibble is not the same
+                    drawFilledRectangle(blank_left + x, blank_top + y, 1, 1, COLOR_BLACK);  //update screen
+                    buffer_nibble = back;  //update buffer_nibble
+                }
+                //update buffer
+                if (buffer_x % 2 == 0) BPM_BUFFER[buffer_x/2][y] = ((BPM_BUFFER[buffer_x/2][y] & 0xF0) | buffer_nibble);  //keep upper nibble, update lower nibble
+                else BPM_BUFFER[buffer_x/2][y] = ((BPM_BUFFER[buffer_x/2][y] & 0x0F) | (buffer_nibble << 4));  //keep lower nibble, update upper nibble
+            }
+            for (int x = 0; x < blank_width; x++) {  //right side
+                //calculate nibble
+                int buffer_nibble = 0;
+                int buffer_x = ((colMax) * (font->Width) - 1 - x);
+                if (buffer_x % 2 == 0) buffer_nibble = BPM_BUFFER[buffer_x/2][y] & 0x0F;  //lower nibble
+                else buffer_nibble = BPM_BUFFER[buffer_x/2][y] >> 4;  //upper nibble
+                if (buffer_nibble != back) {  //buffer_nibble is not the same
+                    drawFilledRectangle(blank_right - x, blank_top + y, 1, 1, COLOR_BLACK);  //update screen
+                    buffer_nibble = back;  //update buffer_nibble
+                }
+                //update buffer
+                if ((buffer_x) % 2 == 0) BPM_BUFFER[buffer_x/2][y] = ((BPM_BUFFER[buffer_x/2][y] & 0xF0) | buffer_nibble);  //keep upper nibble, update lower nibble
+                else BPM_BUFFER[buffer_x/2][y] = ((BPM_BUFFER[buffer_x/2][y] & 0x0F) | (buffer_nibble << 4));  //keep lower nibble, update upper nibble
+            }
+        }
+    }
+    //text
+    while (*text != '\0') {
+        uint32_t chrOffset = (*text - ' ') * font->Height * (font->Width / 8 + (font->Width % 8 ? 1 : 0));
+        const unsigned char *ptr = &font->table[chrOffset];
+        for (int y = 0; y < font->Height; y++) {
+            for (int x = 0; x < font->Width; x++) {
+                //calculate nibble
+                int buffer_nibble = 0;
+                int buffer_x = (text_cursor + x);
+                if (buffer_x % 2 == 0) buffer_nibble = BPM_BUFFER[buffer_x/2][y] & 0x0F;  //lower nibble
+                else buffer_nibble = BPM_BUFFER[buffer_x/2][y] >> 4;  //upper nibble
+
+                if (*ptr & (0x80 >> (x % 8))) {  //draw foreground pixel
+                    if (buffer_nibble != fore) {  //buffer_nibble is not the same
+                        drawFilledRectangle(text_left + text_cursor + x, text_top + y, 1, 1, fore);  //update screen
+                        buffer_nibble = fore;  //update buffer_nibble
+                    }
+                }
+                else {  //draw background pixel
+                    if (buffer_nibble != back) {  //buffer_nibble is not the same
+                        drawFilledRectangle(text_left + text_cursor + x, text_top + y, 1, 1, back);  //update screen
+                        buffer_nibble = back;  //update buffer_nibble
+                    }
+                }
+                if (x % 8 == 7) ptr++;  //One pixel is 8 bits
+
+                //update buffer
+                if (buffer_x % 2 == 0) BPM_BUFFER[buffer_x/2][y] = ((BPM_BUFFER[buffer_x/2][y] & 0xF0) | buffer_nibble);  //keep upper nibble, update lower nibble
+                else BPM_BUFFER[buffer_x/2][y] = ((BPM_BUFFER[buffer_x/2][y] & 0x0F) | (buffer_nibble << 4));  //keep lower nibble, update upper nibble
+
+            }
+            if(font->Width % 8 != 0) ptr++;
+        }
+        text ++;
+        text_cursor += font->Width;
+    }
+}
+
+
+/*
+* Initialises the screen buffer for faster BPM display updates
+*/
+void initBpmBuffer() {
+    for (uint8_t y = 0; y < BPM_BUFFER_HEIGHT; y++)
+        for (uint8_t x = 0; x < BPM_BUFFER_WIDTH; x++)
+            BPM_BUFFER[x][y] = COLOR_BLACK;  //init buffer
+}
+
 /*
 * Update button text, with blanking areas for up to maxChar characters
 * Use t when B.name is blank - used for presets
 */
-void drawButton(BUTTON B, uint8_t maxChar) {
-    uint16_t color = B.color;
-    if (B.active == false) color = COLOR_GREY;
-    if (B.frame == true) drawRoundedRectangle(B.left, B.top, B.width, B.height, B.radius, color);
+void drawButton(BUTTON *B) {
+    uint16_t color = B->color;
+    if (B->active == false) color = COLOR_GREY;
+    if (B->frame == true) drawRoundedRectangle(B->left, B->top, B->width, B->height, B->radius, color);
     char *t = SCREENS[CURR_SCREEN_INDEX].name;
-    if (B.name[0] != 0x00) t = B.name;  //use CURR_SCREEN.name when B.name is blank
-    if (maxChar > 0) drawString((B.left + B.width/2)+1, (B.top + B.height/2)+2, t, B.font, color, COLOR_BLACK, maxChar);  //offset y+2 because capitals don't need space below the letters
-    else drawString((B.left + B.width/2)+1, (B.top + B.height/2)+2, t, B.font, color, 0, -1);  //offset y+2 because capitals don't need space below the letters
+    if (B->name[0] != 0x00) t = B->name;  //use CURR_SCREEN.name when B.name is blank
+    if (B->buffer == true) drawStringBuffer((B->left + B->width/2)+1, (B->top + B->height/2)+2, t, B->font, color, COLOR_BLACK, B->chars);
+    else drawString((B->left + B->width/2)+1, (B->top + B->height/2)+2, t, B->font, color, COLOR_BLACK, B->chars);  //offset y+2 because capitals don't need space below the letters
 }
 
 /*

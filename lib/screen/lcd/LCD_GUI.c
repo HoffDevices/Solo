@@ -471,6 +471,7 @@ void GUI_DisGrayMap(POINT Xpoint, POINT Ypoint, const unsigned char *pBmp)
 sFONT *GUI_GetFontSize(POINT Dx, POINT Dy)
 {
     sFONT *Font;
+    /*
     if (Dx > Font24.Width && Dy > Font24.Height) {
         Font = &Font24;
     } else if ((Dx > Font20.Width && Dx < Font24.Width) &&
@@ -488,6 +489,7 @@ sFONT *GUI_GetFontSize(POINT Dx, POINT Dy)
     } else {
         //DEBUG("Please change the display area size, or add a larger font to modify\r\n");
     }
+    */
     return Font;
 }
 /******************************************************************************
@@ -599,11 +601,11 @@ void GUI_Show(void)
 			GUI_DrawCircle(sLCD_DIS.LCD_Dis_Column - 50, 220, 30, CYAN, DRAW_FULL, DOT_PIXEL_DFT);
 
 			//DEBUG("Display String\r\n");
-			GUI_DisString_EN(10, 120, "WaveShare Electronic", &Font16, LCD_BACKGROUND, BLUE);
-			GUI_DisString_EN(40, 150, "2.8inch TFTLCD", &Font16, RED, BLUE);
+			//GUI_DisString_EN(10, 120, "WaveShare Electronic", &Font16, LCD_BACKGROUND, BLUE);
+			//GUI_DisString_EN(40, 150, "2.8inch TFTLCD", &Font16, RED, BLUE);
 
 			//DEBUG("Display Nummber\r\n");
-			GUI_DisNum(40, 170, 1234567890, &Font12, LCD_BACKGROUND, BLUE);
+			//GUI_DisNum(40, 170, 1234567890, &Font12, LCD_BACKGROUND, BLUE);
 	}else{
 	
 		GUI_Clear(WHITE);
@@ -637,11 +639,11 @@ void GUI_Show(void)
 			GUI_DrawCircle(sLCD_DIS.LCD_Dis_Column - 50, 250, 30, CYAN, DRAW_FULL, DOT_PIXEL_DFT);
 
 			//DEBUG("Display String\r\n");
-			GUI_DisString_EN(80, 80, "WaveShare Electronic", &Font24, LCD_BACKGROUND, BLUE);
-			GUI_DisString_EN(80, 120, "3.5inch TFTLCD", &Font20, RED, BLUE);
+			//GUI_DisString_EN(80, 80, "WaveShare Electronic", &Font24, LCD_BACKGROUND, BLUE);
+			//GUI_DisString_EN(80, 120, "3.5inch TFTLCD", &Font20, RED, BLUE);
 
 			//DEBUG("Display Nummber\r\n");
-			GUI_DisNum(80, 150, 1234567890, &Font16, LCD_BACKGROUND, BLUE);
+			//GUI_DisNum(80, 150, 1234567890, &Font16, LCD_BACKGROUND, BLUE);
 
 		} else { //Vertical screen display
 
@@ -673,11 +675,11 @@ void GUI_Show(void)
 			GUI_DrawCircle(sLCD_DIS.LCD_Dis_Column - 50, 400, 30, CYAN, DRAW_FULL, DOT_PIXEL_DFT);
 
 			//DEBUG("Display String\r\n");
-			GUI_DisString_EN(40, 120, "WaveShare Electronic", &Font24, LCD_BACKGROUND, BLUE);
-			GUI_DisString_EN(40, 180, "3.5inch TFTLCD", &Font20, RED, BLUE);
+			//GUI_DisString_EN(40, 120, "WaveShare Electronic", &Font24, LCD_BACKGROUND, BLUE);
+			//GUI_DisString_EN(40, 180, "3.5inch TFTLCD", &Font20, RED, BLUE);
 
 			//DEBUG("Display Nummber\r\n");
-			GUI_DisNum(40, 210, 1234567890, &Font16, LCD_BACKGROUND, BLUE);
+			//GUI_DisNum(40, 210, 1234567890, &Font16, LCD_BACKGROUND, BLUE);
 
 		}
 	}

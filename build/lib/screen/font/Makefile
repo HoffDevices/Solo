@@ -129,77 +129,29 @@ font/fast:
 	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/build
 .PHONY : font/fast
 
-font12.obj: font12.c.obj
-.PHONY : font12.obj
+Font104x60.obj: Font104x60.c.obj
+.PHONY : Font104x60.obj
 
 # target to build an object file
-font12.c.obj:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font12.c.obj
-.PHONY : font12.c.obj
+Font104x60.c.obj:
+	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/Font104x60.c.obj
+.PHONY : Font104x60.c.obj
 
-font12.i: font12.c.i
-.PHONY : font12.i
-
-# target to preprocess a source file
-font12.c.i:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font12.c.i
-.PHONY : font12.c.i
-
-font12.s: font12.c.s
-.PHONY : font12.s
-
-# target to generate assembly for a file
-font12.c.s:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font12.c.s
-.PHONY : font12.c.s
-
-font16.obj: font16.c.obj
-.PHONY : font16.obj
-
-# target to build an object file
-font16.c.obj:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font16.c.obj
-.PHONY : font16.c.obj
-
-font16.i: font16.c.i
-.PHONY : font16.i
+Font104x60.i: Font104x60.c.i
+.PHONY : Font104x60.i
 
 # target to preprocess a source file
-font16.c.i:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font16.c.i
-.PHONY : font16.c.i
+Font104x60.c.i:
+	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/Font104x60.c.i
+.PHONY : Font104x60.c.i
 
-font16.s: font16.c.s
-.PHONY : font16.s
-
-# target to generate assembly for a file
-font16.c.s:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font16.c.s
-.PHONY : font16.c.s
-
-font20.obj: font20.c.obj
-.PHONY : font20.obj
-
-# target to build an object file
-font20.c.obj:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font20.c.obj
-.PHONY : font20.c.obj
-
-font20.i: font20.c.i
-.PHONY : font20.i
-
-# target to preprocess a source file
-font20.c.i:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font20.c.i
-.PHONY : font20.c.i
-
-font20.s: font20.c.s
-.PHONY : font20.s
+Font104x60.s: Font104x60.c.s
+.PHONY : Font104x60.s
 
 # target to generate assembly for a file
-font20.c.s:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font20.c.s
-.PHONY : font20.c.s
+Font104x60.c.s:
+	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/Font104x60.c.s
+.PHONY : Font104x60.c.s
 
 font20x12.obj: font20x12.c.obj
 .PHONY : font20x12.obj
@@ -225,30 +177,6 @@ font20x12.c.s:
 	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font20x12.c.s
 .PHONY : font20x12.c.s
 
-font24.obj: font24.c.obj
-.PHONY : font24.obj
-
-# target to build an object file
-font24.c.obj:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font24.c.obj
-.PHONY : font24.c.obj
-
-font24.i: font24.c.i
-.PHONY : font24.i
-
-# target to preprocess a source file
-font24.c.i:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font24.c.i
-.PHONY : font24.c.i
-
-font24.s: font24.c.s
-.PHONY : font24.s
-
-# target to generate assembly for a file
-font24.c.s:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font24.c.s
-.PHONY : font24.c.s
-
 font30x17.obj: font30x17.c.obj
 .PHONY : font30x17.obj
 
@@ -272,30 +200,6 @@ font30x17.s: font30x17.c.s
 font30x17.c.s:
 	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font30x17.c.s
 .PHONY : font30x17.c.s
-
-font32.obj: font32.c.obj
-.PHONY : font32.obj
-
-# target to build an object file
-font32.c.obj:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font32.c.obj
-.PHONY : font32.c.obj
-
-font32.i: font32.c.i
-.PHONY : font32.i
-
-# target to preprocess a source file
-font32.c.i:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font32.c.i
-.PHONY : font32.c.i
-
-font32.s: font32.c.s
-.PHONY : font32.s
-
-# target to generate assembly for a file
-font32.c.s:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font32.c.s
-.PHONY : font32.c.s
 
 font68x39.obj: font68x39.c.obj
 .PHONY : font68x39.obj
@@ -321,30 +225,6 @@ font68x39.c.s:
 	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font68x39.c.s
 .PHONY : font68x39.c.s
 
-font8.obj: font8.c.obj
-.PHONY : font8.obj
-
-# target to build an object file
-font8.c.obj:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font8.c.obj
-.PHONY : font8.c.obj
-
-font8.i: font8.c.i
-.PHONY : font8.i
-
-# target to preprocess a source file
-font8.c.i:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font8.c.i
-.PHONY : font8.c.i
-
-font8.s: font8.c.s
-.PHONY : font8.s
-
-# target to generate assembly for a file
-font8.c.s:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font8.c.s
-.PHONY : font8.c.s
-
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -354,33 +234,18 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... font
-	@echo ... font12.obj
-	@echo ... font12.i
-	@echo ... font12.s
-	@echo ... font16.obj
-	@echo ... font16.i
-	@echo ... font16.s
-	@echo ... font20.obj
-	@echo ... font20.i
-	@echo ... font20.s
+	@echo ... Font104x60.obj
+	@echo ... Font104x60.i
+	@echo ... Font104x60.s
 	@echo ... font20x12.obj
 	@echo ... font20x12.i
 	@echo ... font20x12.s
-	@echo ... font24.obj
-	@echo ... font24.i
-	@echo ... font24.s
 	@echo ... font30x17.obj
 	@echo ... font30x17.i
 	@echo ... font30x17.s
-	@echo ... font32.obj
-	@echo ... font32.i
-	@echo ... font32.s
 	@echo ... font68x39.obj
 	@echo ... font68x39.i
 	@echo ... font68x39.s
-	@echo ... font8.obj
-	@echo ... font8.i
-	@echo ... font8.s
 .PHONY : help
 
 
