@@ -1,4 +1,4 @@
-# Install script for directory: C:/VSARM/sdk/pico/pico-projects/HoffSolo/lib/screen/config
+# Install script for directory: C:/Users/Rynhardt/Documents/Pico-v1.5.1/pico-projects/Solo/lib/screen/config
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

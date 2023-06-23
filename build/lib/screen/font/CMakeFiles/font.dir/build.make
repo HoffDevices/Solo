@@ -52,10 +52,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\VSARM\sdk\pico\pico-projects\HoffSolo
+CMAKE_SOURCE_DIR = C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\VSARM\sdk\pico\pico-projects\HoffSolo\build
+CMAKE_BINARY_DIR = C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build
 
 # Include any dependencies generated for this target.
 include lib/screen/font/CMakeFiles/font.dir/depend.make
@@ -71,58 +71,58 @@ include lib/screen/font/CMakeFiles/font.dir/flags.make
 lib/screen/font/CMakeFiles/font.dir/Font104x60.c.obj: lib/screen/font/CMakeFiles/font.dir/flags.make
 lib/screen/font/CMakeFiles/font.dir/Font104x60.c.obj: ../lib/screen/font/Font104x60.c
 lib/screen/font/CMakeFiles/font.dir/Font104x60.c.obj: lib/screen/font/CMakeFiles/font.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object lib/screen/font/CMakeFiles/font.dir/Font104x60.c.obj"
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT lib/screen/font/CMakeFiles/font.dir/Font104x60.c.obj -MF CMakeFiles\font.dir\Font104x60.c.obj.d -o CMakeFiles\font.dir\Font104x60.c.obj -c C:\VSARM\sdk\pico\pico-projects\HoffSolo\lib\screen\font\Font104x60.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object lib/screen/font/CMakeFiles/font.dir/Font104x60.c.obj"
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT lib/screen/font/CMakeFiles/font.dir/Font104x60.c.obj -MF CMakeFiles\font.dir\Font104x60.c.obj.d -o CMakeFiles\font.dir\Font104x60.c.obj -c C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\lib\screen\font\Font104x60.c
 
 lib/screen/font/CMakeFiles/font.dir/Font104x60.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/font.dir/Font104x60.c.i"
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\VSARM\sdk\pico\pico-projects\HoffSolo\lib\screen\font\Font104x60.c > CMakeFiles\font.dir\Font104x60.c.i
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\lib\screen\font\Font104x60.c > CMakeFiles\font.dir\Font104x60.c.i
 
 lib/screen/font/CMakeFiles/font.dir/Font104x60.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/font.dir/Font104x60.c.s"
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\VSARM\sdk\pico\pico-projects\HoffSolo\lib\screen\font\Font104x60.c -o CMakeFiles\font.dir\Font104x60.c.s
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\lib\screen\font\Font104x60.c -o CMakeFiles\font.dir\Font104x60.c.s
 
 lib/screen/font/CMakeFiles/font.dir/font20x12.c.obj: lib/screen/font/CMakeFiles/font.dir/flags.make
 lib/screen/font/CMakeFiles/font.dir/font20x12.c.obj: ../lib/screen/font/font20x12.c
 lib/screen/font/CMakeFiles/font.dir/font20x12.c.obj: lib/screen/font/CMakeFiles/font.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object lib/screen/font/CMakeFiles/font.dir/font20x12.c.obj"
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT lib/screen/font/CMakeFiles/font.dir/font20x12.c.obj -MF CMakeFiles\font.dir\font20x12.c.obj.d -o CMakeFiles\font.dir\font20x12.c.obj -c C:\VSARM\sdk\pico\pico-projects\HoffSolo\lib\screen\font\font20x12.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object lib/screen/font/CMakeFiles/font.dir/font20x12.c.obj"
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT lib/screen/font/CMakeFiles/font.dir/font20x12.c.obj -MF CMakeFiles\font.dir\font20x12.c.obj.d -o CMakeFiles\font.dir\font20x12.c.obj -c C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\lib\screen\font\font20x12.c
 
 lib/screen/font/CMakeFiles/font.dir/font20x12.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/font.dir/font20x12.c.i"
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\VSARM\sdk\pico\pico-projects\HoffSolo\lib\screen\font\font20x12.c > CMakeFiles\font.dir\font20x12.c.i
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\lib\screen\font\font20x12.c > CMakeFiles\font.dir\font20x12.c.i
 
 lib/screen/font/CMakeFiles/font.dir/font20x12.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/font.dir/font20x12.c.s"
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\VSARM\sdk\pico\pico-projects\HoffSolo\lib\screen\font\font20x12.c -o CMakeFiles\font.dir\font20x12.c.s
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\lib\screen\font\font20x12.c -o CMakeFiles\font.dir\font20x12.c.s
 
 lib/screen/font/CMakeFiles/font.dir/font30x17.c.obj: lib/screen/font/CMakeFiles/font.dir/flags.make
 lib/screen/font/CMakeFiles/font.dir/font30x17.c.obj: ../lib/screen/font/font30x17.c
 lib/screen/font/CMakeFiles/font.dir/font30x17.c.obj: lib/screen/font/CMakeFiles/font.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object lib/screen/font/CMakeFiles/font.dir/font30x17.c.obj"
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT lib/screen/font/CMakeFiles/font.dir/font30x17.c.obj -MF CMakeFiles\font.dir\font30x17.c.obj.d -o CMakeFiles\font.dir\font30x17.c.obj -c C:\VSARM\sdk\pico\pico-projects\HoffSolo\lib\screen\font\font30x17.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object lib/screen/font/CMakeFiles/font.dir/font30x17.c.obj"
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT lib/screen/font/CMakeFiles/font.dir/font30x17.c.obj -MF CMakeFiles\font.dir\font30x17.c.obj.d -o CMakeFiles\font.dir\font30x17.c.obj -c C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\lib\screen\font\font30x17.c
 
 lib/screen/font/CMakeFiles/font.dir/font30x17.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/font.dir/font30x17.c.i"
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\VSARM\sdk\pico\pico-projects\HoffSolo\lib\screen\font\font30x17.c > CMakeFiles\font.dir\font30x17.c.i
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\lib\screen\font\font30x17.c > CMakeFiles\font.dir\font30x17.c.i
 
 lib/screen/font/CMakeFiles/font.dir/font30x17.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/font.dir/font30x17.c.s"
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\VSARM\sdk\pico\pico-projects\HoffSolo\lib\screen\font\font30x17.c -o CMakeFiles\font.dir\font30x17.c.s
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\lib\screen\font\font30x17.c -o CMakeFiles\font.dir\font30x17.c.s
 
 lib/screen/font/CMakeFiles/font.dir/font68x39.c.obj: lib/screen/font/CMakeFiles/font.dir/flags.make
 lib/screen/font/CMakeFiles/font.dir/font68x39.c.obj: ../lib/screen/font/font68x39.c
 lib/screen/font/CMakeFiles/font.dir/font68x39.c.obj: lib/screen/font/CMakeFiles/font.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object lib/screen/font/CMakeFiles/font.dir/font68x39.c.obj"
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT lib/screen/font/CMakeFiles/font.dir/font68x39.c.obj -MF CMakeFiles\font.dir\font68x39.c.obj.d -o CMakeFiles\font.dir\font68x39.c.obj -c C:\VSARM\sdk\pico\pico-projects\HoffSolo\lib\screen\font\font68x39.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object lib/screen/font/CMakeFiles/font.dir/font68x39.c.obj"
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT lib/screen/font/CMakeFiles/font.dir/font68x39.c.obj -MF CMakeFiles\font.dir\font68x39.c.obj.d -o CMakeFiles\font.dir\font68x39.c.obj -c C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\lib\screen\font\font68x39.c
 
 lib/screen/font/CMakeFiles/font.dir/font68x39.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/font.dir/font68x39.c.i"
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\VSARM\sdk\pico\pico-projects\HoffSolo\lib\screen\font\font68x39.c > CMakeFiles\font.dir\font68x39.c.i
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\lib\screen\font\font68x39.c > CMakeFiles\font.dir\font68x39.c.i
 
 lib/screen/font/CMakeFiles/font.dir/font68x39.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/font.dir/font68x39.c.s"
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\VSARM\sdk\pico\pico-projects\HoffSolo\lib\screen\font\font68x39.c -o CMakeFiles\font.dir\font68x39.c.s
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\lib\screen\font && C:\VSARM\armgcc\112202~1.02\bin\AR19DD~1.EXE $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\lib\screen\font\font68x39.c -o CMakeFiles\font.dir\font68x39.c.s
 
 # Object files for target font
 font_OBJECTS = \
@@ -140,19 +140,19 @@ lib/screen/font/libfont.a: lib/screen/font/CMakeFiles/font.dir/font30x17.c.obj
 lib/screen/font/libfont.a: lib/screen/font/CMakeFiles/font.dir/font68x39.c.obj
 lib/screen/font/libfont.a: lib/screen/font/CMakeFiles/font.dir/build.make
 lib/screen/font/libfont.a: lib/screen/font/CMakeFiles/font.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking C static library libfont.a"
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\lib\screen\font && $(CMAKE_COMMAND) -P CMakeFiles\font.dir\cmake_clean_target.cmake
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\lib\screen\font && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\font.dir\link.txt --verbose=$(VERBOSE)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking C static library libfont.a"
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\lib\screen\font && $(CMAKE_COMMAND) -P CMakeFiles\font.dir\cmake_clean_target.cmake
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\lib\screen\font && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\font.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 lib/screen/font/CMakeFiles/font.dir/build: lib/screen/font/libfont.a
 .PHONY : lib/screen/font/CMakeFiles/font.dir/build
 
 lib/screen/font/CMakeFiles/font.dir/clean:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\lib\screen\font && $(CMAKE_COMMAND) -P CMakeFiles\font.dir\cmake_clean.cmake
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\lib\screen\font && $(CMAKE_COMMAND) -P CMakeFiles\font.dir\cmake_clean.cmake
 .PHONY : lib/screen/font/CMakeFiles/font.dir/clean
 
 lib/screen/font/CMakeFiles/font.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\VSARM\sdk\pico\pico-projects\HoffSolo C:\VSARM\sdk\pico\pico-projects\HoffSolo\lib\screen\font C:\VSARM\sdk\pico\pico-projects\HoffSolo\build C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\lib\screen\font C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\lib\screen\font\CMakeFiles\font.dir\DependInfo.cmake --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\lib\screen\font C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\lib\screen\font C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\lib\screen\font\CMakeFiles\font.dir\DependInfo.cmake --color=$(COLOR)
 .PHONY : lib/screen/font/CMakeFiles/font.dir/depend
 

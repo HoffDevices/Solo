@@ -1,4 +1,4 @@
-# Install script for directory: C:/VSARM/sdk/pico/pico-sdk/src
+# Install script for directory: C:/Program Files/Raspberry Pi/Pico SDK v1.5.1/pico-sdk/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,9 +39,9 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("C:/VSARM/sdk/pico/pico-projects/HoffSolo/build/pico-sdk/src/common/cmake_install.cmake")
-  include("C:/VSARM/sdk/pico/pico-projects/HoffSolo/build/pico-sdk/src/rp2_common/cmake_install.cmake")
-  include("C:/VSARM/sdk/pico/pico-projects/HoffSolo/build/pico-sdk/src/rp2040/cmake_install.cmake")
+  include("C:/Users/Rynhardt/Documents/Pico-v1.5.1/pico-projects/Solo/build/pico-sdk/src/common/cmake_install.cmake")
+  include("C:/Users/Rynhardt/Documents/Pico-v1.5.1/pico-projects/Solo/build/pico-sdk/src/rp2_common/cmake_install.cmake")
+  include("C:/Users/Rynhardt/Documents/Pico-v1.5.1/pico-projects/Solo/build/pico-sdk/src/rp2040/cmake_install.cmake")
 
 endif()
 

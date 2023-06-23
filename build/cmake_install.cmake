@@ -1,4 +1,4 @@
-# Install script for directory: C:/VSARM/sdk/pico/pico-projects/HoffSolo
+# Install script for directory: C:/Users/Rynhardt/Documents/Pico-v1.5.1/pico-projects/Solo
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,10 +39,10 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("C:/VSARM/sdk/pico/pico-projects/HoffSolo/build/pico-sdk/cmake_install.cmake")
-  include("C:/VSARM/sdk/pico/pico-projects/HoffSolo/build/lib/screen/config/cmake_install.cmake")
-  include("C:/VSARM/sdk/pico/pico-projects/HoffSolo/build/lib/screen/lcd/cmake_install.cmake")
-  include("C:/VSARM/sdk/pico/pico-projects/HoffSolo/build/lib/screen/font/cmake_install.cmake")
+  include("C:/Users/Rynhardt/Documents/Pico-v1.5.1/pico-projects/Solo/build/pico-sdk/cmake_install.cmake")
+  include("C:/Users/Rynhardt/Documents/Pico-v1.5.1/pico-projects/Solo/build/lib/screen/config/cmake_install.cmake")
+  include("C:/Users/Rynhardt/Documents/Pico-v1.5.1/pico-projects/Solo/build/lib/screen/lcd/cmake_install.cmake")
+  include("C:/Users/Rynhardt/Documents/Pico-v1.5.1/pico-projects/Solo/build/lib/screen/font/cmake_install.cmake")
 
 endif()
 
@@ -54,5 +54,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/VSARM/sdk/pico/pico-projects/HoffSolo/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/Rynhardt/Documents/Pico-v1.5.1/pico-projects/Solo/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

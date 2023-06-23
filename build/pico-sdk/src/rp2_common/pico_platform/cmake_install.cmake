@@ -1,4 +1,4 @@
-# Install script for directory: C:/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_platform
+# Install script for directory: C:/Program Files/Raspberry Pi/Pico SDK v1.5.1/pico-sdk/src/rp2_common/pico_platform
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

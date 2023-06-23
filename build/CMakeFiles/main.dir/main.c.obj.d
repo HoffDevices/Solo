@@ -1,5 +1,5 @@
 CMakeFiles/main.dir/main.c.obj: \
- C:\VSARM\sdk\pico\pico-projects\HoffSolo\main.c \
+ C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\main.c \
  c:\vsarm\armgcc\112202~1.02\arm-none-eabi\include\stdio.h \
  c:\vsarm\armgcc\112202~1.02\arm-none-eabi\include\_ansi.h \
  c:\vsarm\armgcc\112202~1.02\arm-none-eabi\include\newlib.h \
@@ -32,99 +32,107 @@ CMakeFiles/main.dir/main.c.obj: \
  c:\vsarm\armgcc\112202~1.02\arm-none-eabi\include\stdlib.h \
  c:\vsarm\armgcc\112202~1.02\arm-none-eabi\include\machine\stdlib.h \
  c:\vsarm\armgcc\112202~1.02\arm-none-eabi\include\alloca.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\hardware_watchdog\include/hardware/watchdog.h \
- C:\VSARM\sdk\pico\pico-sdk\src\common\pico_base\include/pico.h \
- C:\VSARM\sdk\pico\pico-sdk\src\common\pico_base\include/pico/types.h \
- C:\VSARM\sdk\pico\pico-sdk\src\common\pico_base\include/pico/assert.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\HA33F0~1\include/hardware/watchdog.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\common\PICO_B~1\include/pico.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\common\PICO_B~1\include/pico/types.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\common\PICO_B~1\include/pico/assert.h \
  c:\vsarm\armgcc\112202~1.02\lib\gcc\arm-none-eabi\11.2.1\include\stdbool.h \
  c:\vsarm\armgcc\112202~1.02\arm-none-eabi\include\assert.h \
  c:\vsarm\armgcc\112202~1.02\lib\gcc\arm-none-eabi\11.2.1\include\stdint.h \
  c:\vsarm\armgcc\112202~1.02\arm-none-eabi\include\stdint.h \
  c:\vsarm\armgcc\112202~1.02\arm-none-eabi\include\sys\_intsup.h \
- C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\generated\pico_base/pico/version.h \
- C:\VSARM\sdk\pico\pico-sdk\src\common\pico_base\include/pico/config.h \
- C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\generated\pico_base/pico/config_autogen.h \
- C:/VSARM/sdk/pico/pico-sdk/src/boards/include/boards/pico.h \
- C:/VSARM/sdk/pico/pico-sdk/src/rp2_common/cmsis/include/cmsis/rename_exceptions.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\pico_platform\include/pico/platform.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/platform_defs.h \
- C:\VSARM\sdk\pico\pico-sdk\src\common\pico_base\include/pico/types.h \
- C:\VSARM\sdk\pico\pico-sdk\src\common\pico_base\include/pico/error.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_structs\include/hardware/structs/watchdog.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\hardware_base\include/hardware/address_mapped.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/addressmap.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/watchdog.h \
- C:\VSARM\sdk\pico\pico-sdk\src\common\pico_stdlib\include/pico/stdlib.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\pico_stdio\include/pico/stdio.h \
- C:\VSARM\sdk\pico\pico-sdk\src\common\pico_time\include/pico/time.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\hardware_timer\include/hardware/timer.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_structs\include/hardware/structs/timer.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/timer.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\hardware_gpio\include/hardware/gpio.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_structs\include/hardware/structs/sio.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/sio.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_structs\include/hardware/structs/interp.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_structs\include/hardware/structs/padsbank0.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/pads_bank0.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\hardware_uart\include/hardware/uart.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_structs\include/hardware/structs/uart.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/uart.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/dreq.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\pico_stdio_uart\include/pico/stdio_uart.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\pico_bootrom\include/pico/bootrom.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\pico_multicore\include/pico/multicore.h \
- C:\VSARM\sdk\pico\pico-sdk\src\common\pico_sync\include/pico/sync.h \
- C:\VSARM\sdk\pico\pico-sdk\src\common\pico_sync\include/pico/sem.h \
- C:\VSARM\sdk\pico\pico-sdk\src\common\pico_sync\include/pico/lock_core.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\hardware_sync\include/hardware/sync.h \
- C:\VSARM\sdk\pico\pico-sdk\src\common\pico_sync\include/pico/mutex.h \
- C:\VSARM\sdk\pico\pico-sdk\src\common\pico_sync\include/pico/critical_section.h \
+ C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\generated\pico_base/pico/version.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\common\PICO_B~1\include/pico/config.h \
+ C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\generated\pico_base/pico/config_autogen.h \
+ C:/Program\ Files/Raspberry\ Pi/Pico\ SDK\ v1.5.1/pico-sdk/src/boards/include/boards/pico.h \
+ C:/Program\ Files/Raspberry\ Pi/Pico\ SDK\ v1.5.1/pico-sdk/src/rp2_common/cmsis/include/cmsis/rename_exceptions.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\PICO_P~1\include/pico/platform.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/platform_defs.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/regs/addressmap.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/regs/sio.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\common\PICO_B~1\include/pico/types.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\common\PICO_B~1\include/pico/error.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~2\include/hardware/structs/watchdog.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\HARDWA~2\include/hardware/address_mapped.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/regs/watchdog.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\common\PICO_S~1\include/pico/stdlib.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\PICO_S~2\include/pico/stdio.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\common\PICO_T~1\include/pico/time.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\HA775E~1\include/hardware/timer.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~2\include/hardware/structs/timer.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/regs/timer.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\HA268C~1\include/hardware/gpio.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~2\include/hardware/structs/sio.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~2\include/hardware/structs/interp.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~2\include/hardware/structs/padsbank0.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/regs/pads_bank0.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~2\include/hardware/structs/iobank0.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/regs/io_bank0.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\HA5FF7~1\include/hardware/irq.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/regs/intctrl.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/regs/m0plus.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\HAE181~1\include/hardware/uart.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~2\include/hardware/structs/uart.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/regs/uart.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/regs/dreq.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\PICO_S~4\include/pico/stdio_uart.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\PICO_B~2\include/pico/bootrom.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\PICO_M~4\include/pico/multicore.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\common\PICO_S~2\include/pico/sync.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\common\PICO_S~2\include/pico/sem.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\common\PICO_S~2\include/pico/lock_core.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\HA2A15~1\include/hardware/sync.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\common\PICO_S~2\include/pico/mutex.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\common\PICO_S~2\include/pico/critical_section.h \
  c:\vsarm\armgcc\112202~1.02\arm-none-eabi\include\string.h \
  c:\vsarm\armgcc\112202~1.02\arm-none-eabi\include\sys\_locale.h \
  c:\vsarm\armgcc\112202~1.02\arm-none-eabi\include\strings.h \
  c:\vsarm\armgcc\112202~1.02\arm-none-eabi\include\sys\string.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\hardware_flash\include/hardware/flash.h \
- c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\screen\lcd\lcd_driver.h \
- c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\screen\config\dev_config.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\hardware_spi\include/hardware/spi.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_structs\include/hardware/structs/spi.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/spi.h \
- c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\screen\lcd\lcd_touch.h \
- c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\screen\lcd\LCD_Driver.h \
- c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\screen\lcd\LCD_GUI.h \
- c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\screen\font\fonts.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\HAEB3E~1\include/hardware/flash.h \
+ c:\users\rynhardt\documents\pico-v1.5.1\pico-projects\solo\lib\screen\lcd\lcd_driver.h \
+ c:\users\rynhardt\documents\pico-v1.5.1\pico-projects\solo\lib\screen\config\dev_config.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\HA6B87~1\include/hardware/spi.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~2\include/hardware/structs/spi.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/regs/spi.h \
+ c:\users\rynhardt\documents\pico-v1.5.1\pico-projects\solo\lib\screen\lcd\lcd_touch.h \
+ c:\users\rynhardt\documents\pico-v1.5.1\pico-projects\solo\lib\screen\lcd\LCD_Driver.h \
+ c:\users\rynhardt\documents\pico-v1.5.1\pico-projects\solo\lib\screen\lcd\LCD_GUI.h \
+ c:\users\rynhardt\documents\pico-v1.5.1\pico-projects\solo\lib\screen\font\fonts.h \
  c:\vsarm\armgcc\112202~1.02\arm-none-eabi\include\math.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\pico_float\include/pico/float.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\PICO_F~2\include/pico/float.h \
  c:\vsarm\armgcc\112202~1.02\lib\gcc\arm-none-eabi\11.2.1\include\float.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\pico_bootrom\include/pico/bootrom/sf_table.h \
- C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\hw/bsp/board.h \
- C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\hw/bsp/ansi_escape.h \
- C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\src/tusb.h \
- C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\src/common/tusb_common.h \
- C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\src/tusb_option.h \
- c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\tusb\tusb_config.h \
- C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\src/common/tusb_compiler.h \
- C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\src/common/tusb_verify.h \
- C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\src/common/tusb_types.h \
- C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\src/common/tusb_error.h \
- C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\src/common/tusb_timeout.h \
- C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\src/osal/osal.h \
- C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\src/common/tusb_common.h \
- C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\src/osal/osal_pico.h \
- C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\src/common/tusb_fifo.h \
- C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\src/osal/osal.h \
- C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\src/common/tusb_fifo.h \
- C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\src/device/usbd.h \
- C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\src/class/midi/midi_device.h \
- C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\src/class/audio/audio.h \
- C:\VSARM\sdk\pico\pico-sdk\lib\tinyusb\src/class/midi/midi.h \
- C:\VSARM\sdk\pico\pico-projects\HoffSolo\main.h \
- c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\common.c \
- c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\switch.c \
- c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\midi.c \
- c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\sync.c \
- c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\core1.c \
- c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\draw.c \
- c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\button.c \
- c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\screen.c \
- c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\core0.c
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\PICO_B~2\include/pico/bootrom/sf_table.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\hw/bsp/board.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\hw/bsp/ansi_escape.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\src/tusb.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\src/common/tusb_common.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\src/tusb_option.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\src/common/tusb_compiler.h \
+ c:\users\rynhardt\documents\pico-v1.5.1\pico-projects\solo\lib\tusb\tusb_config.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\src/common/tusb_mcu.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\src/common/tusb_compiler.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\src/common/tusb_verify.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\src/common/tusb_types.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\src/common/tusb_debug.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\src/common/tusb_timeout.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\src/osal/osal.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\src/common/tusb_common.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\src/osal/osal_pico.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\src/common/tusb_fifo.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\src/osal/osal.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\src/common/tusb_fifo.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\src/class/hid/hid.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\src/device/usbd.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\src/class/midi/midi_device.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\src/class/audio/audio.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\lib\tinyusb\src/class/midi/midi.h \
+ C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\main.h \
+ c:\users\rynhardt\documents\pico-v1.5.1\pico-projects\solo\lib\hoff\common.c \
+ c:\users\rynhardt\documents\pico-v1.5.1\pico-projects\solo\lib\hoff\switch.c \
+ c:\users\rynhardt\documents\pico-v1.5.1\pico-projects\solo\lib\hoff\midi.c \
+ c:\users\rynhardt\documents\pico-v1.5.1\pico-projects\solo\lib\hoff\sync.c \
+ c:\users\rynhardt\documents\pico-v1.5.1\pico-projects\solo\lib\hoff\core1.c \
+ c:\users\rynhardt\documents\pico-v1.5.1\pico-projects\solo\lib\hoff\draw.c \
+ c:\users\rynhardt\documents\pico-v1.5.1\pico-projects\solo\lib\hoff\button.c \
+ c:\users\rynhardt\documents\pico-v1.5.1\pico-projects\solo\lib\hoff\screen.c \
+ c:\users\rynhardt\documents\pico-v1.5.1\pico-projects\solo\lib\hoff\core0.c

@@ -1,10 +1,10 @@
 lib/screen/config/CMakeFiles/config.dir/DEV_Config.c.obj: \
- C:\VSARM\sdk\pico\pico-projects\HoffSolo\lib\screen\config\DEV_Config.c \
- C:\VSARM\sdk\pico\pico-projects\HoffSolo\lib\screen\config\DEV_Config.h \
- C:\VSARM\sdk\pico\pico-sdk\src\common\pico_stdlib\include/pico/stdlib.h \
- C:\VSARM\sdk\pico\pico-sdk\src\common\pico_base\include/pico.h \
- C:\VSARM\sdk\pico\pico-sdk\src\common\pico_base\include/pico/types.h \
- C:\VSARM\sdk\pico\pico-sdk\src\common\pico_base\include/pico/assert.h \
+ C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\lib\screen\config\DEV_Config.c \
+ C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\lib\screen\config\DEV_Config.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\common\PICO_S~1\include/pico/stdlib.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\common\PICO_B~1\include/pico.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\common\PICO_B~1\include/pico/types.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\common\PICO_B~1\include/pico/assert.h \
  c:\vsarm\armgcc\112202~1.02\lib\gcc\arm-none-eabi\11.2.1\include\stdbool.h \
  c:\vsarm\armgcc\112202~1.02\arm-none-eabi\include\assert.h \
  c:\vsarm\armgcc\112202~1.02\arm-none-eabi\include\_ansi.h \
@@ -19,37 +19,42 @@ lib/screen/config/CMakeFiles/config.dir/DEV_Config.c.obj: \
  c:\vsarm\armgcc\112202~1.02\arm-none-eabi\include\sys\_intsup.h \
  c:\vsarm\armgcc\112202~1.02\arm-none-eabi\include\sys\_stdint.h \
  c:\vsarm\armgcc\112202~1.02\lib\gcc\arm-none-eabi\11.2.1\include\stddef.h \
- C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\generated\pico_base/pico/version.h \
- C:\VSARM\sdk\pico\pico-sdk\src\common\pico_base\include/pico/config.h \
- C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\generated\pico_base/pico/config_autogen.h \
- C:/VSARM/sdk/pico/pico-sdk/src/boards/include/boards/pico.h \
- C:/VSARM/sdk/pico/pico-sdk/src/rp2_common/cmsis/include/cmsis/rename_exceptions.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\pico_platform\include/pico/platform.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/platform_defs.h \
+ C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\generated\pico_base/pico/version.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\common\PICO_B~1\include/pico/config.h \
+ C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\generated\pico_base/pico/config_autogen.h \
+ C:/Program\ Files/Raspberry\ Pi/Pico\ SDK\ v1.5.1/pico-sdk/src/boards/include/boards/pico.h \
+ C:/Program\ Files/Raspberry\ Pi/Pico\ SDK\ v1.5.1/pico-sdk/src/rp2_common/cmsis/include/cmsis/rename_exceptions.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\PICO_P~1\include/pico/platform.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/platform_defs.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/regs/addressmap.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/regs/sio.h \
  c:\vsarm\armgcc\112202~1.02\arm-none-eabi\include\sys\cdefs.h \
- C:\VSARM\sdk\pico\pico-sdk\src\common\pico_base\include/pico/types.h \
- C:\VSARM\sdk\pico\pico-sdk\src\common\pico_base\include/pico/error.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\pico_stdio\include/pico/stdio.h \
- C:\VSARM\sdk\pico\pico-sdk\src\common\pico_time\include/pico/time.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\hardware_timer\include/hardware/timer.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_structs\include/hardware/structs/timer.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\hardware_base\include/hardware/address_mapped.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/addressmap.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/timer.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\hardware_gpio\include/hardware/gpio.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_structs\include/hardware/structs/sio.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/sio.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_structs\include/hardware/structs/interp.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_structs\include/hardware/structs/padsbank0.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/pads_bank0.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\hardware_uart\include/hardware/uart.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_structs\include/hardware/structs/uart.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/uart.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/dreq.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\pico_stdio_uart\include/pico/stdio_uart.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2_common\hardware_spi\include/hardware/spi.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_structs\include/hardware/structs/spi.h \
- C:\VSARM\sdk\pico\pico-sdk\src\rp2040\hardware_regs\include/hardware/regs/spi.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\common\PICO_B~1\include/pico/types.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\common\PICO_B~1\include/pico/error.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\PICO_S~2\include/pico/stdio.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\common\PICO_T~1\include/pico/time.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\HA775E~1\include/hardware/timer.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~2\include/hardware/structs/timer.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\HARDWA~2\include/hardware/address_mapped.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/regs/timer.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\HA268C~1\include/hardware/gpio.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~2\include/hardware/structs/sio.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~2\include/hardware/structs/interp.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~2\include/hardware/structs/padsbank0.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/regs/pads_bank0.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~2\include/hardware/structs/iobank0.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/regs/io_bank0.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\HA5FF7~1\include/hardware/irq.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/regs/intctrl.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/regs/m0plus.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\HAE181~1\include/hardware/uart.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~2\include/hardware/structs/uart.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/regs/uart.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/regs/dreq.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\PICO_S~4\include/pico/stdio_uart.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\RP2_CO~1\HA6B87~1\include/hardware/spi.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~2\include/hardware/structs/spi.h \
+ C:\PROGRA~1\RASPBE~1\PICOSD~1.1\pico-sdk\src\rp2040\HARDWA~1\include/hardware/regs/spi.h \
  c:\vsarm\armgcc\112202~1.02\arm-none-eabi\include\stdio.h \
  c:\vsarm\armgcc\112202~1.02\lib\gcc\arm-none-eabi\11.2.1\include\stdarg.h \
  c:\vsarm\armgcc\112202~1.02\arm-none-eabi\include\sys\reent.h \

@@ -56,10 +56,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\VSARM\sdk\pico\pico-projects\HoffSolo
+CMAKE_SOURCE_DIR = C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\VSARM\sdk\pico\pico-projects\HoffSolo\build
+CMAKE_BINARY_DIR = C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -86,14 +86,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(CMAKE_COMMAND) -E cmake_progress_start C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\CMakeFiles C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\lib\screen\font\\CMakeFiles\progress.marks
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 lib/screen/font/all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\VSARM\sdk\pico\pico-projects\HoffSolo\build\CMakeFiles 0
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build && $(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\CMakeFiles C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\lib\screen\font\\CMakeFiles\progress.marks
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 lib/screen/font/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 lib/screen/font/clean
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 lib/screen/font/clean
 .PHONY : clean
 
 # The main clean target
@@ -102,22 +102,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 lib/screen/font/preinstall
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 lib/screen/font/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 lib/screen/font/preinstall
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 lib/screen/font/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 1
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 lib/screen/font/CMakeFiles/font.dir/rule:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 lib/screen/font/CMakeFiles/font.dir/rule
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 lib/screen/font/CMakeFiles/font.dir/rule
 .PHONY : lib/screen/font/CMakeFiles/font.dir/rule
 
 # Convenience name for target.
@@ -126,7 +126,7 @@ font: lib/screen/font/CMakeFiles/font.dir/rule
 
 # fast build rule for target.
 font/fast:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/build
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/build
 .PHONY : font/fast
 
 Font104x60.obj: Font104x60.c.obj
@@ -134,7 +134,7 @@ Font104x60.obj: Font104x60.c.obj
 
 # target to build an object file
 Font104x60.c.obj:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/Font104x60.c.obj
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/Font104x60.c.obj
 .PHONY : Font104x60.c.obj
 
 Font104x60.i: Font104x60.c.i
@@ -142,7 +142,7 @@ Font104x60.i: Font104x60.c.i
 
 # target to preprocess a source file
 Font104x60.c.i:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/Font104x60.c.i
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/Font104x60.c.i
 .PHONY : Font104x60.c.i
 
 Font104x60.s: Font104x60.c.s
@@ -150,7 +150,7 @@ Font104x60.s: Font104x60.c.s
 
 # target to generate assembly for a file
 Font104x60.c.s:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/Font104x60.c.s
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/Font104x60.c.s
 .PHONY : Font104x60.c.s
 
 font20x12.obj: font20x12.c.obj
@@ -158,7 +158,7 @@ font20x12.obj: font20x12.c.obj
 
 # target to build an object file
 font20x12.c.obj:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font20x12.c.obj
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font20x12.c.obj
 .PHONY : font20x12.c.obj
 
 font20x12.i: font20x12.c.i
@@ -166,7 +166,7 @@ font20x12.i: font20x12.c.i
 
 # target to preprocess a source file
 font20x12.c.i:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font20x12.c.i
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font20x12.c.i
 .PHONY : font20x12.c.i
 
 font20x12.s: font20x12.c.s
@@ -174,7 +174,7 @@ font20x12.s: font20x12.c.s
 
 # target to generate assembly for a file
 font20x12.c.s:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font20x12.c.s
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font20x12.c.s
 .PHONY : font20x12.c.s
 
 font30x17.obj: font30x17.c.obj
@@ -182,7 +182,7 @@ font30x17.obj: font30x17.c.obj
 
 # target to build an object file
 font30x17.c.obj:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font30x17.c.obj
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font30x17.c.obj
 .PHONY : font30x17.c.obj
 
 font30x17.i: font30x17.c.i
@@ -190,7 +190,7 @@ font30x17.i: font30x17.c.i
 
 # target to preprocess a source file
 font30x17.c.i:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font30x17.c.i
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font30x17.c.i
 .PHONY : font30x17.c.i
 
 font30x17.s: font30x17.c.s
@@ -198,7 +198,7 @@ font30x17.s: font30x17.c.s
 
 # target to generate assembly for a file
 font30x17.c.s:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font30x17.c.s
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font30x17.c.s
 .PHONY : font30x17.c.s
 
 font68x39.obj: font68x39.c.obj
@@ -206,7 +206,7 @@ font68x39.obj: font68x39.c.obj
 
 # target to build an object file
 font68x39.c.obj:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font68x39.c.obj
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font68x39.c.obj
 .PHONY : font68x39.c.obj
 
 font68x39.i: font68x39.c.i
@@ -214,7 +214,7 @@ font68x39.i: font68x39.c.i
 
 # target to preprocess a source file
 font68x39.c.i:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font68x39.c.i
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font68x39.c.i
 .PHONY : font68x39.c.i
 
 font68x39.s: font68x39.c.s
@@ -222,7 +222,7 @@ font68x39.s: font68x39.c.s
 
 # target to generate assembly for a file
 font68x39.c.s:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font68x39.c.s
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build && $(MAKE) $(MAKESILENT) -f lib\screen\font\CMakeFiles\font.dir\build.make lib/screen/font/CMakeFiles/font.dir/font68x39.c.s
 .PHONY : font68x39.c.s
 
 # Help Target
@@ -257,6 +257,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /d C:\VSARM\sdk\pico\pico-projects\HoffSolo\build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 0
+	cd /d C:\Users\Rynhardt\Documents\Pico-v1.5.1\pico-projects\Solo\build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
