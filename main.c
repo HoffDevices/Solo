@@ -1,6 +1,7 @@
 ﻿/*
-* Hoff Solo - (c) 2022 R. Haarhoff
-* Last updated 2022-12-06
+* Hoff Solo - (c) R. Haarhoff
+* Last updated 2023-04-28
+* Uses schematic v1.3
 */
 
 //Raspberry Pi Pico
@@ -27,6 +28,7 @@
 #include "common.c"
 #include "switch.c"
 #include "midi.c"
+#include "sync.c"
 #include "core1.c"
 #include "draw.c"
 #include "button.c"
@@ -43,6 +45,14 @@ void main_core1() {
     MIDI_USB.init();
     MIDI_LEFT.init();
     MIDI_RIGHT.init();
+
+    //init sync
+    SYNC_1.init();
+    SYNC_2.init();
+
+    //test sync
+    SYNC_1.pulse();
+    SYNC_2.pulse();
 
     //init switches
     SWITCH_LS0.init();
@@ -114,15 +124,13 @@ int main(void) {
     SWITCH_TOUCH.init();         //init touch
 
     showLogo(1000);        //show the logo while we do housekeeping
-    updateFactoryFlash();  //update FACTORY_FLASH to latest PRESETS_TEXT in firmware
-    updateUserFlash();     //update USER_FLASH if needed and load PRESETS_TEXT from USER_FLASH
-    loadSystemScreens();   //set up the system screens
-    loadPresetScreens();   //set up the preset screens
-    findSnake();           //update the SNAKE preset's show method
+    updateFactoryFlash(false);  //update FACTORY_FLASH to latest PRESETS_TEXT in firmware
+    updateUserFlash(false);     //update USER_FLASH if needed and load PRESETS_TEXT from USER_FLASH
+    loadScreens();        //set up the screens
 
     multicore_launch_core1(main_core1);   //core1 handles all MIDI events
 
-    setCurrScreenIndex(PRESETS_DEFAULT);             //PRESETS_DEFAULT gets populated by loadPresetScreens
+    setCurrScreenIndex(PRESETS_DEFAULT);             //PRESETS_DEFAULT gets populated by loadScreens
     while (true) SCREENS[CURR_SCREEN_INDEX].show();  //main program loop - CURR_SCREEN_INDEX is modified by other events to show the appropriate screen
     
 	return 0;

@@ -8,27 +8,29 @@
 * Breaks an input string every maxChars, or every breakChar or \n
 * Output string gets a new line every break
 */
-void breakLines(char *inputText, char *outputText, uint8_t *rows, uint8_t maxChars, char breakChar) {
-    uint8_t i = 0;  //input text index
+void breakLines(char *inputText, uint8_t startRow, uint8_t *rows, uint8_t maxChars, uint8_t maxRows, char breakChar) {
+    uint32_t i = 0;  //input text index
     uint8_t j = 0;  //output text index
     uint8_t c = 0;  //columns count in current row
-    uint8_t r = 1;  //row count
+    uint8_t r = 0;  //row count
+    char outputText[30];  //max is probably 25
 
-    while (j < 255 && inputText[i] != 0x00) {  //keep within outputText bounds, and inputText limit
-        if (inputText[i] == breakChar || inputText[i] == '\n') {
-            outputText[j] = '\n';  //insert new line
-            j++;  //track output chars
-            r++;  //count rows with every new line
+    while (inputText[i] != 0x00) {  //keep within outputText bounds, and inputText limit
+        if (inputText[i] == breakChar || inputText[i] == '\n') {  //don't output break character
+            outputText[j] = 0x00;  //terminate output string
+            j=0;  //reset output chars
             c=0;  //reset columns
+            if (r >= startRow & r < startRow + maxRows) drawString(160, 38 + 8 + 8 + 8 + (r - startRow) * Font20x12.Height, outputText, &Font20x12, COLOR_WHITE, 0, -1);
+            r++;  //count rows with every new line
         }
         else if (c >= maxChars) {
-            outputText[j] = '\n';  //insert new line
+            outputText[j] = inputText[i];  //output overflow character
             j++;  //track output chars
-            r++;  //count rows with every new line
+            outputText[j] = 0x00;  //terminate output string
+            j=0;  //reset output chars
             c=0;  //reset columns
-            outputText[j] = inputText[i];  //insert character that overflowed
-            j++;  //track output chars
-            c++;  //track columns
+            if (r >= startRow & r < startRow + maxRows) drawString(160, 38 + 8 + 8 + 8 + (r - startRow) * Font20x12.Height, outputText, &Font20x12, COLOR_WHITE, 0, -1);
+            r++;  //count rows with every new line
         }
         else {
             outputText[j] = inputText[i];
@@ -37,37 +39,24 @@ void breakLines(char *inputText, char *outputText, uint8_t *rows, uint8_t maxCha
         }
         i++;  //track input
     }
-    outputText[j] = 0x00;  //terminate string;
+    if (j>0) {  //draw remaining characters
+        outputText[j] = 0x00;  //terminate output string
+        if (r >= startRow & r < startRow + maxRows) drawString(160, 38 + 8 + 8 + 8 + (r - startRow) * Font20x12.Height, outputText, &Font20x12, COLOR_WHITE, 0, -1);
+        r++;  //count rows with every new line
+    }
     *rows = r;
 }
 
 /*
-* Limit which lines are shown
-*/
-void limitLines(char *inputText, char *outputText, uint8_t startRow, uint8_t maxRows) {
-    uint8_t i = 0;  //input text index
-    uint8_t j = 0;  //output text index
-    uint8_t r = 0;  //row count
-    while (i < 255 && inputText[i] != 0x00) {  //keep within outputText bounds, and inputText limit
-        if (inputText[i] == '\n') r++;  //track rows
-        if (r >= startRow && r < (startRow + maxRows) && !(j==0 && inputText[i] == '\n')) {
-            outputText[j] = inputText[i];
-            j++;
-        }
-        i++;  //track text
-    }
-    outputText[j] = 0x00;  //terminate string;
-}
-
-/*
 * Gets the label and property value for help display from the current VIEW
+* Help text is limited to 
 */
 void presetHelp() {
-    uint8_t breakRows = 0;
+    uint8_t screenRows = 9;  //hardcoded depending on font size
+    uint8_t actualRows = 0;
     uint8_t limitRows = 0;
     uint8_t limitStart = 0;
     uint8_t limitExtra = 0;
-    uint8_t remainRows = 0;
     char breakText[256];  //temp store for text with line breaks added
     char limitText[256];  //limited lines text
 
@@ -75,57 +64,44 @@ void presetHelp() {
 
     if      (CURR_VIEW.event == EVENT_INF) {
         drawString(160, 1.5 * Font20x12.Height, "INFO", &Font20x12, COLOR_CYAN, 0, -1);  //event title text
-        breakLines(CURR_VIEW.control->INF, breakText, &breakRows, 25, '\n');  //break text into lines of 25 chars = 100
+        breakLines(CURR_VIEW.control->INF, CURR_VIEW.startLine, &actualRows, 25, screenRows, '\n');  //break text into lines of 25 chars = 100
     }
     if      (CURR_VIEW.event == EVENT_PRS) {
         drawString(160, 1.5 * Font20x12.Height, "PRESSED", &Font20x12, COLOR_CYAN, 0, -1);  //event title text
-        breakLines(CURR_VIEW.control->PRS, breakText, &breakRows, 25, ' ');  //break text into lines of 25 chars = 100
+        breakLines(CURR_VIEW.control->PRS, CURR_VIEW.startLine, &actualRows, 25, screenRows, ' ');  //break text into lines of 25 chars = 100
     }
     else if (CURR_VIEW.event == EVENT_RLS) {
         drawString(160, 1.5 * Font20x12.Height, "RELEASED(S)", &Font20x12, COLOR_CYAN, 0, -1);  //event title text
-        breakLines(CURR_VIEW.control->RLS, breakText, &breakRows, 25, ' ');  //break text into lines of 25 chars = 100
+        breakLines(CURR_VIEW.control->RLS, CURR_VIEW.startLine, &actualRows, 25, screenRows, ' ');  //break text into lines of 25 chars = 100
     }
     else if (CURR_VIEW.event == EVENT_RLL) {
         drawString(160, 1.5 * Font20x12.Height, "RELEASED(L)", &Font20x12, COLOR_CYAN, 0, -1);  //event title text
-        breakLines(CURR_VIEW.control->RLL, breakText, &breakRows, 25, ' ');  //break text into lines of 25 chars = 100
+        breakLines(CURR_VIEW.control->RLL, CURR_VIEW.startLine, &actualRows, 25, screenRows, ' ');  //break text into lines of 25 chars = 100
     }
     else if (CURR_VIEW.event == EVENT_DSC) {
         drawString(160, 1.5 * Font20x12.Height, "DESCRIPTION", &Font20x12, COLOR_CYAN, 0, -1);  //event title text
-        breakLines(CURR_VIEW.control->DSC, breakText, &breakRows, 25, '\n');  //break text into lines of 25 chars = 100
+        breakLines(CURR_VIEW.control->DSC, CURR_VIEW.startLine, &actualRows, 25, screenRows, '\n');  //break text into lines of 25 chars = 100
     }
     else if (CURR_VIEW.event == EVENT_CLK) {
         drawString(160, 1.5 * Font20x12.Height, "MIDI CLOCK", &Font20x12, COLOR_CYAN, 0, -1);  //event title text
-        breakLines(CURR_VIEW.control->CLK, breakText, &breakRows, 25, ' ');  //break text into lines of 25 chars = 100
+        breakLines(CURR_VIEW.control->CLK, CURR_VIEW.startLine, &actualRows, 25, screenRows, ' ');  //break text into lines of 25 chars = 100
     }
     else if (CURR_VIEW.event == EVENT_ENT) {
         drawString(160, 1.5 * Font20x12.Height, "ENTER", &Font20x12, COLOR_CYAN, 0, -1);  //event title text
-        breakLines(CURR_VIEW.control->ENT, breakText, &breakRows, 25, ' ');  //break text into lines of 25 chars = 100
+        breakLines(CURR_VIEW.control->ENT, CURR_VIEW.startLine, &actualRows, 25, screenRows, ' ');  //break text into lines of 25 chars = 100
     }
     else if (CURR_VIEW.event == EVENT_EXT) {
         drawString(160, 1.5 * Font20x12.Height, "EXIT", &Font20x12, COLOR_CYAN, 0, -1);  //event title text
-        breakLines(CURR_VIEW.control->EXT, breakText, &breakRows, 25, ' ');  //break text into lines of 25 chars = 100
+        breakLines(CURR_VIEW.control->EXT, CURR_VIEW.startLine, &actualRows, 25, screenRows, ' ');  //break text into lines of 25 chars = 100
     }
 
     //enable/disable scroll buttons depending on overflow state
     B_SCROLL_UP_PRESET.active = false;
     B_SCROLL_DN_PRESET.active = false;
-    remainRows = 9;  //lines remaining for valueText
-    if (breakRows < remainRows) {  //less lines than can fit on screen
-        limitRows = breakRows;  //smallest row count wins
-        limitStart = 0;
-        limitExtra = 0;
-
+    if (actualRows > screenRows) {  //more lines than can fit on screen
+        if (CURR_VIEW.startLine > 0) B_SCROLL_UP_PRESET.active = true;  //we've scrolled down at least once so we can scroll up
+        if (CURR_VIEW.startLine + screenRows < actualRows) B_SCROLL_DN_PRESET.active = true;  //there are still some lines left
     }
-    else {  //more lines than can fit on screen
-        limitRows = remainRows;
-        limitExtra = (breakRows - remainRows);  //lines extra that don't fit in the remaining space
-        if (CURR_VIEW.startLine >= limitExtra) CURR_VIEW.startLine = limitExtra;
-        limitStart = CURR_VIEW.startLine;
-        if (limitStart > 0) B_SCROLL_UP_PRESET.active = true;
-        else B_SCROLL_DN_PRESET.active = true;
-    }
-    limitLines(breakText, limitText, limitStart, limitRows);  //limit text to limitRows
-    drawString(160, 38 + 8 + 8 + limitRows * Font20x12.Height / 2, limitText, &Font20x12, COLOR_WHITE, 0, -1);
 }
 
 /*
@@ -143,20 +119,17 @@ void S_MENU() {
     
     uint8_t j = 0;
     uint8_t offset = 3;  //first 3 sbuttons are not presets
-    //draw candidate buttons up to 8, or until we run out of screens
-    for (int i=0 + CURR_VIEW.page*8; i<MAX_SCREEN_INDEX && j<8; i++) {
-        if (SCREENS[i].preset == true) {
-            strcpy(menuButtons[j+offset]->name, SCREENS[i].name);
-            if (SCREENS[i].system == true) menuButtons[j+offset]->color = COLOR_WHITE;
-            else menuButtons[j+offset]->color = COLOR_CYAN;
-            menuButtons[j+offset]->active = true;
-            j++;
-        }
+    //draw candidate buttons up to 8, or until we run out of screens - SCREENS[0] is the menu, so start at 1
+    for (int i=1 + CURR_VIEW.page*8; i<MAX_SCREEN_INDEX && j<8; i++) {
+        strcpy(menuButtons[j+offset]->name, SCREENS[i].name);
+        menuButtons[j+offset]->color = SCREENS[i].color;
+        menuButtons[j+offset]->active = true;
+        j++;
     }
     //fill up rest of empty buttons
     for (uint8_t i=j; i<8; i++) {
         strcpy(menuButtons[i+offset]->name, "--------");
-        menuButtons[j+offset]->color = COLOR_CYAN;
+        menuButtons[j+offset]->color = COLOR_GREY;
         menuButtons[i+offset]->active = false;
     }
     drawButtons(menuButtons, menuLength);
@@ -467,36 +440,28 @@ void S_PRESET() {
 /*
 * Initialise screens - fill empties with dashes
 * Load system presets
-* Help width: 30 char
+* Loads the PRESETS_TEXT flash string and parses it into pointers for SCREEN properties.
+* Also destructively converts '<' char to 0x00 to indicate end of strings
 */
-void loadSystemScreens() {
+void loadScreens() {
     uint8_t lenScreens = sizeof(SCREENS)/sizeof(SCREEN);
     for (uint8_t i=0; i<lenScreens; i++) {
-        SCREENS[i].system = false;
-        SCREENS[i].preset = false;
+        SCREENS[i].color = COLOR_GREY,
         SCREENS[i].name = "--------";
         SCREENS[i].show = NULL;
     }
     //default screens
     SCREENS[0] = (SCREEN) {
-        .system = true,
-        .preset = false,
+        .color = COLOR_WHITE,
         .name = "MENU",
         .show = S_MENU
     };
     SCREENS[1] = (SCREEN) {
-        .system = true,
-        .preset = true,
+        .color = COLOR_WHITE,
         .name = "SYSTEM",
         .show = S_SYSTEM
     };
-}
 
-/*
-* Loads the PRESETS_TEXT flash string and parses it into pointers for SCREEN properties.
-* Also destructively converts '<' char to 0x00 to indicate end of strings
-*/
-void loadPresetScreens() {
     //find first empty screen slot
     uint8_t p = 0;
     while (strcmp(SCREENS[p].name, "--------") != 0) p++;
@@ -506,7 +471,7 @@ void loadPresetScreens() {
     char textProperty[8];  //max is probably 8 (???_??? + 0x00)
     char parentProperty[8];  //max is probably 8 (???_??? + 0x00)
     uint32_t i=0;  //PRESETS_TEXT index
-    uint8_t k=0;  //property/value string index
+    uint8_t k=0;  //property string index
     while (PRESETS_TEXT[i] != 0x00) {
 
         if (PRESETS_TEXT[i] == '<') {
@@ -523,8 +488,7 @@ void loadPresetScreens() {
                 strcpy(parentProperty, textProperty);
                 p++;
                 MAX_SCREEN_INDEX = p;
-                SCREENS[p].system = false;
-                SCREENS[p].preset = true;
+                SCREENS[p].color = COLOR_CYAN;
                 SCREENS[p].show = S_PRESET;
             }
             else if (strcmp(parentProperty, "SYSTEM") == 0) {  //system properties
@@ -536,7 +500,14 @@ void loadPresetScreens() {
                     SCREENS[p].PST.LBL = &PRESETS_TEXT[i+1];  //pointer to start of property, which is the next char
                     SCREENS[p].name = &PRESETS_TEXT[i+1];  //pointer to start of property, which is the next char
                 }
-                else if (strcmp(textProperty, "PST_DSC") == 0) SCREENS[p].PST.DSC = &PRESETS_TEXT[i+1];  //pointer to start of property
+                else if (strcmp(textProperty, "PST_DSC") == 0) {
+                    SCREENS[p].PST.DSC = &PRESETS_TEXT[i+1];  //pointer to start of property
+                    //we hope the PST_LBL was defined before PST_DSC for this to work..
+                    if (strcmp(SCREENS[p].name, "SNAKE") == 0) {  //special case for SNAKE easter egg
+                        SCREENS[p].color = COLOR_BLUE;
+                        SCREENS[p].show = S_SNAKE;
+                    }
+                }
                 else if (strcmp(textProperty, "PST_CLK") == 0) SCREENS[p].PST.CLK = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "PST_ENT") == 0) SCREENS[p].PST.ENT = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "PST_EXT") == 0) SCREENS[p].PST.EXT = &PRESETS_TEXT[i+1];  //pointer to start of property
@@ -585,18 +556,5 @@ void loadPresetScreens() {
             }
         }
         i++;
-    }
-}
-
-/*
-* Change the SNAKE preset's show method to S_SNAKE(), and makes it a system preset
-*/
-void findSnake() {
-    uint8_t lenScreens = sizeof(SCREENS)/sizeof(SCREEN);
-    uint8_t i = 0;
-    while (i<lenScreens && strcmp(SCREENS[i].name, "SNAKE") != 0) i++;  //strcmp returns 0 when strings are equal
-    if (i<lenScreens) {  //found valid screen
-        SCREENS[i].show = S_SNAKE;
-        SCREENS[i].system = true;
     }
 }

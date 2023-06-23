@@ -29,7 +29,7 @@ MIDI MIDI_RIGHT = (MIDI) {
 };
 
 /*
-* The LEFT port uses uart1, GPIO4, pin 5
+* The LEFT port uses uart1, GPIO4, pin 6
 */
 void midiInitUart1() {
     uart_init(uart1, 31250);  //initialise uart with midi baudrate

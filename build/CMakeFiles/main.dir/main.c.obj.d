@@ -122,6 +122,7 @@ CMakeFiles/main.dir/main.c.obj: \
  c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\common.c \
  c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\switch.c \
  c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\midi.c \
+ c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\sync.c \
  c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\core1.c \
  c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\draw.c \
  c:\vsarm\sdk\pico\pico-projects\hoffsolo\lib\hoff\button.c \

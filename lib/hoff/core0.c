@@ -8,14 +8,14 @@
 * Check if FACTORY_FLASH is same as PRESETS_TEXT.
 * If not, write PRESETS_TEXT to FACTORY_FLASH (this should happen if there was a firmware update with an updated PRESETS_TEXT)
 */
-void updateFactoryFlash() {
+void updateFactoryFlash(bool forceUpdate) {
     bool presetsSameAsFactoryFlash = true;
     uint32_t i = 0;
     while (PRESETS_TEXT[i] != 0x00 && presetsSameAsFactoryFlash == true) {
         presetsSameAsFactoryFlash = (PRESETS_TEXT[i] == FACTORY_FLASH[i]);
         i++;
     }
-    if (presetsSameAsFactoryFlash == false) {  //PRESETS_TEXT is different, so overwrite factory flash with PRESETS_TEXT
+    if (presetsSameAsFactoryFlash == false || forceUpdate == true) {  //PRESETS_TEXT is different, so overwrite factory flash with PRESETS_TEXT
         uint32_t status = save_and_disable_interrupts();
         flash_range_erase(FACTORY_FLASH_OFFSET, PRESETS_SIZE);
         flash_range_program(FACTORY_FLASH_OFFSET, PRESETS_TEXT, PRESETS_SIZE);
@@ -42,11 +42,11 @@ void updateFactoryFlash() {
 * If not, write PRESETS_TEXT into USER_FLASH (this should only ever happen once when the very first firmware is loaded on a new device)
 * Read USER_FLASH into PRESETS_TEXT
 */
-void updateUserFlash() {
+void updateUserFlash(bool forceUpdate) {
     char userFlashText[9] = "--------";  //placeholder for "<SYSTEM>"
     for (uint8_t i=0; i<8; i++) userFlashText[i] = USER_FLASH[i];  //the literal definition above already contains 0x00 in pos [8]
     bool userFlashInitialised = (strcmp(userFlashText, "<SYSTEM>") == 0);
-    if (userFlashInitialised == false) {  //user flash has not been initialised yet, so overwrite with PRESETS_TEXT
+    if (userFlashInitialised == false || forceUpdate == true) {  //user flash has not been initialised yet, so overwrite with PRESETS_TEXT
         uint32_t status = save_and_disable_interrupts();
         flash_range_erase(USER_FLASH_OFFSET, PRESETS_SIZE);
         flash_range_program(USER_FLASH_OFFSET, PRESETS_TEXT, PRESETS_SIZE);
@@ -169,7 +169,7 @@ void sendSysexConfig() {
 }
 
 /*
-* Write factory flash to user flash
+* Load new .uf2 firmware over USB
 */
 void loadFirmware() {
     strcpy(B_SYSTEM_FIRMWARE_LOAD.name, "REBOOTING");

@@ -1,6 +1,7 @@
 /*
 * draw.c
 * Contains LCD drawing methods
+* http://drakker.org/convert_rgb565.html
 */
 
 
@@ -15,7 +16,7 @@ void drawFilledRectangle(int left, int top, int width, int height, COLOR_MAP col
     else if (color == COLOR_GREEN) lcd_color = 0x07E0;  //green
     else if (color == COLOR_CYAN) lcd_color = 0x07FF;  //cyan
     else if (color == COLOR_BLUE) lcd_color = 0x4A7F;  //blue (slightly pastel)
-    else if (color == COLOR_RED) lcd_color = 0xF800;  //red
+    else if (color == COLOR_RED) lcd_color = 0xF9EC;  //red (slightly pastel)
     LCD_SetWindow(top, LCD_WIDTH - (left + width), (top + height) - 1, LCD_WIDTH - left - 1);
     LCD_SetColor(lcd_color, width, height);
 }
@@ -252,15 +253,21 @@ void drawButton(BUTTON *B) {
 */
 void showLogo(int t) {
     drawFilledRectangle(0,0,LCD_WIDTH,LCD_HEIGHT,COLOR_BLACK);
-    for (int r=40; r<52; r++) {
-        drawRoundCorners(LCD_WIDTH/2-r,LCD_HEIGHT/2-r,r*2,r*2,r,COLOR_RED, true, true, true, true);
+    int a = 20;
+    int b = 6;
+    for (int r=(a); r<(a+b); r++) {
+        drawRoundCorners(LCD_WIDTH/2-r,LCD_HEIGHT/2-r,r*2,r*2,r,COLOR_RED, true, true, true, true);  //middle o
     }
-    drawFilledRectangle(LCD_WIDTH/2-20, LCD_HEIGHT/2-6, 40, 12, COLOR_RED);
-    drawFilledRectangle(LCD_WIDTH/2-75, LCD_HEIGHT/2-51, 12, 102, COLOR_RED);
-    drawFilledRectangle(LCD_WIDTH/2+64, LCD_HEIGHT/2-51, 12, 102, COLOR_RED);
-    for (int r=45; r<57; r++) {
-        drawRoundCorners(LCD_WIDTH/2-r + 88,LCD_HEIGHT/2-r+50,r*2,r*2,r,COLOR_RED, true, false, false, false);
-        drawRoundCorners(LCD_WIDTH/2-r - 88,LCD_HEIGHT/2-r-51,r*2,r*2,r,COLOR_RED, false, false, false, true);
+    drawFilledRectangle(LCD_WIDTH/2-(a-b), LCD_HEIGHT/2-(b/2), (a-b)*2, (b), COLOR_RED);  //middle -
+    drawFilledRectangle(LCD_WIDTH/2-(a+b*3), LCD_HEIGHT/2-(a+b), (b), (a+b)*2, COLOR_RED);  //left |
+    drawFilledRectangle(LCD_WIDTH/2+(a+b*2), LCD_HEIGHT/2-(a+b), (b), (a+b)*2, COLOR_RED);  //right |
+    drawFilledRectangle(LCD_WIDTH/2-(a+b*4)-(a/2), LCD_HEIGHT/2-(b/2), (a/2), (b), COLOR_RED);  // left mini -
+    drawFilledRectangle(LCD_WIDTH/2+(a+b*4), LCD_HEIGHT/2-(b/2), (a/2), (b), COLOR_RED);  //right mini -
+    drawFilledRectangle(LCD_WIDTH/2-(a+b*4+a+b-1), LCD_HEIGHT/2-(a+b), (b), (a+b)/2, COLOR_RED);  //left mini |
+    drawFilledRectangle(LCD_WIDTH/2+(a+b*4+a-1), LCD_HEIGHT/2+(a+b)/2, (b), (a+b)/2, COLOR_RED);  //right mini |
+    for (int r=(a/2); r<(a/2+b); r++) {
+        drawRoundCorners(LCD_WIDTH/2-r-(a+b*4+a/2),LCD_HEIGHT/2-r-(a+b)/2,r*2,r*2,r,COLOR_RED, false, false, false, true);  //top left quarter
+        drawRoundCorners(LCD_WIDTH/2-r+(a+b*4+a/2)-1,LCD_HEIGHT/2-r+(a+b)/2-1,r*2,r*2,r,COLOR_RED, true, false, false, false);  //bottom right quarter
     }
     busy_wait_ms(t);
 }

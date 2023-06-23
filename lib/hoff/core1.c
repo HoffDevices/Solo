@@ -15,7 +15,7 @@ void parseCSV(char *txt, uint8_t *arr, uint8_t *len) {
     uint8_t i = 0;
     while((t = strsep(&txt,",")) != NULL) {  //arguments seperate by comma
         if (t[0] == '@') {
-            t[0] = 0;
+            t[0] = '0';  //prefix number with a 0 to get rid of the @
             uint8_t v = (uint8_t) strtol(t, NULL, 0);  //convert to value;
             arr[i] = USER_VAR[v];  //get variable value
         }
@@ -110,7 +110,7 @@ void parseValue(SWITCH *S, uint64_t *counter, char *valueText) {
     char textInterval[8];  //max is probably 8 (???,??? + 0x00)
     char textFunction[8];  //max is probably 8 (???_??? + 0x00)
     char textArgument[16];  //max is probably 16 (0x01,0x02,0x03 + 0x00 or ???,???,??? + 0x00 
-    uint8_t i=0;  //valueText index
+    uint32_t i=0;  //valueText index - needs to support more than 256 characters
     uint8_t k=0;  //textInterval/textFunctiontextArgument index
     while (valueText[i] != 0x00) {
         if (valueText[i]=='[' && readInterval == false && readFunction == false && readArgument == false) {  //open [ bracket starts interval

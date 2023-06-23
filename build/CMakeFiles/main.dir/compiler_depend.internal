@@ -2652,6 +2652,7 @@ CMakeFiles/main.dir/main.c.obj
  C:/VSARM/sdk/pico/pico-projects/HoffSolo/lib/hoff/common.c
  C:/VSARM/sdk/pico/pico-projects/HoffSolo/lib/hoff/switch.c
  C:/VSARM/sdk/pico/pico-projects/HoffSolo/lib/hoff/midi.c
+ C:/VSARM/sdk/pico/pico-projects/HoffSolo/lib/hoff/sync.c
  C:/VSARM/sdk/pico/pico-projects/HoffSolo/lib/hoff/core1.c
  C:/VSARM/sdk/pico/pico-projects/HoffSolo/lib/hoff/draw.c
  C:/VSARM/sdk/pico/pico-projects/HoffSolo/lib/hoff/button.c

@@ -60,8 +60,7 @@ typedef struct {
 } BUTTON;
 
 typedef struct {
-    bool system;
-    bool preset;
+    uint16_t color;
     char *name;
     void (*show)();
     CONTROL PST;
@@ -83,6 +82,11 @@ typedef struct {
     void (*init)();  //init method
     void (*send)(uint8_t *msg, uint32_t len);  //send method
 } MIDI;
+
+typedef struct {
+    void (*init)();  //init method
+    void (*pulse)();  //pulse method
+} SYNC;
 
 typedef enum  {
     CORE_REQ_PRESET_ENTER,
@@ -150,11 +154,13 @@ extern MIDI MIDI_RIGHT;
 extern MIDI MIDI_LEFT;
 extern MIDI MIDI_USB;
 
+extern SYNC SYNC_1;
+extern SYNC SYNC_2;
+
 static uint64_t MIDI_CLOCK_COUNTER = 0;
 static struct repeating_timer MIDI_CLOCK_TIMER;
 static int64_t MIDI_CLOCK_TIMER_US = (int64_t) (-60000000 / 100 / 24);  //Negative delay means we will call repeating_timer_callback, and call it again exactly ???ms later regardless of how long the callback took to execute
 
-//static char MIDI_SYSEX_MESSAGE[100];
 static bool MIDI_SYSEX_BUSY = false;
 static uint32_t MIDI_SYSEX_INDEX = 0;
 
@@ -191,13 +197,13 @@ void sendSysexConfig();
 void loadFirmware();
 
 //config and versioning settings
-static char FIRMWARE_VERSION[5] = "0.21";  //hardcoded firmware version, to be updated manually by author
+static char FIRMWARE_VERSION[5] = "0.22";  //hardcoded firmware version, to be updated manually by author
 static char FACTORY_VERSION[5] = "----";  //placeholder value, will be updated by updateFactoryFlash() 
 static char *PRESETS_VERSION;  //presets version, assigned when parsing PRESETS_TEXT from USER_FLASH
 static char *PRESETS_DEFAULT;  //default preset, assigned when parsing PRESETS_TEXT from USER_FLASH
 static char PRESETS_TEXT[PRESETS_SIZE] = ""  //factory presets
 "<SYSTEM>"
-"<VERSION>0.21"
+"<VERSION>0.23"
 "<DEFAULT>TRANSPRT"
 
 "<PRESET>"
@@ -273,6 +279,43 @@ static char PRESETS_TEXT[PRESETS_SIZE] = ""  //factory presets
 "<RS2_PRS>[1,1]MSG_USB(0X90,13,127) [1,1]MSG_LFT(0X90,16,127) [1,1]MSG_RGT(0X90,19,127)"
 "<RS2_RLS>[1,1]MSG_USB(0X80,13,127) [1,1]MSG_LFT(0X80,16,127) [1,1]MSG_RGT(0X80,19,127)"
 "<RS2_RLL>[1,1]MSG_USB(0XA0,13,127) [1,1]MSG_LFT(0XA0,16,127) [1,1]MSG_RGT(0XA0,19,127)"
+
+"<PRESET>"
+"<PST_LBL>STRESS"
+"<PST_DSC>Stress test the number of MIDI messages to be sent - 20BPM seems to be the limit for CLK."
+"<PST_CLK>[@7,1]MSG_LFT(0X80,1,1)"
+"<PST_ENT>SET_VAR(1,0)"
+"<PST_EXT>"
+"<LS0_LBL>TEST"
+"<LS0_INF>Send 127 messages to the left MIDI DIN out"
+"<LS0_PRS>[1,1]MSG_LFT(0X90,1,1) [1,1]MSG_LFT(0X90,1,2) [1,1]MSG_LFT(0X90,1,3) [1,1]MSG_LFT(0X90,1,4) [1,1]MSG_LFT(0X90,1,5) [1,1]MSG_LFT(0X90,1,6) [1,1]MSG_LFT(0X90,1,7) [1,1]MSG_LFT(0X90,1,8) [1,1]MSG_LFT(0X90,1,9) [1,1]MSG_LFT(0X90,1,10) [1,1]MSG_LFT(0X90,1,11) [1,1]MSG_LFT(0X90,1,12) [1,1]MSG_LFT(0X90,1,13) [1,1]MSG_LFT(0X90,1,14) [1,1]MSG_LFT(0X90,1,15) [1,1]MSG_LFT(0X90,1,16) [1,1]MSG_LFT(0X90,1,17) [1,1]MSG_LFT(0X90,1,18) [1,1]MSG_LFT(0X90,1,19) [1,1]MSG_LFT(0X90,1,20) [1,1]MSG_LFT(0X90,1,21) [1,1]MSG_LFT(0X90,1,22) [1,1]MSG_LFT(0X90,1,23) [1,1]MSG_LFT(0X90,1,24) [1,1]MSG_LFT(0X90,1,25) [1,1]MSG_LFT(0X90,1,26) [1,1]MSG_LFT(0X90,1,27) [1,1]MSG_LFT(0X90,1,28) [1,1]MSG_LFT(0X90,1,29) [1,1]MSG_LFT(0X90,1,30) [1,1]MSG_LFT(0X90,1,31) [1,1]MSG_LFT(0X90,1,32) [1,1]MSG_LFT(0X90,1,33) [1,1]MSG_LFT(0X90,1,34) [1,1]MSG_LFT(0X90,1,35) [1,1]MSG_LFT(0X90,1,36) [1,1]MSG_LFT(0X90,1,37) [1,1]MSG_LFT(0X90,1,38) [1,1]MSG_LFT(0X90,1,39) [1,1]MSG_LFT(0X90,1,40) [1,1]MSG_LFT(0X90,1,41) [1,1]MSG_LFT(0X90,1,42) [1,1]MSG_LFT(0X90,1,43) [1,1]MSG_LFT(0X90,1,44) [1,1]MSG_LFT(0X90,1,45) [1,1]MSG_LFT(0X90,1,46) [1,1]MSG_LFT(0X90,1,47) [1,1]MSG_LFT(0X90,1,48) [1,1]MSG_LFT(0X90,1,49) [1,1]MSG_LFT(0X90,1,50) [1,1]MSG_LFT(0X90,1,51) [1,1]MSG_LFT(0X90,1,52) [1,1]MSG_LFT(0X90,1,53) [1,1]MSG_LFT(0X90,1,54) [1,1]MSG_LFT(0X90,1,55) [1,1]MSG_LFT(0X90,1,56) [1,1]MSG_LFT(0X90,1,57) [1,1]MSG_LFT(0X90,1,58) [1,1]MSG_LFT(0X90,1,59) [1,1]MSG_LFT(0X90,1,60) [1,1]MSG_LFT(0X90,1,61) [1,1]MSG_LFT(0X90,1,62) [1,1]MSG_LFT(0X90,1,63) [1,1]MSG_LFT(0X90,1,64) [1,1]MSG_LFT(0X90,1,65) [1,1]MSG_LFT(0X90,1,66) [1,1]MSG_LFT(0X90,1,67) [1,1]MSG_LFT(0X90,1,68) [1,1]MSG_LFT(0X90,1,69) [1,1]MSG_LFT(0X90,1,70) [1,1]MSG_LFT(0X90,1,71) [1,1]MSG_LFT(0X90,1,72) [1,1]MSG_LFT(0X90,1,73) [1,1]MSG_LFT(0X90,1,74) [1,1]MSG_LFT(0X90,1,75) [1,1]MSG_LFT(0X90,1,76) [1,1]MSG_LFT(0X90,1,77) [1,1]MSG_LFT(0X90,1,78) [1,1]MSG_LFT(0X90,1,79) [1,1]MSG_LFT(0X90,1,80) [1,1]MSG_LFT(0X90,1,81) [1,1]MSG_LFT(0X90,1,82) [1,1]MSG_LFT(0X90,1,83) [1,1]MSG_LFT(0X90,1,84) [1,1]MSG_LFT(0X90,1,85) [1,1]MSG_LFT(0X90,1,86) [1,1]MSG_LFT(0X90,1,87) [1,1]MSG_LFT(0X90,1,88) [1,1]MSG_LFT(0X90,1,89) [1,1]MSG_LFT(0X90,1,90) [1,1]MSG_LFT(0X90,1,91) [1,1]MSG_LFT(0X90,1,92) [1,1]MSG_LFT(0X90,1,93) [1,1]MSG_LFT(0X90,1,94) [1,1]MSG_LFT(0X90,1,95) [1,1]MSG_LFT(0X90,1,96) [1,1]MSG_LFT(0X90,1,97) [1,1]MSG_LFT(0X90,1,98) [1,1]MSG_LFT(0X90,1,99) [1,1]MSG_LFT(0X90,1,100) [1,1]MSG_LFT(0X90,1,101) [1,1]MSG_LFT(0X90,1,102) [1,1]MSG_LFT(0X90,1,103) [1,1]MSG_LFT(0X90,1,104) [1,1]MSG_LFT(0X90,1,105) [1,1]MSG_LFT(0X90,1,106) [1,1]MSG_LFT(0X90,1,107) [1,1]MSG_LFT(0X90,1,108) [1,1]MSG_LFT(0X90,1,109) [1,1]MSG_LFT(0X90,1,110) [1,1]MSG_LFT(0X90,1,111) [1,1]MSG_LFT(0X90,1,112) [1,1]MSG_LFT(0X90,1,113) [1,1]MSG_LFT(0X90,1,114) [1,1]MSG_LFT(0X90,1,115) [1,1]MSG_LFT(0X90,1,116) [1,1]MSG_LFT(0X90,1,117) [1,1]MSG_LFT(0X90,1,118) [1,1]MSG_LFT(0X90,1,119) [1,1]MSG_LFT(0X90,1,120) [1,1]MSG_LFT(0X90,1,121) [1,1]MSG_LFT(0X90,1,122) [1,1]MSG_LFT(0X90,1,123) [1,1]MSG_LFT(0X90,1,124) [1,1]MSG_LFT(0X90,1,125) [1,1]MSG_LFT(0X90,1,126) [1,1]MSG_LFT(0X90,1,127)"
+"<LS0_RLS>"
+"<LS0_RLL>"
+"<LS1_LBL>"
+"<LS1_INF>"
+"<LS1_PRS>"
+"<LS1_RLS>"
+"<LS1_RLL>"
+"<LS2_LBL>"
+"<LS2_INF>"
+"<LS2_PRS>"
+"<LS2_RLS>"
+"<LS2_RLL>"
+"<RS0_LBL>CLK TEST"
+"<RS0_INF>Enable/disable sending 127 messages to the left MIDI DIN out with every clock pulse"
+"<RS0_PRS>[1,2]SET_VAR(7,1) [2,2]SET_VAR(7,0)"
+"<RS0_RLS>"
+"<RS0_RLL>"
+"<RS1_LBL>TEST"
+"<RS1_INF>TEST"
+"<RS1_PRS>[@0,1]MSG_LFT(0X80,1,1) [@0,1]MSG_LFT(0X80,1,2) [@0,1]MSG_LFT(0X80,1,3) [@0,1]MSG_LFT(0X80,1,4) [@0,1]MSG_LFT(0X80,1,5) [@0,1]MSG_LFT(0X80,1,6) [@0,1]MSG_LFT(0X80,1,7) [@0,1]MSG_LFT(0X80,1,8) [@0,1]MSG_LFT(0X80,1,9) [@0,1]MSG_LFT(0X80,1,10) [@0,1]MSG_LFT(0X80,1,11) [@0,1]MSG_LFT(0X80,1,12) [@0,1]MSG_LFT(0X80,1,13) [@0,1]MSG_LFT(0X80,1,14) [@0,1]MSG_LFT(0X80,1,15) [@0,1]MSG_LFT(0X80,1,16) [@0,1]MSG_LFT(0X80,1,17) [@0,1]MSG_LFT(0X80,1,18) [@0,1]MSG_LFT(0X80,1,19) [@0,1]MSG_LFT(0X80,1,20) [@0,1]MSG_LFT(0X80,1,21) [@0,1]MSG_LFT(0X80,1,22) [@0,1]MSG_LFT(0X80,1,23) [@0,1]MSG_LFT(0X80,1,24) [@0,1]MSG_LFT(0X80,1,25) [@0,1]MSG_LFT(0X80,1,26) [@0,1]MSG_LFT(0X80,1,27) [@0,1]MSG_LFT(0X80,1,28) [@0,1]MSG_LFT(0X80,1,29) [@0,1]MSG_LFT(0X80,1,30) [@0,1]MSG_LFT(0X80,1,31) [@0,1]MSG_LFT(0X80,1,32) [@0,1]MSG_LFT(0X80,1,33) [@0,1]MSG_LFT(0X80,1,34) [@0,1]MSG_LFT(0X80,1,35) [@0,1]MSG_LFT(0X80,1,36) [@0,1]MSG_LFT(0X80,1,37) [@0,1]MSG_LFT(0X80,1,38) [@0,1]MSG_LFT(0X80,1,39) [@0,1]MSG_LFT(0X80,1,40) [@0,1]MSG_LFT(0X80,1,41) [@0,1]MSG_LFT(0X80,1,42) [@0,1]MSG_LFT(0X80,1,43) [@0,1]MSG_LFT(0X80,1,44) [@0,1]MSG_LFT(0X80,1,45) [@0,1]MSG_LFT(0X80,1,46) [@0,1]MSG_LFT(0X80,1,47) [@0,1]MSG_LFT(0X80,1,48) [@0,1]MSG_LFT(0X80,1,49) [@0,1]MSG_LFT(0X80,1,50) [@0,1]MSG_LFT(0X80,1,51) [@0,1]MSG_LFT(0X80,1,52) [@0,1]MSG_LFT(0X80,1,53) [@0,1]MSG_LFT(0X80,1,54) [@0,1]MSG_LFT(0X80,1,55) [@0,1]MSG_LFT(0X80,1,56) [@0,1]MSG_LFT(0X80,1,57) [@0,1]MSG_LFT(0X80,1,58) [@0,1]MSG_LFT(0X80,1,59) [@0,1]MSG_LFT(0X80,1,60) [@0,1]MSG_LFT(0X80,1,61) [@0,1]MSG_LFT(0X80,1,62) [@0,1]MSG_LFT(0X80,1,63) [@0,1]MSG_LFT(0X80,1,64) [@0,1]MSG_LFT(0X80,1,65) [@0,1]MSG_LFT(0X80,1,66) [@0,1]MSG_LFT(0X80,1,67) [@0,1]MSG_LFT(0X80,1,68) [@0,1]MSG_LFT(0X80,1,69) [@0,1]MSG_LFT(0X80,1,70) [@0,1]MSG_LFT(0X80,1,71) [@0,1]MSG_LFT(0X80,1,72) [@0,1]MSG_LFT(0X80,1,73) [@0,1]MSG_LFT(0X80,1,74) [@0,1]MSG_LFT(0X80,1,75) [@0,1]MSG_LFT(0X80,1,76) [@0,1]MSG_LFT(0X80,1,77) [@0,1]MSG_LFT(0X80,1,78) [@0,1]MSG_LFT(0X80,1,79) [@0,1]MSG_LFT(0X80,1,80) [@0,1]MSG_LFT(0X80,1,81) [@0,1]MSG_LFT(0X80,1,82) [@0,1]MSG_LFT(0X80,1,83) [@0,1]MSG_LFT(0X80,1,84) [@0,1]MSG_LFT(0X80,1,85) [@0,1]MSG_LFT(0X80,1,86) [@0,1]MSG_LFT(0X80,1,87) [@0,1]MSG_LFT(0X80,1,88) [@0,1]MSG_LFT(0X80,1,89) [@0,1]MSG_LFT(0X80,1,90) [@0,1]MSG_LFT(0X80,1,91) [@0,1]MSG_LFT(0X80,1,92) [@0,1]MSG_LFT(0X80,1,93) [@0,1]MSG_LFT(0X80,1,94) [@0,1]MSG_LFT(0X80,1,95) [@0,1]MSG_LFT(0X80,1,96) [@0,1]MSG_LFT(0X80,1,97) [@0,1]MSG_LFT(0X80,1,98) [@0,1]MSG_LFT(0X80,1,99) [@0,1]MSG_LFT(0X80,1,100) [@0,1]MSG_LFT(0X80,1,101) [@0,1]MSG_LFT(0X80,1,102) [@0,1]MSG_LFT(0X80,1,103) [@0,1]MSG_LFT(0X80,1,104) [@0,1]MSG_LFT(0X80,1,105) [@0,1]MSG_LFT(0X80,1,106) [@0,1]MSG_LFT(0X80,1,107) [@0,1]MSG_LFT(0X80,1,108) [@0,1]MSG_LFT(0X80,1,109) [@0,1]MSG_LFT(0X80,1,110) [@0,1]MSG_LFT(0X80,1,111) [@0,1]MSG_LFT(0X80,1,112) [@0,1]MSG_LFT(0X80,1,113) [@0,1]MSG_LFT(0X80,1,114) [@0,1]MSG_LFT(0X80,1,115) [@0,1]MSG_LFT(0X80,1,116) [@0,1]MSG_LFT(0X80,1,117) [@0,1]MSG_LFT(0X80,1,118) [@0,1]MSG_LFT(0X80,1,119) [@0,1]MSG_LFT(0X80,1,120) [@0,1]MSG_LFT(0X80,1,121) [@0,1]MSG_LFT(0X80,1,122) [@0,1]MSG_LFT(0X80,1,123) [@0,1]MSG_LFT(0X80,1,124) [@0,1]MSG_LFT(0X80,1,125) [@0,1]MSG_LFT(0X80,1,126) [@0,1]MSG_LFT(0X80,1,127)"
+"<RS1_RLS>"
+"<RS1_RLL>"
+"<RS2_LBL>"
+"<RS2_INF>"
+"<RS2_PRS>"
+"<RS2_RLS>"
+"<RS2_RLL>"
 
 "<PRESET>"
 "<PST_LBL>TRANSPRT"
@@ -424,9 +467,9 @@ static char PRESETS_TEXT[PRESETS_SIZE] = ""  //factory presets
 
 "<PRESET>"
 "<PST_LBL>KAOSS V2"
-"<PST_DSC>Set BPM using the left\nfoot switch. The right\nfoot switch alternately\nstarts or stops the\ntransport. The default\nBPM is set to 110 when\nentering the preset.\nThe MIDI clock re-syncs every 16 beats: on the left DIN-5 MIDI realtime start/stop commands are sent; on the right DIN-5 MIDI touchpad off/on messages are sent."
+"<PST_DSC>Set BPM using the left\nfoot switch. The right\nfoot switch alternately\nstarts or stops the\ntransport. The default\nBPM is set to 110 when\nentering the preset.\nThe MIDI clock re-syncs\nevery 16 beats: on the\nleft DIN-5 MIDI realtime\nstart/stop commands are\n sent; on the right DIN-5 MIDI touchpad off/on messages are sent."
 "<PST_CLK>[1,1]MSG_USB(0xF8) [1,1]MSG_LFT(0xF8) [1,1]MSG_RGT(0xF8) [@0,96]MSG_LFT(0XFC) [@0,96]MSG_LFT(0XFA) [@0,96]MSG_RGT(0XB1,72,0) [@0,96]MSG_RGT(0XB1,72,127)"
-"<PST_ENT>[1,1]SET_BPM(1) [1,1]SET_PV1(0)"
+"<PST_ENT>[1,1]SET_BPM(1) [1,1]SET_VAR(0,0)"
 "<PST_EXT>"
 "<LS0_LBL>TAP BPM"
 "<LS0_INF>Tap the left foot switch\nto set the BPM."

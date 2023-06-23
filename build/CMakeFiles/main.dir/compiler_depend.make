@@ -2593,6 +2593,7 @@ CMakeFiles/main.dir/main.c.obj: ../main.c \
   ../lib/hoff/common.c \
   ../lib/hoff/switch.c \
   ../lib/hoff/midi.c \
+  ../lib/hoff/sync.c \
   ../lib/hoff/core1.c \
   ../lib/hoff/draw.c \
   ../lib/hoff/button.c \
@@ -3049,6 +3050,8 @@ C:/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_printf/include/pico/printf.h:
 C:/VSARM/sdk/pico/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/mpu.h:
 
 C:/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c:
+
+../lib/hoff/sync.c:
 
 C:/VSARM/sdk/pico/pico-sdk/src/rp2_common/boot_stage2/include/boot_stage2/config.h:
 

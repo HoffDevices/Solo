@@ -100,7 +100,7 @@ bool stateSwitchLS0() {
     return gpio_get(SWITCH_LS0.gpio);
 }
 SWITCH SWITCH_LS0 = (SWITCH) {
-    .gpio = 2,  //GPIO2, pin 4
+    .gpio = 1,  //GPIO1, pin 2
     .debounceTime = 100000,  //debounce time in us
     .debounceWait = false,  //start state check immediately
     .currState = true,  //start with button not pressed = high
@@ -130,7 +130,7 @@ bool stateSwitchLS1() {
     return gpio_get(SWITCH_LS1.gpio);
 }
 SWITCH SWITCH_LS1 = (SWITCH) {
-    .gpio = 26,  //GPIO26, pin 31
+    .gpio = 2,  //GPIO2, pin 4
     .debounceTime = 100000,  //debounce time in us
     .debounceWait = false,  //start state check immediately
     .currState = true,  //start with button not pressed = high
@@ -160,7 +160,7 @@ bool stateSwitchLS2() {
     return gpio_get(SWITCH_LS2.gpio);
 }
 SWITCH SWITCH_LS2 = (SWITCH) {
-    .gpio = 7,  //GPIO7, pin 10
+    .gpio = 3,  //GPIO3, pin 5
     .debounceTime = 100000,  //debounce time in us
     .debounceWait = false,  //start state check immediately
     .currState = true,  //start with button not pressed = high
@@ -190,7 +190,7 @@ bool stateSwitchRS0() {
     return gpio_get(SWITCH_RS0.gpio);
 }
 SWITCH SWITCH_RS0 = (SWITCH) {
-    .gpio = 3,  //GPIO3, pin 5
+    .gpio = 14,  //GPIO14, pin 19
     .debounceTime = 100000,  //debounce time in us
     .debounceWait = false,  //start state check immediately
     .currState = true,  //start with button not pressed = high
@@ -220,7 +220,7 @@ bool stateSwitchRS1() {
     return gpio_get(SWITCH_RS1.gpio);
 }
 SWITCH SWITCH_RS1 = (SWITCH) {
-    .gpio = 27,  //GPIO3, pin 32
+    .gpio = 6,  //GPIO6, pin 9
     .debounceTime = 100000,  //debounce time in us
     .debounceWait = false,  //start state check immediately
     .currState = true,  //start with button not pressed = high
@@ -250,7 +250,7 @@ bool stateSwitchRS2() {
     return gpio_get(SWITCH_RS2.gpio);
 }
 SWITCH SWITCH_RS2 = (SWITCH) {
-    .gpio = 6,  //GPIO3, pin 9
+    .gpio = 7,  //GPIO7, pin 10
     .debounceTime = 100000,  //debounce time in us
     .debounceWait = false,  //start state check immediately
     .currState = true,  //start with button not pressed = high
