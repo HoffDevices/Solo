@@ -35,7 +35,7 @@ void checkSwitch(SWITCH *s) {
         }
     }
     //  timeout after long press
-    if (s->currPressedTime > s->currReleasedTime  //pressed but not released yet
+    if (absolute_time_diff_us(s->currPressedTime, s->currReleasedTime) > 0  //pressed but not released yet
         && s->timedBusy == false  //we haven't fired this event yet
         && absolute_time_diff_us(s->currPressedTime, get_absolute_time()) > 1000000) {  //held down for more than 1s = timed out
         s->timedOut = true;  //to be consumed by a button

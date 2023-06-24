@@ -10,7 +10,7 @@ The Solo is a programmable MIDI master clock and controller, built by Hoff Devic
 
 * Raspberry Pi Pico C/C++ SDK
 
-### Installing
+### Installing on Windows
 
 * For the latest SDK:
     * https://www.raspberrypi.com/documentation/microcontrollers/raspberry-pi-pico.html
@@ -36,28 +36,20 @@ git clone https://github.com/HoffDevices/Solo
 * Make sure your PICO_SDK_PATH environment variable is set to the correct path, e.g.
     * C:\Program Files\Raspberry Pi\Pico SDK v1.5.1
 
-### Build the UF2 file
+### Build the project
 
-* Delete the build\CMmakeCache.txt file if you've updated to a newer SDK
-* Create a new makefile
-    * cmake -G "MinGW Makefiles" ..
-
-* Build the project
-```
-cd Solo\build
-make
-```
+* This is how I do this on Windows 10, with the one-click installer. I'm sure there are better ways of doing this but I found this to work for me.
+    * Right-click in the Solo folder and select "open with Code". This sets the Visual Studio code environment to this folder.
+    * Exit, then run the "Pico- Visual Studio Code" app that was installed. This should open the same folder, but with the build environment set up correctly.
+    * You may need to set the active kit.
+    * Build the project by clicking on the "Build" button on the bottom bar.
+    * Hopefully it should build and create the UF2 file.
 
 ### Update the Pico
 * Connect the Pico to your PC using the USB cable
     * It should show up as a USB drive (D:)
-
-* copy the UF2 file to the Pico
-```
-cd Solo\build
-cp ./main.uf2 d:/
-
-```
+* Go to the build folder (...\pico-projects\Solo\build) and copy the UF2 file to the USB drive (D:)
+* As soon as it's done copying, the unit should restart and will be updated.
 
 ## Help
 

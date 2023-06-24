@@ -1,2 +1,0 @@
-C:\VSARM\armgcc\112202~1.02\bin\ARM-NO~2.EXE qc libfont.a CMakeFiles/font.dir/Font104x60.c.obj CMakeFiles/font.dir/font20x12.c.obj CMakeFiles/font.dir/font30x17.c.obj CMakeFiles/font.dir/font68x39.c.obj
-C:\VSARM\armgcc\112202~1.02\bin\AR17F9~1.EXE libfont.a
