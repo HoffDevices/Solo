@@ -20,7 +20,7 @@ void breakLines(char *inputText, uint8_t startRow, uint8_t *rows, uint8_t maxCha
             outputText[j] = 0x00;  //terminate output string
             j=0;  //reset output chars
             c=0;  //reset columns
-            if (r >= startRow & r < startRow + maxRows) drawString(160, 38 + 8 + 8 + 8 + (r - startRow) * Font20x12.Height, outputText, &Font20x12, COLOR_WHITE, 0, -1);
+            if (r >= startRow && r < startRow + maxRows) drawString(160, 38 + 8 + 8 + 8 + (r - startRow) * Font20x12.Height, outputText, &Font20x12, COLOR_WHITE, 0, -1);
             r++;  //count rows with every new line
         }
         else if (c >= maxChars) {
@@ -29,7 +29,7 @@ void breakLines(char *inputText, uint8_t startRow, uint8_t *rows, uint8_t maxCha
             outputText[j] = 0x00;  //terminate output string
             j=0;  //reset output chars
             c=0;  //reset columns
-            if (r >= startRow & r < startRow + maxRows) drawString(160, 38 + 8 + 8 + 8 + (r - startRow) * Font20x12.Height, outputText, &Font20x12, COLOR_WHITE, 0, -1);
+            if (r >= startRow && r < startRow + maxRows) drawString(160, 38 + 8 + 8 + 8 + (r - startRow) * Font20x12.Height, outputText, &Font20x12, COLOR_WHITE, 0, -1);
             r++;  //count rows with every new line
         }
         else {
@@ -41,7 +41,7 @@ void breakLines(char *inputText, uint8_t startRow, uint8_t *rows, uint8_t maxCha
     }
     if (j>0) {  //draw remaining characters
         outputText[j] = 0x00;  //terminate output string
-        if (r >= startRow & r < startRow + maxRows) drawString(160, 38 + 8 + 8 + 8 + (r - startRow) * Font20x12.Height, outputText, &Font20x12, COLOR_WHITE, 0, -1);
+        if (r >= startRow && r < startRow + maxRows) drawString(160, 38 + 8 + 8 + 8 + (r - startRow) * Font20x12.Height, outputText, &Font20x12, COLOR_WHITE, 0, -1);
         r++;  //count rows with every new line
     }
     *rows = r;
@@ -54,11 +54,11 @@ void breakLines(char *inputText, uint8_t startRow, uint8_t *rows, uint8_t maxCha
 void presetHelp() {
     uint8_t screenRows = 9;  //hardcoded depending on font size
     uint8_t actualRows = 0;
-    uint8_t limitRows = 0;
-    uint8_t limitStart = 0;
-    uint8_t limitExtra = 0;
-    char breakText[256];  //temp store for text with line breaks added
-    char limitText[256];  //limited lines text
+    //uint8_t limitRows = 0;
+    //uint8_t limitStart = 0;
+    //uint8_t limitExtra = 0;
+    //char breakText[256];  //temp store for text with line breaks added
+    //char limitText[256];  //limited lines text
 
     drawString(160, 0.5 * Font20x12.Height, CURR_VIEW.control->LBL, &Font20x12, COLOR_CYAN, 0, -1);  //control (switch) label
 
@@ -77,6 +77,10 @@ void presetHelp() {
     else if (CURR_VIEW.event == EVENT_RLL) {
         drawString(160, 1.5 * Font20x12.Height, "RELEASED(L)", &Font20x12, COLOR_CYAN, 0, -1);  //event title text
         breakLines(CURR_VIEW.control->RLL, CURR_VIEW.startLine, &actualRows, 25, screenRows, ' ');  //break text into lines of 25 chars = 100
+    }
+    else if (CURR_VIEW.event == EVENT_TIM) {
+        drawString(160, 1.5 * Font20x12.Height, "TIMED OUT", &Font20x12, COLOR_CYAN, 0, -1);  //event title text
+        breakLines(CURR_VIEW.control->TIM, CURR_VIEW.startLine, &actualRows, 25, screenRows, ' ');  //break text into lines of 25 chars = 100
     }
     else if (CURR_VIEW.event == EVENT_DSC) {
         drawString(160, 1.5 * Font20x12.Height, "DESCRIPTION", &Font20x12, COLOR_CYAN, 0, -1);  //event title text
@@ -182,8 +186,8 @@ void S_SNAKE() {
     uint8_t arena_l = 0;
     uint8_t arena_w = 31;
     uint8_t arena_h = 16;
-    uint8_t arena_b = arena_t + arena_h;
-    uint8_t arena_r = arena_l + arena_w;
+    //uint8_t arena_b = arena_t + arena_h;
+    //uint8_t arena_r = arena_l + arena_w;
 
     //snake setup
     typedef struct {
@@ -397,7 +401,7 @@ void S_PRESET() {
                 CURR_VIEW.draw = false;
             }
             //show BPM
-            int bpm = (int64_t) (-60000000 / 24 / MIDI_CLOCK_TIMER_US);  //24 midi clocks per BPM
+            int bpm = (int64_t) (-60000000 / MIDI_CLOCK_PPQ / MIDI_CLOCK_TIMER_US);  //calc BPM
             char bpmText[4];  //3 digits + 0x00
             sprintf(bpmText, "%d", bpm);
             strcpy(B_BPM_HELP.name, bpmText);
@@ -414,7 +418,7 @@ void S_PRESET() {
                 CURR_VIEW.draw = false;
             }
             //show BPM
-            int bpm = (int64_t) (-60000000 / 24 / MIDI_CLOCK_TIMER_US);  //24 midi clocks per BPM
+            int bpm = (int64_t) (-60000000 / MIDI_CLOCK_PPQ / MIDI_CLOCK_TIMER_US);  //calc BPM
             char bpmText[4];  //3 digits + 0x00
             sprintf(bpmText, "%d", bpm);
             strcpy(B_BPM_BIG_HELP.name, bpmText);
@@ -517,36 +521,42 @@ void loadScreens() {
                 else if (strcmp(textProperty, "LS0_PRS") == 0) SCREENS[p].LS0.PRS = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "LS0_RLS") == 0) SCREENS[p].LS0.RLS = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "LS0_RLL") == 0) SCREENS[p].LS0.RLL = &PRESETS_TEXT[i+1];  //pointer to start of property
+                else if (strcmp(textProperty, "LS0_TIM") == 0) SCREENS[p].LS0.TIM = &PRESETS_TEXT[i+1];  //pointer to start of property
 
                 else if (strcmp(textProperty, "LS1_LBL") == 0) SCREENS[p].LS1.LBL = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "LS1_INF") == 0) SCREENS[p].LS1.INF = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "LS1_PRS") == 0) SCREENS[p].LS1.PRS = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "LS1_RLS") == 0) SCREENS[p].LS1.RLS = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "LS1_RLL") == 0) SCREENS[p].LS1.RLL = &PRESETS_TEXT[i+1];  //pointer to start of property
+                else if (strcmp(textProperty, "LS1_TIM") == 0) SCREENS[p].LS1.TIM = &PRESETS_TEXT[i+1];  //pointer to start of property
 
                 else if (strcmp(textProperty, "LS2_LBL") == 0) SCREENS[p].LS2.LBL = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "LS2_INF") == 0) SCREENS[p].LS2.INF = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "LS2_PRS") == 0) SCREENS[p].LS2.PRS = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "LS2_RLS") == 0) SCREENS[p].LS2.RLS = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "LS2_RLL") == 0) SCREENS[p].LS2.RLL = &PRESETS_TEXT[i+1];  //pointer to start of property
+                else if (strcmp(textProperty, "LS2_TIM") == 0) SCREENS[p].LS2.TIM = &PRESETS_TEXT[i+1];  //pointer to start of property
 
                 else if (strcmp(textProperty, "RS0_LBL") == 0) SCREENS[p].RS0.LBL = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "RS0_INF") == 0) SCREENS[p].RS0.INF = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "RS0_PRS") == 0) SCREENS[p].RS0.PRS = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "RS0_RLS") == 0) SCREENS[p].RS0.RLS = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "RS0_RLL") == 0) SCREENS[p].RS0.RLL = &PRESETS_TEXT[i+1];  //pointer to start of property
+                else if (strcmp(textProperty, "RS0_TIM") == 0) SCREENS[p].RS0.TIM = &PRESETS_TEXT[i+1];  //pointer to start of property
 
                 else if (strcmp(textProperty, "RS1_LBL") == 0) SCREENS[p].RS1.LBL = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "RS1_INF") == 0) SCREENS[p].RS1.INF = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "RS1_PRS") == 0) SCREENS[p].RS1.PRS = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "RS1_RLS") == 0) SCREENS[p].RS1.RLS = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "RS1_RLL") == 0) SCREENS[p].RS1.RLL = &PRESETS_TEXT[i+1];  //pointer to start of property
+                else if (strcmp(textProperty, "RS1_TIM") == 0) SCREENS[p].RS1.TIM = &PRESETS_TEXT[i+1];  //pointer to start of property
 
                 else if (strcmp(textProperty, "RS2_LBL") == 0) SCREENS[p].RS2.LBL = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "RS2_INF") == 0) SCREENS[p].RS2.INF = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "RS2_PRS") == 0) SCREENS[p].RS2.PRS = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "RS2_RLS") == 0) SCREENS[p].RS2.RLS = &PRESETS_TEXT[i+1];  //pointer to start of property
                 else if (strcmp(textProperty, "RS2_RLL") == 0) SCREENS[p].RS2.RLL = &PRESETS_TEXT[i+1];  //pointer to start of property
+                else if (strcmp(textProperty, "RS2_TIM") == 0) SCREENS[p].RS2.TIM = &PRESETS_TEXT[i+1];  //pointer to start of property
             }
         }
         if (PRESETS_TEXT[i]!='<' && PRESETS_TEXT[i]!='>' && PRESETS_TEXT[i]!=0x10 && PRESETS_TEXT[i]!=0x13 && PRESETS_TEXT[i]!=0x00) {  //ignore property markers and cr/lf and 0x00

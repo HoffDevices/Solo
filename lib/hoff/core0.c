@@ -18,7 +18,7 @@ void updateFactoryFlash(bool forceUpdate) {
     if (presetsSameAsFactoryFlash == false || forceUpdate == true) {  //PRESETS_TEXT is different, so overwrite factory flash with PRESETS_TEXT
         uint32_t status = save_and_disable_interrupts();
         flash_range_erase(FACTORY_FLASH_OFFSET, PRESETS_SIZE);
-        flash_range_program(FACTORY_FLASH_OFFSET, PRESETS_TEXT, PRESETS_SIZE);
+        flash_range_program(FACTORY_FLASH_OFFSET, (const unsigned char *) PRESETS_TEXT, PRESETS_SIZE);
         restore_interrupts(status);
     }
     //get factory version
@@ -49,7 +49,7 @@ void updateUserFlash(bool forceUpdate) {
     if (userFlashInitialised == false || forceUpdate == true) {  //user flash has not been initialised yet, so overwrite with PRESETS_TEXT
         uint32_t status = save_and_disable_interrupts();
         flash_range_erase(USER_FLASH_OFFSET, PRESETS_SIZE);
-        flash_range_program(USER_FLASH_OFFSET, PRESETS_TEXT, PRESETS_SIZE);
+        flash_range_program(USER_FLASH_OFFSET, (const unsigned char *) PRESETS_TEXT, PRESETS_SIZE);
         restore_interrupts(status);
     }
     strcpy(PRESETS_TEXT, USER_FLASH);  //load user flash into PRESETS_TEXT
@@ -67,7 +67,7 @@ void writeFactoryFlashToUserFlash() {
     multicore_reset_core1();  //prevent interrupts from core 1
     uint32_t status = save_and_disable_interrupts();
     flash_range_erase(USER_FLASH_OFFSET, PRESETS_SIZE);
-    flash_range_program(USER_FLASH_OFFSET, PRESETS_TEXT, PRESETS_SIZE);  //write PRESETS_TEXT to USER_FLASH
+    flash_range_program(USER_FLASH_OFFSET, (const unsigned char *) PRESETS_TEXT, PRESETS_SIZE);  //write PRESETS_TEXT to USER_FLASH
     restore_interrupts(status);
     busy_wait_ms(2000);
 
@@ -119,7 +119,7 @@ void writeSysexConfigToUserFlash() {
     multicore_reset_core1();  //prevent interrupts from core 1
     uint32_t status = save_and_disable_interrupts();
     flash_range_erase(USER_FLASH_OFFSET, FLASH_SECTOR_SIZE);
-    flash_range_program(USER_FLASH_OFFSET, PRESETS_TEXT, FLASH_SECTOR_SIZE);
+    flash_range_program(USER_FLASH_OFFSET, (const unsigned char *) PRESETS_TEXT, FLASH_SECTOR_SIZE);
     restore_interrupts(status);
     busy_wait_ms(2000);
 

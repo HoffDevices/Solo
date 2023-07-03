@@ -60,7 +60,7 @@ note:
 ********************************************************************************/
 uint8_t System_Init(void)
 {
-	stdio_init_all();
+	//stdio_init_all();  //replicated in main.c
 	DEV_GPIO_Init();
 	spi_init(SPI_PORT,4000000);
 	gpio_set_function(LCD_CLK_PIN,GPIO_FUNC_SPI);

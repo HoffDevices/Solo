@@ -5,7 +5,7 @@
 
 
 /*
-* The RIGHT port uses uart0, GPIO0, pin 1
+* The LEFT port uses uart0, GPIO0, pin 1
 */
 void midiInitUart0() {
     uart_init(uart0, 31250);  //initialise uart with midi baudrate
@@ -21,15 +21,15 @@ void midiSendUart0(uint8_t *msg, uint32_t len) {
 }
 
 /*
-* main.h: extern MIDI MIDI_RIGHT
+* main.h: extern MIDI MIDI_LEFT
 */
-MIDI MIDI_RIGHT = (MIDI) {
+MIDI MIDI_LEFT = (MIDI) {
     .init = midiInitUart0,
     .send = midiSendUart0
 };
 
 /*
-* The LEFT port uses uart1, GPIO4, pin 6
+* The RIGHT port uses uart1, GPIO4, pin 6
 */
 void midiInitUart1() {
     uart_init(uart1, 31250);  //initialise uart with midi baudrate
@@ -45,9 +45,9 @@ void midiSendUart1(uint8_t *msg, uint32_t len) {
 }
 
 /*
-* main.h: extern MIDI MIDI_LEFT
+* main.h: extern MIDI MIDI_RIGHT
 */
-MIDI MIDI_LEFT = (MIDI) {
+MIDI MIDI_RIGHT = (MIDI) {
     .init = midiInitUart1,
     .send = midiSendUart1
 };

@@ -1,0 +1,41 @@
+removed declaration of 'hid_report_type_t' in btstack_no_hid.h: 
+#include "btstack_hid.h"
+
+
+[build] In file included from C:/Program Files/Raspberry Pi/Pico SDK v1.5.1/pico-sdk/lib/tinyusb/src/tusb.h:41,
+[build]                  from C:/Program Files/Raspberry Pi/Pico SDK v1.5.1/pico-sdk/lib/tinyusb/hw/bsp/board.h:42,
+[build]                  from C:/Users/Rynhardt/Documents/Pico-v1.5.1/pico-projects/Solo/main.c:28:
+[build] C:/Program Files/Raspberry Pi/Pico SDK v1.5.1/pico-sdk/lib/tinyusb/src/class/hid/hid.h:87:3: error: redeclaration of enumerator 'HID_REPORT_TYPE_INPUT'
+[build]    87 |   HID_REPORT_TYPE_INPUT,      ///< Input
+[build]       |   ^~~~~~~~~~~~~~~~~~~~~
+[build] In file included from C:/Program Files/Raspberry Pi/Pico SDK v1.5.1/pico-sdk/lib/btstack/src/btstack.h:62,
+[build]                  from C:/Users/Rynhardt/Documents/Pico-v1.5.1/pico-projects/Solo/main.c:23:
+[build] C:/Program Files/Raspberry Pi/Pico SDK v1.5.1/pico-sdk/lib/btstack/src/btstack_hid.h:103:5: note: previous definition of 'HID_REPORT_TYPE_INPUT' was here
+[build]   103 |     HID_REPORT_TYPE_INPUT,
+[build]       |     ^~~~~~~~~~~~~~~~~~~~~
+[build] In file included from C:/Program Files/Raspberry Pi/Pico SDK v1.5.1/pico-sdk/lib/tinyusb/src/tusb.h:41,
+[build]                  from C:/Program Files/Raspberry Pi/Pico SDK v1.5.1/pico-sdk/lib/tinyusb/hw/bsp/board.h:42,
+[build]                  from C:/Users/Rynhardt/Documents/Pico-v1.5.1/pico-projects/Solo/main.c:28:
+[build] C:/Program Files/Raspberry Pi/Pico SDK v1.5.1/pico-sdk/lib/tinyusb/src/class/hid/hid.h:88:3: error: redeclaration of enumerator 'HID_REPORT_TYPE_OUTPUT'
+[build]    88 |   HID_REPORT_TYPE_OUTPUT,     ///< Output
+[build]       |   ^~~~~~~~~~~~~~~~~~~~~~
+[build] In file included from C:/Program Files/Raspberry Pi/Pico SDK v1.5.1/pico-sdk/lib/btstack/src/btstack.h:62,
+[build]                  from C:/Users/Rynhardt/Documents/Pico-v1.5.1/pico-projects/Solo/main.c:23:
+[build] C:/Program Files/Raspberry Pi/Pico SDK v1.5.1/pico-sdk/lib/btstack/src/btstack_hid.h:104:5: note: previous definition of 'HID_REPORT_TYPE_OUTPUT' was here
+[build]   104 |     HID_REPORT_TYPE_OUTPUT,
+[build]       |     ^~~~~~~~~~~~~~~~~~~~~~
+[build] In file included from C:/Program Files/Raspberry Pi/Pico SDK v1.5.1/pico-sdk/lib/tinyusb/src/tusb.h:41,
+[build]                  from C:/Program Files/Raspberry Pi/Pico SDK v1.5.1/pico-sdk/lib/tinyusb/hw/bsp/board.h:42,
+[build]                  from C:/Users/Rynhardt/Documents/Pico-v1.5.1/pico-projects/Solo/main.c:28:
+[build] C:/Program Files/Raspberry Pi/Pico SDK v1.5.1/pico-sdk/lib/tinyusb/src/class/hid/hid.h:89:3: error: redeclaration of enumerator 'HID_REPORT_TYPE_FEATURE'
+[build]    89 |   HID_REPORT_TYPE_FEATURE     ///< Feature
+[build]       |   ^~~~~~~~~~~~~~~~~~~~~~~
+[build] In file included from C:/Program Files/Raspberry Pi/Pico SDK v1.5.1/pico-sdk/lib/btstack/src/btstack.h:62,
+[build]                  from C:/Users/Rynhardt/Documents/Pico-v1.5.1/pico-projects/Solo/main.c:23:
+[build] C:/Program Files/Raspberry Pi/Pico SDK v1.5.1/pico-sdk/lib/btstack/src/btstack_hid.h:105:5: note: previous definition of 'HID_REPORT_TYPE_FEATURE' was here
+[build]   105 |     HID_REPORT_TYPE_FEATURE
+[build]       |     ^~~~~~~~~~~~~~~~~~~~~~~
+[build] In file included from C:/Program Files/Raspberry Pi/Pico SDK v1.5.1/pico-sdk/lib/tinyusb/src/tusb.h:41,
+[build]                  from C:/Program Files/Raspberry Pi/Pico SDK v1.5.1/pico-sdk/lib/tinyusb/hw/bsp/board.h:42,
+[build]                  from C:/Users/Rynhardt/Documents/Pico-v1.5.1/pico-projects/Solo/main.c:28:
+[build] C:/Program Files/Raspberry Pi/Pico SDK v1.5.1/pico-sdk/lib/tinyusb/src/class/hid/hid.h:90:2: error: conflicting types for 'hid_report_type_t'

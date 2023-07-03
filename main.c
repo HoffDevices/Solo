@@ -1,7 +1,12 @@
 ﻿/*
 * Hoff Solo - (c) R. Haarhoff
-* Last updated 2023-04-28
-* Uses schematic v1.3
+* Last updated 2023-06-29
+* Uses schematic v1.4
+*
+* TODO:
+* cater for 0 BPM
+* support SET_PPQ
+* support SET_TIM
 */
 
 //Raspberry Pi Pico
@@ -23,11 +28,22 @@
 #include "bsp/board.h"
 #include "tusb.h"
 
+//Btstack
+#include "btstack.h"
+#include "btstack_event.h"
+#include "btstack_run_loop.h"
+
+//Pico_W MIDI
+#include "pico/cyw43_arch.h"
+#include "build/generated/solo_midi_ble.h"  //#include "midi_ble_test.h" is also fine due to the "pico_btstack_make_gatt_header" command in CMakeLists.txt, but I don't like it showing an error.
+#include "ble/gatt-service/battery_service_server.h"
+
 //Hoff Solo - we're not using much in the way of header declarations, so the order of the includes are important
 #include "main.h"
 #include "common.c"
 #include "switch.c"
 #include "midi.c"
+#include "midi_ble.c"
 #include "sync.c"
 #include "core1.c"
 #include "draw.c"
@@ -119,16 +135,19 @@ int main(void) {
     if (watchdog_enable_caused_reboot()) reset_usb_boot(0, 0);  //put into firmware update mode if wathdog times out
     watchdog_enable(10000, 0);   //10 second watchdog
 
+    stdio_init_all();            //Initialize all of the present standard stdio types 
     System_Init();               //LCD GPIO setup
 	LCD_Init(SCAN_DIR_DFT,400);  //init LCD
-    SWITCH_TOUCH.init();         //init touch
 
-    showLogo(1000);        //show the logo while we do housekeeping
-    updateFactoryFlash(false);  //update FACTORY_FLASH to latest PRESETS_TEXT in firmware
-    updateUserFlash(false);     //update USER_FLASH if needed and load PRESETS_TEXT from USER_FLASH
-    loadScreens();        //set up the screens
+    showLogo(1000);              //show the logo while we do housekeeping
+    updateFactoryFlash(false);   //update FACTORY_FLASH to latest PRESETS_TEXT in firmware
+    updateUserFlash(false);      //update USER_FLASH if needed and load PRESETS_TEXT from USER_FLASH
+    loadScreens();               //set up the screens
 
-    multicore_launch_core1(main_core1);   //core1 handles all MIDI events
+    multicore_launch_core1(main_core1);   //core1 handles all USB & DIN MIDI events
+    
+    SWITCH_TOUCH.init();         //init touch "switch"
+    MIDI_BLE.init();             //init MIDI over bluetooth LE
 
     setCurrScreenIndex(PRESETS_DEFAULT);             //PRESETS_DEFAULT gets populated by loadScreens
     while (true) SCREENS[CURR_SCREEN_INDEX].show();  //main program loop - CURR_SCREEN_INDEX is modified by other events to show the appropriate screen

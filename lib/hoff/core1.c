@@ -38,14 +38,14 @@ void parseFunction(SWITCH *S, uint64_t *counter, char *textInterval, char *textF
     parseCSV(textInterval, arrInterval, &lenInterval);  //parse text into array and length
 
     if (arrInterval[0] != 0 && *counter % arrInterval[1] == arrInterval[0] % arrInterval[1]) {  //check step number versus number of steps in a cycle - both get modulo'd. The first counter increment should happen before this check, so start at 1
-        if (strcmp(textFunction,"TAP_BPM") == 0) {  //24 midi clocks per BPM, takes one argument
+        if (strcmp(textFunction,"TAP_BPM") == 0) {  //tap BPM, takes one argument
             uint8_t lenArgument;
             uint8_t arrArgument[1];  //max is probably 1, we don't need a closing 0x00
             parseCSV(textArgument, arrArgument, &lenArgument);  //parse text into array and length
             if (S != NULL && arrArgument[0] != 0) {  //TAP_BPM(?) means tap to set BPM, only valid for switches, with BPM multiplier ?
                 int64_t tap_us = absolute_time_diff_us(S->prevPressedTime, S->currPressedTime);
                 if (tap_us > 200000 && tap_us < 2000000) {  //restrict tap BPM between 30bpm and 300bpm to avoid unintended presses affecting BPM
-                    MIDI_CLOCK_TIMER_US = (int64_t) (-tap_us * arrArgument[0] / 24);  //Negative delay means we will call repeating_timer_callback, and call it again exactly ???ms later regardless of how long the callback took to execute
+                    MIDI_CLOCK_TIMER_US = (int64_t) (-tap_us * arrArgument[0] / MIDI_CLOCK_PPQ);  //Negative delay means we will call repeating_timer_callback, and call it again exactly ???ms later regardless of how long the callback took to execute
                     cancel_repeating_timer(&MIDI_CLOCK_TIMER);  //cancel is safe to do even if not previously activated
                     MIDI_CLOCK_COUNTER = 0;  //reset clock counter so we can start PRESET interval at 1
                     midiClock();  //so fire clock immediately in sync with press (or as close to)
@@ -53,12 +53,12 @@ void parseFunction(SWITCH *S, uint64_t *counter, char *textInterval, char *textF
                 }
             }
         }
-        else if (strcmp(textFunction,"SET_BPM") == 0) {  //24 midi clocks per BPM, takes one argument - if 0, reset clock counter only
+        else if (strcmp(textFunction,"SET_BPM") == 0) {  //set BPM, takes one argument - if 0, reset clock counter only
             uint8_t lenArgument;
             uint8_t arrArgument[1];  //max is probably 1, we don't need a closing 0x00
             parseCSV(textArgument, arrArgument, &lenArgument);  //parse text into array and length
             if (arrArgument[0] != 0) {  //SET_BPM(?) with a nonzero BPM, set the BPM to the first array value
-                MIDI_CLOCK_TIMER_US = (int64_t) (-60000000 / arrArgument[0] / 24);  //Negative delay means we will call repeating_timer_callback, and call it again exactly ???ms later regardless of how long the callback took to execute
+                MIDI_CLOCK_TIMER_US = (int64_t) (-60000000 / arrArgument[0] / MIDI_CLOCK_PPQ);  //Negative delay means we will call repeating_timer_callback, and call it again exactly ???ms later regardless of how long the callback took to execute
                 cancel_repeating_timer(&MIDI_CLOCK_TIMER);  //cancel is safe to do even if not previously activated
                 add_repeating_timer_us(MIDI_CLOCK_TIMER_US, midiClock, NULL, &MIDI_CLOCK_TIMER);  //new timer will only fire after the first interval
             }
@@ -87,6 +87,12 @@ void parseFunction(SWITCH *S, uint64_t *counter, char *textInterval, char *textF
             uint8_t arrArgument[3];  //max is probably 3, we don't need a closing 0x00
             parseCSV(textArgument, arrArgument, &lenArgument);  //parse text into array and length
             MIDI_RIGHT.send(arrArgument, lenArgument);
+        }
+        else if (strcmp(textFunction,"MSG_BLE") == 0) {  //send MIDI message, takes up to 3 arguments
+            uint8_t lenArgument;
+            uint8_t arrArgument[3];  //max is probably 3, we don't need a closing 0x00
+            parseCSV(textArgument, arrArgument, &lenArgument);  //parse text into array and length
+            MIDI_BLE.send(arrArgument, lenArgument);
         }
         else if (strcmp(textFunction,"SET_PST") == 0) {  //set next preset, takes one argument
             setCurrScreenIndex(textArgument);  //this should be thread/core safe, as we only change the global CURR_SCREEN_INDEX 
@@ -177,6 +183,10 @@ void checkSwitches() {
         parseValue(&SWITCH_LS0, &SWITCH_LS0.counter, SCREENS[CURR_SCREEN_INDEX].LS0.RLL);  //parse & run functions in a property value, for specified switch and interval
         SWITCH_LS0.releasedLong = false;  //reset after consumption
     }
+    if (SWITCH_LS0.timedOut == true) {  //only do something if a release has timed out
+        parseValue(&SWITCH_LS0, &SWITCH_LS0.counter, SCREENS[CURR_SCREEN_INDEX].LS0.TIM);  //parse & run functions in a property value, for specified switch and interval
+        SWITCH_LS0.timedOut = false;  //reset after consumption
+    }
 
     SWITCH_LS1.check();
     if (SWITCH_LS1.pressed == true) {  //only do something if a press has been queued
@@ -191,6 +201,10 @@ void checkSwitches() {
         parseValue(&SWITCH_LS1, &SWITCH_LS1.counter, SCREENS[CURR_SCREEN_INDEX].LS1.RLL);  //parse & run functions in a property value, for specified switch and interval
         SWITCH_LS1.releasedLong = false;  //reset after consumption
     }
+    if (SWITCH_LS1.timedOut == true) {  //only do something if a release has timed out
+        parseValue(&SWITCH_LS1, &SWITCH_LS1.counter, SCREENS[CURR_SCREEN_INDEX].LS1.TIM);  //parse & run functions in a property value, for specified switch and interval
+        SWITCH_LS1.timedOut = false;  //reset after consumption
+    }
 
     SWITCH_LS2.check();
     if (SWITCH_LS2.pressed == true) {  //only do something if a press has been queued
@@ -204,6 +218,10 @@ void checkSwitches() {
     if (SWITCH_LS2.releasedLong == true) {  //only do something if a long release has been queued
         parseValue(&SWITCH_LS2, &SWITCH_LS2.counter, SCREENS[CURR_SCREEN_INDEX].LS2.RLL);  //parse & run functions in a property value, for specified switch and interval
         SWITCH_LS2.releasedLong = false;  //reset after consumption
+    }
+    if (SWITCH_LS2.timedOut == true) {  //only do something if a release has timed out
+        parseValue(&SWITCH_LS2, &SWITCH_LS2.counter, SCREENS[CURR_SCREEN_INDEX].LS2.TIM);  //parse & run functions in a property value, for specified switch and interval
+        SWITCH_LS2.timedOut = false;  //reset after consumption
     }
 
     SWITCH_RS0.check();
@@ -220,6 +238,10 @@ void checkSwitches() {
         parseValue(&SWITCH_RS0, &SWITCH_RS0.counter, SCREENS[CURR_SCREEN_INDEX].RS0.RLL);  //parse & run functions in a property value, for specified switch and interval
         SWITCH_RS0.releasedLong = false;  //reset after consumption
     }
+    if (SWITCH_RS0.timedOut == true) {  //only do something if a release has timed out
+        parseValue(&SWITCH_RS0, &SWITCH_RS0.counter, SCREENS[CURR_SCREEN_INDEX].RS0.TIM);  //parse & run functions in a property value, for specified switch and interval
+        SWITCH_RS0.timedOut = false;  //reset after consumption
+    }
 
     SWITCH_RS1.check();
     if (SWITCH_RS1.pressed == true) {  //only do something if a press has been queued
@@ -234,6 +256,10 @@ void checkSwitches() {
         parseValue(&SWITCH_RS1, &SWITCH_RS1.counter, SCREENS[CURR_SCREEN_INDEX].RS1.RLL);  //parse & run functions in a property value, for specified switch and interval
         SWITCH_RS1.releasedLong = false;  //reset after consumption
     }
+    if (SWITCH_RS1.timedOut == true) {  //only do something if a release has timed out
+        parseValue(&SWITCH_RS1, &SWITCH_RS1.counter, SCREENS[CURR_SCREEN_INDEX].RS1.TIM);  //parse & run functions in a property value, for specified switch and interval
+        SWITCH_RS1.timedOut = false;  //reset after consumption
+    }
 
     SWITCH_RS2.check();
     if (SWITCH_RS2.pressed == true) {  //only do something if a press has been queued
@@ -247,6 +273,10 @@ void checkSwitches() {
     if (SWITCH_RS2.releasedLong == true) {  //only do something if a long release has been queued
         parseValue(&SWITCH_RS2, &SWITCH_RS2.counter, SCREENS[CURR_SCREEN_INDEX].RS2.RLL);  //parse & run functions in a property value, for specified switch and interval
         SWITCH_RS2.releasedLong = false;  //reset after consumption
+    }
+    if (SWITCH_RS2.timedOut == true) {  //only do something if a release has timed out
+        parseValue(&SWITCH_RS2, &SWITCH_RS2.counter, SCREENS[CURR_SCREEN_INDEX].RS2.TIM);  //parse & run functions in a property value, for specified switch and interval
+        SWITCH_RS2.timedOut = false;  //reset after consumption
     }
 
 }
@@ -291,9 +321,9 @@ void exitPreset() {
 * Increment/decrement clock BPM and restart timer
 */
 void incrementBPM(int64_t inc) {
-    int64_t bpm = (int64_t) (-60000000 / 24 / MIDI_CLOCK_TIMER_US);  //24 midi clocks per BPM
+    int64_t bpm = (int64_t) (-60000000 / MIDI_CLOCK_PPQ / MIDI_CLOCK_TIMER_US);  //calc BPM
     bpm += inc;
-    MIDI_CLOCK_TIMER_US = (int64_t) (-60000000 / bpm / 24);  //Negative delay means we will call repeating_timer_callback, and call it again exactly ???ms later regardless of how long the callback took to execute
+    MIDI_CLOCK_TIMER_US = (int64_t) (-60000000 / bpm / MIDI_CLOCK_PPQ);  //Negative delay means we will call repeating_timer_callback, and call it again exactly ???ms later regardless of how long the callback took to execute
     cancel_repeating_timer(&MIDI_CLOCK_TIMER);  //cancel is safe to do even if not previously activated
     add_repeating_timer_us(MIDI_CLOCK_TIMER_US, midiClock, NULL, &MIDI_CLOCK_TIMER);  //new timer will only fire after the first interval
 }

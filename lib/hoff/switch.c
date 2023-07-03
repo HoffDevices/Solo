@@ -29,13 +29,13 @@ void checkSwitch(SWITCH *s) {
         }
     }
     else {  //wait until debounce is complete before we check for state change again
-        if (s->currState == true && absolute_time_diff_us(s->currReleasedTime, get_absolute_time()) > s->debounceTime ||  //currState == true => Released
-            s->currState == false && absolute_time_diff_us(s->currPressedTime, get_absolute_time()) > s->debounceTime) { //Return the difference in microseconds between two timestamps
+        if ((s->currState == true && absolute_time_diff_us(s->currReleasedTime, get_absolute_time()) > s->debounceTime) ||  //currState == true => Released
+            (s->currState == false && absolute_time_diff_us(s->currPressedTime, get_absolute_time()) > s->debounceTime)) { //Return the difference in microseconds between two timestamps
             s->debounceWait = false;
         }
     }
     //  timeout after long press
-    if (absolute_time_diff_us(s->currPressedTime, s->currReleasedTime) > 0  //pressed but not released yet
+    if (absolute_time_diff_us(s->currPressedTime, s->currReleasedTime) < 0  //pressed but not released yet
         && s->timedBusy == false  //we haven't fired this event yet
         && absolute_time_diff_us(s->currPressedTime, get_absolute_time()) > 1000000) {  //held down for more than 1s = timed out
         s->timedOut = true;  //to be consumed by a button
