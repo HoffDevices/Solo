@@ -57,7 +57,7 @@ void parseFunction(SWITCH *S, uint64_t *counter, char *textInterval, char *textF
             uint8_t lenArgument;
             uint8_t arrArgument[1];  //max is probably 1, we don't need a closing 0x00
             parseCSV(textArgument, arrArgument, &lenArgument);  //parse text into array and length
-            if (arrArgument[0] != 0) {  //SET_BPM(?) with a nonzero BPM, set the BPM to the first array value
+            if (arrArgument[0] != 0) {  //SET_BPM(?) with a nonzero BPM, set the BPM to the first array value (should never be more than 255)
                 MIDI_CLOCK_TIMER_US = (int64_t) (-60000000 / arrArgument[0] / MIDI_CLOCK_PPQ);  //Negative delay means we will call repeating_timer_callback, and call it again exactly ???ms later regardless of how long the callback took to execute
                 cancel_repeating_timer(&MIDI_CLOCK_TIMER);  //cancel is safe to do even if not previously activated
                 add_repeating_timer_us(MIDI_CLOCK_TIMER_US, midiClock, NULL, &MIDI_CLOCK_TIMER);  //new timer will only fire after the first interval
@@ -69,6 +69,21 @@ void parseFunction(SWITCH *S, uint64_t *counter, char *textInterval, char *textF
             uint8_t arrArgument[2];  //max is probably 2, we don't need a closing 0x00
             parseCSV(textArgument, arrArgument, &lenArgument);  //parse text into array and length
             USER_VAR[arrArgument[0]] = arrArgument[1];  //this should be thread/core safe, as we only change the global variable
+        }
+        else if (strcmp(textFunction,"SET_SC1") == 0) {  //set sync output 1, takes two arguments (level, pulse duration). level = {1,0}, duration in us.
+            uint8_t lenArgument;
+            uint8_t arrArgument[2];  //max is probably 2, we don't need a closing 0x00
+            parseCSV(textArgument, arrArgument, &lenArgument);  //parse text into array and length
+            SYNC_1.pulse(arrArgument[0], arrArgument[1]);
+        }
+        else if (strcmp(textFunction,"SET_SC2") == 0) {  //set sync output 1, takes two arguments (level, pulse duration). level = {1,0}, duration in us.
+            uint8_t lenArgument;
+            uint8_t arrArgument[2];  //max is probably 2, we don't need a closing 0x00
+            parseCSV(textArgument, arrArgument, &lenArgument);  //parse text into array and length
+            SYNC_2.pulse(arrArgument[0], arrArgument[1]);
+        }
+        else if (strcmp(textFunction,"SET_PST") == 0) {  //set next preset, takes one argument
+            setCurrScreenIndex(textArgument);  //this should be thread/core safe, as we only change the global CURR_SCREEN_INDEX 
         }
         else if (strcmp(textFunction,"MSG_USB") == 0) {  //send MIDI message, takes up to 3 arguments
             uint8_t lenArgument;
@@ -94,10 +109,6 @@ void parseFunction(SWITCH *S, uint64_t *counter, char *textInterval, char *textF
             parseCSV(textArgument, arrArgument, &lenArgument);  //parse text into array and length
             MIDI_BLE.send(arrArgument, lenArgument);
         }
-        else if (strcmp(textFunction,"SET_PST") == 0) {  //set next preset, takes one argument
-            setCurrScreenIndex(textArgument);  //this should be thread/core safe, as we only change the global CURR_SCREEN_INDEX 
-        }
-
     }
 }
 
@@ -323,7 +334,11 @@ void exitPreset() {
 void incrementBPM(int64_t inc) {
     int64_t bpm = (int64_t) (-60000000 / MIDI_CLOCK_PPQ / MIDI_CLOCK_TIMER_US);  //calc BPM
     bpm += inc;
-    MIDI_CLOCK_TIMER_US = (int64_t) (-60000000 / bpm / MIDI_CLOCK_PPQ);  //Negative delay means we will call repeating_timer_callback, and call it again exactly ???ms later regardless of how long the callback took to execute
+    if (bpm <= 0) bpm = 0;  //check limits
+    else if (bpm >= 255) bpm = 255;
     cancel_repeating_timer(&MIDI_CLOCK_TIMER);  //cancel is safe to do even if not previously activated
-    add_repeating_timer_us(MIDI_CLOCK_TIMER_US, midiClock, NULL, &MIDI_CLOCK_TIMER);  //new timer will only fire after the first interval
+    if (bpm > 0 && bpm <= 255) {  //stay within limits, and only have the clock running if BPM <> 0
+        MIDI_CLOCK_TIMER_US = (int64_t) (-60000000 / bpm / MIDI_CLOCK_PPQ);  //Negative delay means we will call repeating_timer_callback, and call it again exactly ???ms later regardless of how long the callback took to execute
+        add_repeating_timer_us(MIDI_CLOCK_TIMER_US, midiClock, NULL, &MIDI_CLOCK_TIMER);  //new timer will only fire after the first interval
+    }
 }

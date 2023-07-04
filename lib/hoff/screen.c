@@ -54,11 +54,6 @@ void breakLines(char *inputText, uint8_t startRow, uint8_t *rows, uint8_t maxCha
 void presetHelp() {
     uint8_t screenRows = 9;  //hardcoded depending on font size
     uint8_t actualRows = 0;
-    //uint8_t limitRows = 0;
-    //uint8_t limitStart = 0;
-    //uint8_t limitExtra = 0;
-    //char breakText[256];  //temp store for text with line breaks added
-    //char limitText[256];  //limited lines text
 
     drawString(160, 0.5 * Font20x12.Height, CURR_VIEW.control->LBL, &Font20x12, COLOR_CYAN, 0, -1);  //control (switch) label
 

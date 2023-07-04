@@ -257,18 +257,18 @@ void showLogo(int t) {
     int a = 20;
     int b = 6;
     for (int r=(a); r<(a+b); r++) {
-        drawRoundCorners(LCD_WIDTH/2-r,LCD_HEIGHT/2-r,r*2,r*2,r,COLOR_GOLD, true, true, true, true);  //middle o
+        drawRoundCorners(LCD_WIDTH/2-r,LCD_HEIGHT/2-r,r*2,r*2,r,COLOR_RED, true, true, true, true);  //middle o
     }
-    drawFilledRectangle(LCD_WIDTH/2-(a-b), LCD_HEIGHT/2-(b/2), (a-b)*2, (b), COLOR_GOLD);  //middle -
-    drawFilledRectangle(LCD_WIDTH/2-(a+b*3), LCD_HEIGHT/2-(a+b), (b), (a+b)*2, COLOR_GOLD);  //left |
-    drawFilledRectangle(LCD_WIDTH/2+(a+b*2), LCD_HEIGHT/2-(a+b), (b), (a+b)*2, COLOR_GOLD);  //right |
-    drawFilledRectangle(LCD_WIDTH/2-(a+b*4)-(a/2), LCD_HEIGHT/2-(b/2), (a/2), (b), COLOR_GOLD);  // left mini -
-    drawFilledRectangle(LCD_WIDTH/2+(a+b*4), LCD_HEIGHT/2-(b/2), (a/2), (b), COLOR_GOLD);  //right mini -
-    drawFilledRectangle(LCD_WIDTH/2-(a+b*4+a+b-1), LCD_HEIGHT/2-(a+b), (b), (a+b)/2, COLOR_GOLD);  //left mini |
-    drawFilledRectangle(LCD_WIDTH/2+(a+b*4+a-1), LCD_HEIGHT/2+(a+b)/2, (b), (a+b)/2, COLOR_GOLD);  //right mini |
+    drawFilledRectangle(LCD_WIDTH/2-(a-b), LCD_HEIGHT/2-(b/2), (a-b)*2, (b), COLOR_RED);  //middle -
+    drawFilledRectangle(LCD_WIDTH/2-(a+b*3), LCD_HEIGHT/2-(a+b), (b), (a+b)*2, COLOR_RED);  //left |
+    drawFilledRectangle(LCD_WIDTH/2+(a+b*2), LCD_HEIGHT/2-(a+b), (b), (a+b)*2, COLOR_RED);  //right |
+    drawFilledRectangle(LCD_WIDTH/2-(a+b*4)-(a/2), LCD_HEIGHT/2-(b/2), (a/2), (b), COLOR_RED);  // left mini -
+    drawFilledRectangle(LCD_WIDTH/2+(a+b*4), LCD_HEIGHT/2-(b/2), (a/2), (b), COLOR_RED);  //right mini -
+    drawFilledRectangle(LCD_WIDTH/2-(a+b*4+a+b-1), LCD_HEIGHT/2-(a+b), (b), (a+b)/2, COLOR_RED);  //left mini |
+    drawFilledRectangle(LCD_WIDTH/2+(a+b*4+a-1), LCD_HEIGHT/2+(a+b)/2, (b), (a+b)/2, COLOR_RED);  //right mini |
     for (int r=(a/2); r<(a/2+b); r++) {
-        drawRoundCorners(LCD_WIDTH/2-r-(a+b*4+a/2),LCD_HEIGHT/2-r-(a+b)/2,r*2,r*2,r,COLOR_GOLD, false, false, false, true);  //top left quarter
-        drawRoundCorners(LCD_WIDTH/2-r+(a+b*4+a/2)-1,LCD_HEIGHT/2-r+(a+b)/2-1,r*2,r*2,r,COLOR_GOLD, true, false, false, false);  //bottom right quarter
+        drawRoundCorners(LCD_WIDTH/2-r-(a+b*4+a/2),LCD_HEIGHT/2-r-(a+b)/2,r*2,r*2,r,COLOR_RED, false, false, false, true);  //top left quarter
+        drawRoundCorners(LCD_WIDTH/2-r+(a+b*4+a/2)-1,LCD_HEIGHT/2-r+(a+b)/2-1,r*2,r*2,r,COLOR_RED, true, false, false, false);  //bottom right quarter
     }
     busy_wait_ms(t);
 }

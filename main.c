@@ -52,11 +52,16 @@
 #include "core0.c"
 
 
+
+
 /*
 * Main - core 1
 * All timing sensitive routines happen here, i.e. response to switch events, clock events
 */
 void main_core1() {
+    //create alarm pool for sync
+    SYNC_ALARM_POOL = alarm_pool_create_with_unused_hardware_alarm(16);  //create alarm pool with 16 timers on core 1
+
     //init midi
     MIDI_USB.init();
     MIDI_LEFT.init();
@@ -65,10 +70,6 @@ void main_core1() {
     //init sync
     SYNC_1.init();
     SYNC_2.init();
-
-    //test sync
-    SYNC_1.pulse();
-    SYNC_2.pulse();
 
     //init switches
     SWITCH_LS0.init();
@@ -133,13 +134,13 @@ void main_core1() {
 */
 int main(void) {
     if (watchdog_enable_caused_reboot()) reset_usb_boot(0, 0);  //put into firmware update mode if wathdog times out
-    watchdog_enable(10000, 0);   //10 second watchdog
+    watchdog_enable( 0x7fffff, 0);   //8.3 second watchdog
 
     stdio_init_all();            //Initialize all of the present standard stdio types 
     System_Init();               //LCD GPIO setup
 	LCD_Init(SCAN_DIR_DFT,400);  //init LCD
 
-    showLogo(1000);              //show the logo while we do housekeeping
+    showLogo(500);               //show the logo while we do housekeeping
     updateFactoryFlash(false);   //update FACTORY_FLASH to latest PRESETS_TEXT in firmware
     updateUserFlash(false);      //update USER_FLASH if needed and load PRESETS_TEXT from USER_FLASH
     loadScreens();               //set up the screens

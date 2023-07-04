@@ -9,13 +9,22 @@
 * If not, write PRESETS_TEXT to FACTORY_FLASH (this should happen if there was a firmware update with an updated PRESETS_TEXT)
 */
 void updateFactoryFlash(bool forceUpdate) {
+    //check for "<SYS" at the start of the factory flash to see if it has ever been initialized
+    bool systemTextExists = false;
+    if (FACTORY_FLASH[0] == '<' && FACTORY_FLASH[1] == 'S' && FACTORY_FLASH[2] == 'Y' && FACTORY_FLASH[3] == 'S') systemTextExists = true;
+    else showInfo("New Pico", 500);
+    //check if the factory flash is out of date with the new uf2's PRESET_TEXT
     bool presetsSameAsFactoryFlash = true;
     uint32_t i = 0;
-    while (PRESETS_TEXT[i] != 0x00 && presetsSameAsFactoryFlash == true) {
-        presetsSameAsFactoryFlash = (PRESETS_TEXT[i] == FACTORY_FLASH[i]);
-        i++;
+    if (systemTextExists == true) {  //only check if it's not an entirely new pico
+        while (PRESETS_TEXT[i] != 0x00 && presetsSameAsFactoryFlash == true) {
+            presetsSameAsFactoryFlash = (PRESETS_TEXT[i] == FACTORY_FLASH[i]);
+            i++;
+        }
+        if (presetsSameAsFactoryFlash == false) showInfo("Factory presets\nout of date", 500);
     }
-    if (presetsSameAsFactoryFlash == false || forceUpdate == true) {  //PRESETS_TEXT is different, so overwrite factory flash with PRESETS_TEXT
+    if (systemTextExists == false || presetsSameAsFactoryFlash == false || forceUpdate == true) {  //PRESETS_TEXT is different, so overwrite factory flash with PRESETS_TEXT
+        showInfo("Updating\nfactory presets", 1000);
         uint32_t status = save_and_disable_interrupts();
         flash_range_erase(FACTORY_FLASH_OFFSET, PRESETS_SIZE);
         flash_range_program(FACTORY_FLASH_OFFSET, (const unsigned char *) PRESETS_TEXT, PRESETS_SIZE);
@@ -47,6 +56,7 @@ void updateUserFlash(bool forceUpdate) {
     for (uint8_t i=0; i<8; i++) userFlashText[i] = USER_FLASH[i];  //the literal definition above already contains 0x00 in pos [8]
     bool userFlashInitialised = (strcmp(userFlashText, "<SYSTEM>") == 0);
     if (userFlashInitialised == false || forceUpdate == true) {  //user flash has not been initialised yet, so overwrite with PRESETS_TEXT
+        showInfo("Updating\nuser presets", 500);
         uint32_t status = save_and_disable_interrupts();
         flash_range_erase(USER_FLASH_OFFSET, PRESETS_SIZE);
         flash_range_program(USER_FLASH_OFFSET, (const unsigned char *) PRESETS_TEXT, PRESETS_SIZE);

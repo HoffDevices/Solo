@@ -65,6 +65,10 @@ void A_FWD_HELP() {
         CURR_VIEW.event = EVENT_RLL;
         CURR_VIEW.type = VIEW_HELP;
     }
+    else if (CURR_VIEW.event == EVENT_RLL) {
+        CURR_VIEW.event = EVENT_TIM;
+        CURR_VIEW.type = VIEW_HELP;
+    }
     else if (CURR_VIEW.event == EVENT_DSC) {
         CURR_VIEW.event = EVENT_CLK;
         CURR_VIEW.type = VIEW_HELP;
@@ -108,7 +112,11 @@ static BUTTON B_FWD_HELP = (BUTTON) {
 * Cycle backward through events : PRS <- SRT <- LNG <- MAIN
 */
 void A_BCK_HELP() {
-    if (CURR_VIEW.event == EVENT_RLL) {
+    if (CURR_VIEW.event == EVENT_TIM) {
+        CURR_VIEW.event = EVENT_RLL;
+        CURR_VIEW.type = VIEW_HELP;
+    }
+    else if (CURR_VIEW.event == EVENT_RLL) {
         CURR_VIEW.event = EVENT_RLS;
         CURR_VIEW.type = VIEW_HELP;
     }

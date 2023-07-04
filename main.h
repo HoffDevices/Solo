@@ -87,7 +87,7 @@ typedef struct {
 
 typedef struct {
     void (*init)();  //init method
-    void (*pulse)();  //pulse method
+    void (*pulse)(uint8_t level, int64_t duration);  //pulse method
 } SYNC;
 
 typedef enum  {
@@ -166,6 +166,10 @@ static uint8_t MIDI_CLOCK_PPQ = 24;  //pulses per quarter note
 static int64_t MIDI_CLOCK_TIMER_US = (int64_t) (-60000000 / 100 / 24);  //Negative delay means we will call repeating_timer_callback, and call it again exactly ???ms later regardless of how long the callback took to execute
 static struct repeating_timer MIDI_CLOCK_TIMER;
 
+alarm_pool_t *SYNC_ALARM_POOL;
+static alarm_id_t SYNC_1_ALARM_ID;
+static alarm_id_t SYNC_2_ALARM_ID;
+
 static bool MIDI_SYSEX_BUSY = false;
 static uint32_t MIDI_SYSEX_INDEX = 0;
 
@@ -176,7 +180,7 @@ static uint8_t MAX_SCREEN_INDEX = 0;
 static TUSB TUSB_STATUS;
 static VIEW CURR_VIEW;  //only ever one VIEW per SCREEN active at a time - this way the active scan can continue while showing help
 
-static uint8_t USER_VAR[8] = {0,0,0,0,0,0,0,0};  //eight user variables - eight sounds like a good number?
+static uint8_t USER_VAR[10] = {0,0,0,0,0,0,0,0,0,0};  //ten user variables - v0..v9 (single digits)
 
 static int8_t SNAKE_DIRECTION = 0;
 
@@ -202,13 +206,13 @@ void sendSysexConfig();
 void loadFirmware();
 
 //config and versioning settings
-static char FIRMWARE_VERSION[5] = "0.25";  //hardcoded firmware version, to be updated manually by author
+static char FIRMWARE_VERSION[5] = "0.26";  //hardcoded firmware version, to be updated manually by author
 static char FACTORY_VERSION[5] = "----";  //placeholder value, will be updated by updateFactoryFlash() 
 static char *PRESETS_VERSION;  //presets version, assigned when parsing PRESETS_TEXT from USER_FLASH
 static char *PRESETS_DEFAULT;  //default preset, assigned when parsing PRESETS_TEXT from USER_FLASH
 static char PRESETS_TEXT[PRESETS_SIZE] = ""  //factory presets
 "<SYSTEM>"
-"<VERSION>0.25"
+"<VERSION>0.26"
 "<DEFAULT>TRANSPRT"
 
 "<PRESET>"
@@ -225,10 +229,10 @@ static char PRESETS_TEXT[PRESETS_SIZE] = ""  //factory presets
 "<PST_EXT>[1,1]SET_BPM(120)"
 "<LS0_LBL>LFT SW0"
 "<LS0_INF>Verify the PRESSED, RELEASED and TIMED OUT actions are sending NOTE_ON, NOTE_OFF & AFTERTOUCH messages messages to all MIDI ports."
-"<LS0_PRS>[1,1]MSG_USB(0X90,1,1) [1,1]MSG_LFT(0X90,2,1) [1,1]MSG_RGT(0X90,3,1) [1,1]MSG_BLE(0X90,4,1)"
-"<LS0_RLS>[1,1]MSG_USB(0X80,1,1) [1,1]MSG_LFT(0X80,2,1) [1,1]MSG_RGT(0X80,3,1) [1,1]MSG_BLE(0X80,4,1)"
+"<LS0_PRS>[1,1]MSG_USB(0X90,1,1) [1,1]MSG_LFT(0X90,2,1) [1,1]MSG_RGT(0X90,3,1) [1,1]MSG_BLE(0X90,4,1) [1,1]SET_SC1(1,0)"
+"<LS0_RLS>[1,1]MSG_USB(0X80,1,1) [1,1]MSG_LFT(0X80,2,1) [1,1]MSG_RGT(0X80,3,1) [1,1]MSG_BLE(0X80,4,1) [1,1]SET_SC1(0,0)"
 "<LS0_RLL>[1,1]MSG_USB(0XA0,1,1) [1,1]MSG_LFT(0XA0,2,1) [1,1]MSG_RGT(0XA0,3,1) [1,1]MSG_RGT(0XA0,4,1)"
-"<LS0_TIM>[1,1]MSG_USB(0XB0,1,1) [1,1]MSG_LFT(0XB0,2,1) [1,1]MSG_RGT(0XB0,3,1) [1,1]MSG_RGT(0XB0,4,1)"
+"<LS0_TIM>[1,1]MSG_USB(0XB0,1,1) [1,1]MSG_LFT(0XB0,2,1) [1,1]MSG_RGT(0XB0,3,1) [1,1]MSG_RGT(0XB0,4,1) [1,1]SET_SC1(0,250)"
 "<LS1_LBL>LFT SW1"
 "<LS1_INF>Verify the PRESSED, RELEASED and TIMED OUT actions are sending NOTE_ON, NOTE_OFF & AFTERTOUCH messages messages to all MIDI ports."
 "<LS1_PRS>[1,1]MSG_USB(0X90,1,2) [1,1]MSG_LFT(0X90,2,2) [1,1]MSG_RGT(0X90,3,2) [1,1]MSG_BLE(0X90,4,2)"
@@ -243,10 +247,10 @@ static char PRESETS_TEXT[PRESETS_SIZE] = ""  //factory presets
 "<LS2_TIM>[1,1]MSG_USB(0XB0,1,3) [1,1]MSG_LFT(0XB0,2,3) [1,1]MSG_RGT(0XB0,3,3) [1,1]MSG_RGT(0XB0,4,3)"
 "<RS0_LBL>RGT SW0"
 "<RS0_INF>Verify the PRESSED, RELEASED and TIMED OUT actions are sending NOTE_ON, NOTE_OFF & AFTERTOUCH messages messages to all MIDI ports."
-"<RS0_PRS>[1,1]MSG_USB(0X90,17,1) [1,1]MSG_LFT(0X90,18,1) [1,1]MSG_RGT(0X90,19,1) [1,1]MSG_BLE(0X90,20,1)"
-"<RS0_RLS>[1,1]MSG_USB(0X80,17,1) [1,1]MSG_LFT(0X80,18,1) [1,1]MSG_RGT(0X80,19,1) [1,1]MSG_BLE(0X80,20,1)"
+"<RS0_PRS>[1,1]MSG_USB(0X90,17,1) [1,1]MSG_LFT(0X90,18,1) [1,1]MSG_RGT(0X90,19,1) [1,1]MSG_BLE(0X90,20,1) [1,1]SET_SC2(1,0)"
+"<RS0_RLS>[1,1]MSG_USB(0X80,17,1) [1,1]MSG_LFT(0X80,18,1) [1,1]MSG_RGT(0X80,19,1) [1,1]MSG_BLE(0X80,20,1) [1,1]SET_SC2(0,0)"
 "<RS0_RLL>[1,1]MSG_USB(0XA0,17,1) [1,1]MSG_LFT(0XA0,18,1) [1,1]MSG_RGT(0XA0,19,1) [1,1]MSG_RGT(0XA0,20,1)"
-"<RS0_TIM>[1,1]MSG_USB(0XB0,17,1) [1,1]MSG_LFT(0XB0,18,1) [1,1]MSG_RGT(0XB0,19,1) [1,1]MSG_RGT(0XB0,20,1)"
+"<RS0_TIM>[1,1]MSG_USB(0XB0,17,1) [1,1]MSG_LFT(0XB0,18,1) [1,1]MSG_RGT(0XB0,19,1) [1,1]MSG_RGT(0XB0,20,1) [1,1]SET_SC2(0,250)"
 "<RS1_LBL>RGT SW1"
 "<RS1_INF>Verify the PRESSED, RELEASED and TIMED OUT actions are sending NOTE_ON, NOTE_OFF & AFTERTOUCH messages messages to all MIDI ports."
 "<RS1_PRS>[1,1]MSG_USB(0X90,17,2) [1,1]MSG_LFT(0X90,18,2) [1,1]MSG_RGT(0X90,19,2) [1,1]MSG_BLE(0X90,20,2)"
@@ -294,12 +298,12 @@ static char PRESETS_TEXT[PRESETS_SIZE] = ""  //factory presets
 "<PST_ENT>[1,1]SET_BPM(120)"
 "<PST_EXT>"
 "<LS0_LBL>LOOP"
-"<LS0_INF>Press to (rec / play / stop). Press and hold to clear."
+"<LS0_INF>Press to (rec / play / stop)"
 "<LS0_PRS>[1,1]MSG_BLE(0xB0,0x10,0xff)"
-"<LS0_TIM>[1,1]MSG_BLE(0xB0,0x12,0xff)"
 "<RS0_LBL>NEXT"
-"<RS0_INF>Next loop."
-"<RS0_PRS>[1,1]MSG_BLE(0xB0,0x11,0xff)"
+"<RS0_INF>Next clip. Press and hold to clear."
+"<RS0_RLS>[1,1]MSG_BLE(0xB0,0x11,0xff)"
+"<RS0_TIM>[1,1]MSG_BLE(0xB0,0x12,0xff)"
 
 "<PRESET>"
 "<PST_LBL>VOLCA D1"

@@ -26,7 +26,6 @@ include_directories(./lib/tusb)
 include_directories(./lib/hoff)
 include_directories(./lib/ble)
 
-# MIDI BLE
 add_executable(solo)
 target_sources(solo PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/main.c
