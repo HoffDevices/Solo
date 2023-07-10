@@ -147,7 +147,7 @@ void S_MENU() {
 * Disable timer clock as it can mess with sysex and flash operations
 */
 void S_SYSTEM() {
-    if (sendInterCoreFlag(CORE_REQ_TIMER_DISABLE, CORE_ACK_TIMER_DISABLE, 10000) == false) showInfo("ERROR\nDISABLING TIMER",1000);  //disable clock timer - timeout of 10ms because we might have a lot of functions running in the midi clock
+    if (sendInterCoreFlag(CORE_REQ_TIMER_DISABLE, CORE_ACK_TIMER_DISABLE, INTERCORE_TIMEOUT) == false) showInfo("ERROR\nDISABLING TIMER",1000);  //disable clock timer - timeout of INTERCORE_TIMEOUT ms because we might have a lot of functions running in the midi clock
     strcpy(B_LABEL_STATIC.name, "SYSTEM");
     char presets[14] = "PRESETS ";  //leave space for 4 version characters - same size as button name
     strcpy(B_SYSTEM_FACTORY_RESET.name, strcat(presets, PRESETS_VERSION));
@@ -172,7 +172,7 @@ void S_SYSTEM() {
 * The game "Snake" - activated by using a reserved word "SNAKE" as a preset name
 */
 void S_SNAKE() {
-    if (sendInterCoreFlag(CORE_REQ_PRESET_ENTER, CORE_ACK_PRESET_ENTER, 10000) == false) showInfo("ERROR\nENTERING PRESET",1000);  //enable clock timer - timeout of 10ms because we might have a lot of functions in the preset init property
+    if (sendInterCoreFlag(CORE_REQ_PRESET_ENTER, CORE_ACK_PRESET_ENTER, INTERCORE_TIMEOUT) == false) showInfo("ERROR\nENTERING PRESET",1000);  //enable clock timer - timeout of INTERCORE_TIMEOUT ms because we might have a lot of functions in the preset init property
 
     strcpy(PRESETS_DEFAULT, SCREENS[CURR_SCREEN_INDEX].name);  //save preset screen name as default
 
@@ -299,14 +299,14 @@ void S_SNAKE() {
         }
         watchdog_update();  //watchdog will put us into usb firmware load mode if not updated
     }
-    if (sendInterCoreFlag(CORE_REQ_PRESET_EXIT, CORE_ACK_PRESET_EXIT, 10000) == false) showInfo("ERROR\nEXITING PRESET",1000);  //disable clock timer - timeout of 10ms because we might have a lot of functions running in the midi clock
+    if (sendInterCoreFlag(CORE_REQ_PRESET_EXIT, CORE_ACK_PRESET_EXIT, INTERCORE_TIMEOUT) == false) showInfo("ERROR\nEXITING PRESET",1000);  //disable clock timer - timeout of INTERCORE_TIMEOUT ms because we might have a lot of functions running in the midi clock
 }
 
 /*
 * Generic Preset screen
 */
 void S_PRESET() {
-    if (sendInterCoreFlag(CORE_REQ_PRESET_ENTER, CORE_ACK_PRESET_ENTER, 10000) == false) showInfo("ERROR\nENTERING PRESET",1000);  //enable clock timer and preset entry stuff- timeout of 10ms because we might have a lot of functions in the preset init property
+    if (sendInterCoreFlag(CORE_REQ_PRESET_ENTER, CORE_ACK_PRESET_ENTER, INTERCORE_TIMEOUT) == false) showInfo("ERROR\nENTERING PRESET",1000);  //enable clock timer and preset entry stuff- timeout of INTERCORE_TIMEOUT ms because we might have a lot of functions in the preset init property
 
     strcpy(PRESETS_DEFAULT, SCREENS[CURR_SCREEN_INDEX].name);  //save preset screen name as default
     strcpy(B_BPM_BIG_HELP.name, "---");
@@ -433,7 +433,7 @@ void S_PRESET() {
         }
         watchdog_update();  //watchdog will put us into usb firmware load mode if not updated
     }
-    if (sendInterCoreFlag(CORE_REQ_PRESET_EXIT, CORE_ACK_PRESET_EXIT, 10000) == false) showInfo("ERROR\nEXITING PRESET",1000);  //disable clock timer - timeout of 10ms because we might have a lot of functions running in the midi clock
+    if (sendInterCoreFlag(CORE_REQ_PRESET_EXIT, CORE_ACK_PRESET_EXIT, INTERCORE_TIMEOUT) == false) showInfo("ERROR\nEXITING PRESET",1000);  //disable clock timer - timeout of INTERCORE_TIMEOUT ms because we might have a lot of functions running in the midi clock
 }
 
 /*

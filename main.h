@@ -199,6 +199,8 @@ const char *USER_FLASH = (const char *) (XIP_BASE + USER_FLASH_OFFSET);
 #define LCD_HEIGHT 240
 #define SNAKE_SIZE 100
 
+#define INTERCORE_TIMEOUT 1000000  //1s intercore timeout
+
 //these functions use buttons and are called by buttons, so difficult to order code sequentially
 void writeSysexConfigToUserFlash();
 void writeFactoryFlashToUserFlash();
@@ -213,7 +215,7 @@ static char *PRESETS_DEFAULT;  //default preset, assigned when parsing PRESETS_T
 static char PRESETS_TEXT[PRESETS_SIZE] = ""  //factory presets
 "<SYSTEM>"
 "<VERSION>0.26"
-"<DEFAULT>TRANSPRT"
+"<DEFAULT>LOOPER1"
 
 "<PRESET>"
 "<PST_LBL>SNAKE"
@@ -294,8 +296,8 @@ static char PRESETS_TEXT[PRESETS_SIZE] = ""  //factory presets
 "<PRESET>"
 "<PST_LBL>LOOPER1"
 "<PST_DSC>Control a looper over Bluetooth LE, by sending MIDI CC commands using the foot switches, on MIDI channel 0."
-"<PST_CLK>"
-"<PST_ENT>[1,1]SET_BPM(120)"
+"<PST_CLK>[1,1]MSG_BLE(0xF8) [1,1]MSG_USB(0xF8)"
+"<PST_ENT>[1,1]SET_BPM(10)"
 "<PST_EXT>"
 "<LS0_LBL>LOOP"
 "<LS0_INF>Press to (rec / play / stop)"

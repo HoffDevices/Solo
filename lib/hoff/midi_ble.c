@@ -1,22 +1,25 @@
 /*
 * midi_ble.c
 * Contains MIDI over Bluetooth LE
+* seems like we don't need the batter service per se, but we need it in the adverts
 */
  
 
 static int  le_notification_enabled;
-static btstack_packet_callback_registration_t hci_event_callback_registration;
+//static btstack_packet_callback_registration_t hci_event_callback_registration;
 static hci_con_handle_t con_handle;
-static uint8_t battery = 100;
+//static uint8_t battery = 100;
 
 static void packet_handler (uint8_t packet_type, uint16_t channel, uint8_t *packet, uint16_t size);
 static uint16_t att_read_callback(hci_con_handle_t con_handle, uint16_t att_handle, uint16_t offset, uint8_t * buffer, uint16_t buffer_size);
 static int att_write_callback(hci_con_handle_t con_handle, uint16_t att_handle, uint16_t transaction_mode, uint16_t offset, uint8_t *buffer, uint16_t buffer_size);
-static void  heartbeat_handler(struct btstack_timer_source *ts);
+//static void  heartbeat_handler(struct btstack_timer_source *ts);
 
-static char midi_ble_string[5];
-static int midi_ble_string_len;
+static char read_buffer[256];
+static uint16_t read_buffer_len;
 
+static char write_buffer[256];
+static uint16_t write_buffer_len = 0;
 
 /*
 https://docs.silabs.com/bluetooth/4.0/general/adv-and-scanning/bluetooth-adv-data-basics
@@ -53,10 +56,9 @@ const uint8_t adv_data_len = sizeof(adv_data);
 
 /* 
  * @text The packet handler is used to:
- *        - stop the counter after a disconnect
- *        - send a notification when the requested ATT_EVENT_CAN_SEND_NOW is received
+  *        - send a notification when the requested ATT_EVENT_CAN_SEND_NOW is received
  */
-
+/*
 static void packet_handler (uint8_t packet_type, uint16_t channel, uint8_t *packet, uint16_t size){
     UNUSED(channel);
     UNUSED(size);
@@ -68,13 +70,15 @@ static void packet_handler (uint8_t packet_type, uint16_t channel, uint8_t *pack
             le_notification_enabled = 0;
             break;
         case ATT_EVENT_CAN_SEND_NOW:
-            att_server_notify(con_handle, ATT_CHARACTERISTIC_7772E5DB_3868_4112_A1A9_F2669D106BF3_01_VALUE_HANDLE, (uint8_t*) midi_ble_string, midi_ble_string_len);
+            //this makes a memcpy of the buffer, and send the notification to the sever
+            att_server_notify(con_handle, ATT_CHARACTERISTIC_7772E5DB_3868_4112_A1A9_F2669D106BF3_01_VALUE_HANDLE, (uint8_t*) write_buffer, write_buffer_len);
+            write_buffer_len = 0;  //reset buffer len after memcpy
             break;
         default:
             break;
     }
 }
-
+*/
 
 /*
  * @text The ATT Server handles all reads to constant data. For dynamic data like the custom characteristic, the registered
@@ -92,7 +96,7 @@ static uint16_t att_read_callback(hci_con_handle_t connection_handle, uint16_t a
     UNUSED(connection_handle);
 
     if (att_handle == ATT_CHARACTERISTIC_7772E5DB_3868_4112_A1A9_F2669D106BF3_01_VALUE_HANDLE){
-        return att_read_callback_handle_blob((const uint8_t *)midi_ble_string, midi_ble_string_len, offset, buffer, buffer_size);
+        return att_read_callback_handle_blob((const uint8_t *)read_buffer, read_buffer_len, offset, buffer, buffer_size);
     }
     return 0;
 }
@@ -120,23 +124,34 @@ static int att_write_callback(hci_con_handle_t connection_handle, uint16_t att_h
  * @text The handler updates the value of the single Characteristic provided in this example,
  * and request a ATT_EVENT_CAN_SEND_NOW to send a notification if enabled.
  * 
- * supposed to be thread safe, even if called from core1?
+ * We add bytes to write_buffer while we wait until we can send a packet - write_buffer_len keeps incrementing.
+ * Then when we can send the packet, it copies the write_buffer and sends the packet via a notification.
+ * As soon as write_buffer has been copied, we set write_buffer_len back to 0 and start filling the buffer again.
  * 
+ * At high BPM rates we can exceed the ACL_BUFFER, in which case we get a BTSTACK_ACL_BUFFERS_FULL return code.
+ * When this happens, we keep on filling the write_buffer and try to keep sending it.
+ * If it sends successfully, we reset write_buffer_len to 0, and send small packets again.
+ * If we exceed the 250(+5) byte buffer limit we simply discard the MIDI messages. In testing I occasionally used maybe 20 bytes of buffer at 200BPM, so 256 is plenty
  */
 
 static void midiSendBle(uint8_t *msg, uint32_t len) {
-    if (le_notification_enabled) {
-        midi_ble_string_len = 5;
-        midi_ble_string[0] = 0x80;  //The first byte describe the upper 6 bits of the timestamp and has the MSB set.
-        midi_ble_string[1] = 0x80;  //The second byte describes the lower 7 bits of the timestamp and also has the MSB set.
-        midi_ble_string[2] = msg[0];  //MIDI status & channel: (0x90 = note ON, 0x80 = note off), channel 0
-        midi_ble_string[3] = msg[1];  //MIDI data byte 1: Note number
-        midi_ble_string[4] = msg[2];  //MIDI data byte 2: Note value
-        puts(midi_ble_string);
-        att_server_request_can_send_now_event(con_handle);
+    if (le_notification_enabled && write_buffer_len < 240) {  //one 3-byte MIDI messages results in a 5 byte buffer usage.
+        //always add timestamp (because MIDI BLE is packet based and the client reassembles things again in the right order)
+        uint32_t midi_timestamp = to_ms_since_boot(get_absolute_time()) & 0x01FFF;  //only need the lower 13 bits
+        write_buffer[write_buffer_len] = ((midi_timestamp >> 7) & 0x3F) | 0x80;  //The first byte describe the upper 6 bits of the timestamp and has the MSB set.
+        write_buffer_len++;  //keep index up to date
+        write_buffer[write_buffer_len] = (midi_timestamp & 0x7F) | 0x80;  //The second byte describes the lower 7 bits of the timestamp and also has the MSB set.
+        write_buffer_len++;  //keep index up to date
+        for (uint8_t i = 0; i < len; i++) {  //copy all incoming MIDI messages to buffer
+            write_buffer[write_buffer_len] = msg[i];  //MIDI message byte
+            write_buffer_len++;  //keep index up to date
+        }
+        uint8_t att_status = att_server_notify(con_handle, ATT_CHARACTERISTIC_7772E5DB_3868_4112_A1A9_F2669D106BF3_01_VALUE_HANDLE, (uint8_t*) write_buffer, write_buffer_len);
+
+        //if(att_status == ERROR_CODE_UNKNOWN_CONNECTION_IDENTIFIER) showInfo("Unknown conn",500);
+        //if(att_status == BTSTACK_ACL_BUFFERS_FULL) showInfo("Buffers full",500);
+        if (att_status == ERROR_CODE_SUCCESS) write_buffer_len = 0;  //reset buffer len after memcpy (att_server_notify)
     }
-    //keeping this around for future use, since we need the battery service regardless
-    //battery_service_server_set_battery_value(battery);
 }
 
 
@@ -154,17 +169,20 @@ static void midiSendBle(uint8_t *msg, uint32_t len) {
 void midiInitBle() {
     // initialize CYW43 driver architecture (will enable BT if/because CYW43_ENABLE_BLUETOOTH == 1)
     if (cyw43_arch_init()) return; //return -1;  //failed to initialise cyw43_arch
-    // inform about BTstack state
-    hci_event_callback_registration.callback = &packet_handler;
-    hci_add_event_handler(&hci_event_callback_registration);
-    //Init L2CAP SM ATT Server and start heartbeat timer
+    //Init L2CAP SM ATT Server
     l2cap_init();
     // setup SM: Display only
     sm_init();
     // setup ATT server
     att_server_init(profile_data, att_read_callback, att_write_callback);    
     // setup battery service - this seems to be needed to retain the connection
-    battery_service_server_init(battery);
+    //battery_service_server_init(battery);
+
+    // register for HCI events
+    //hci_event_callback_registration.callback = &packet_handler;
+    //hci_add_event_handler(&hci_event_callback_registration);
+    // register for ATT event
+    //att_server_register_packet_handler(packet_handler);
 
     // setup advertisements
     uint16_t adv_int_min = 0x0030;
@@ -175,12 +193,6 @@ void midiInitBle() {
     gap_advertisements_set_params(adv_int_min, adv_int_max, adv_type, 0, null_addr, 0x07, 0x00);
     gap_advertisements_set_data(adv_data_len, (uint8_t*) adv_data);
     gap_advertisements_enable(1);
-
-    // register for HCI events
-    hci_event_callback_registration.callback = &packet_handler;
-    hci_add_event_handler(&hci_event_callback_registration);
-    // register for ATT event
-    att_server_register_packet_handler(packet_handler);
 
     // turn on!
 	hci_power_control(HCI_POWER_ON);

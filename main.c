@@ -36,7 +36,7 @@
 //Pico_W MIDI
 #include "pico/cyw43_arch.h"
 #include "build/generated/solo_midi_ble.h"  //#include "midi_ble_test.h" is also fine due to the "pico_btstack_make_gatt_header" command in CMakeLists.txt, but I don't like it showing an error.
-#include "ble/gatt-service/battery_service_server.h"
+//#include "ble/gatt-service/battery_service_server.h"
 
 //Hoff Solo - we're not using much in the way of header declarations, so the order of the includes are important
 #include "main.h"
@@ -63,6 +63,7 @@ void main_core1() {
     SYNC_ALARM_POOL = alarm_pool_create_with_unused_hardware_alarm(16);  //create alarm pool with 16 timers on core 1
 
     //init midi
+    MIDI_BLE.init();
     MIDI_USB.init();
     MIDI_LEFT.init();
     MIDI_RIGHT.init();
@@ -147,8 +148,8 @@ int main(void) {
 
     multicore_launch_core1(main_core1);   //core1 handles all USB & DIN MIDI events
     
-    SWITCH_TOUCH.init();         //init touch "switch"
-    MIDI_BLE.init();             //init MIDI over bluetooth LE
+    SWITCH_TOUCH.init();         //init touch "switch" - the touchscreen works on core 0
+    //MIDI_BLE.init();             //init MIDI over bluetooth LE
 
     setCurrScreenIndex(PRESETS_DEFAULT);             //PRESETS_DEFAULT gets populated by loadScreens
     while (true) SCREENS[CURR_SCREEN_INDEX].show();  //main program loop - CURR_SCREEN_INDEX is modified by other events to show the appropriate screen
